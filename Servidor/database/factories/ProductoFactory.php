@@ -17,10 +17,9 @@ class ProductoFactory extends Factory
             'descripcion' => $this->faker->sentence(10),
             'precio' => $this->faker->randomFloat(2, 10, 1000),
             'stock' => $this->faker->numberBetween(0, 100),
-            'categoria_id' => Categoria::factory(), // o un ID existente si ya tienes categorías
+            'categoria_id' => Categoria::inRandomOrder()->value('id'),
             'marca' => $this->faker->company,
             'modelo' => strtoupper($this->faker->bothify('Model-##??')),
-            'sku' => strtoupper($this->faker->bothify('AS-####-???')),
             'descuento' => $this->faker->randomFloat(2, 0, 100),
             'fps' => $this->faker->numberBetween(100, 500),
             'calibre' => $this->faker->randomElement(['6 mm', '4.5 mm', '5.5 mm']),
