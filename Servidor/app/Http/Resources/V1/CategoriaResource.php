@@ -17,7 +17,6 @@ class CategoriaResource extends JsonResource
         return [
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'slug' => $this->slug,
             'productos' => ProductoResource::collection($this->whenLoaded('productos')),
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
