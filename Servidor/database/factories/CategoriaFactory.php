@@ -14,7 +14,6 @@ class CategoriaFactory extends Factory
         return [
             'nombre' => 'Airsoft',
             'descripcion' => 'Categoría de ejemplo',
-            'slug' => 'airsoft',
         ];
     }
 }
