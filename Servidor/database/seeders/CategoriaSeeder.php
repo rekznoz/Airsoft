@@ -22,7 +22,6 @@ class CategoriaSeeder extends Seeder
             Categoria::create([
                 'nombre' => $nombre,
                 'descripcion' => "Productos de categoría: $nombre",
-                'slug' => Str::slug($nombre),
             ]);
         }
     }
