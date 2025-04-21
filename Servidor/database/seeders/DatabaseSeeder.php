@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
         Producto::factory()->count(20)->create();
 
         $this->call([
-            TareaSeeder::class,
+            CategoriaSeeder::class,
         ]);
 
     }
