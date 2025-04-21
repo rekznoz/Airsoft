@@ -28,7 +28,6 @@ class ProductoResource extends JsonResource
             ],
             'marca' => $this->marca,
             'modelo' => $this->modelo,
-            'sku' => $this->sku,
             'fps' => $this->fps,
             'calibre' => $this->calibre,
             'capacidad_cargador' => $this->capacidad_cargador,
