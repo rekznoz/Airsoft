@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Producto;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -19,25 +20,36 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'user']);
 
-        Permission::create(['name' => 'create tarea']);
-        Permission::create(['name' => 'edit tarea']);
-        Permission::create(['name' => 'delete tarea']);
+        // Permisos para PRODUCTOS
+        Permission::create(['name' => 'agregar producto']);
+        Permission::create(['name' => 'editar producto']);
+        Permission::create(['name' => 'eliminar producto']);
 
-        Permission::create(['name' => 'create comentario']);
-        Permission::create(['name' => 'edit comentario']);
-        Permission::create(['name' => 'delete comentario']);
+        // Permisos para CATEGORIAS
+        Permission::create(['name' => 'agregar categoria']);
+        Permission::create(['name' => 'editar categoria']);
+        Permission::create(['name' => 'eliminar categoria']);
 
         $admin = Role::findByName('admin');
-        $admin->givePermissionTo(['create tarea', 'edit tarea', 'delete tarea', 'create comentario', 'edit comentario', 'delete comentario']);
+        $admin->givePermissionTo([
+            'agregar producto',
+            'editar producto',
+            'eliminar producto',
+            'agregar categoria',
+            'editar categoria',
+            'eliminar categoria',
+        ]);
 
         $user = Role::findByName('user');
-        $user->givePermissionTo(['create tarea', 'edit tarea', 'delete tarea', 'create comentario', 'edit comentario', 'delete comentario']);
+        $user->givePermissionTo([]);
 
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('1234'),
         ])->assignRole('admin');
+
+        Producto::factory()->count(20)->create();
 
         $this->call([
             TareaSeeder::class,
