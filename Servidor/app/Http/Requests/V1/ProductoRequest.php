@@ -30,7 +30,6 @@ class ProductoRequest extends FormRequest
             'categoria_id' => 'required|exists:categorias,id',
             'marca' => 'required|max:255',
             'modelo' => 'required|max:255',
-            'sku' => 'required|max:255|unique:productos,sku,' . $this->route('producto'),
             'descuento' => [
                 'nullable',
                 'numeric',
@@ -42,7 +41,6 @@ class ProductoRequest extends FormRequest
                     }
                 },
             ],
-
             'fps' => 'nullable|integer|min:0',
             'calibre' => 'nullable|max:50',
             'capacidad_cargador' => 'nullable|integer|min:0',
