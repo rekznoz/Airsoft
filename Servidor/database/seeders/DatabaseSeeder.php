@@ -49,11 +49,11 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('1234'),
         ])->assignRole('admin');
 
-        Producto::factory()->count(20)->create();
-
         $this->call([
             CategoriaSeeder::class,
         ]);
+
+        Producto::factory()->count(20)->create();
 
     }
 }
