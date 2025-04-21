@@ -17,7 +17,6 @@ class Producto extends Model
         'categoria_id',
         'marca',
         'modelo',
-        'sku', // Código de referencia del producto (ejemplo “AS‑RIFLE‑001”).
         'descuento',
         'fps',
         'calibre', // Calibre del producto (ejemplo “6 mm”).
