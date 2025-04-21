@@ -24,7 +24,6 @@ class CategoriaRequest extends FormRequest
         return [
             'nombre' => 'required|max:255',
             'descripcion' => 'required|max:255',
-            'slug' => 'required|max:255|unique:categorias,slug,' . $this->route('categoria'),
         ];
     }
 
@@ -35,9 +34,6 @@ class CategoriaRequest extends FormRequest
             'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
             'descripcion.required' => 'La descripción es obligatoria.',
             'descripcion.max' => 'La descripción no puede tener más de 255 caracteres.',
-            'slug.required' => 'El slug es obligatorio.',
-            'slug.max' => 'El slug no puede tener más de 255 caracteres.',
-            'slug.unique' => 'El slug ya existe.',
         ];
     }
 
