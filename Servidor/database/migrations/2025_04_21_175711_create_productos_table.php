@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
             $table->string('marca');
             $table->string('modelo');
-            $table->string('sku')->unique();
             $table->decimal('descuento', 10, 2)->nullable();
             $table->integer('fps')->nullable();
             $table->string('calibre', 50)->nullable();
