@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class PedidoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'producto_id' => Producto::factory(),
+            'cantidad' => $this->faker->numberBetween(1, 10),
+            'direccion_envio' => $this->faker->address(),
+            'estado' => $this->faker->randomElement(['pendiente', 'enviado', 'entregado', 'cancelado']),
         ];
     }
 }
