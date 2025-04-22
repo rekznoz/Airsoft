@@ -30,14 +30,25 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'editar categoria']);
         Permission::create(['name' => 'eliminar categoria']);
 
+        // Permisos para PEDIDOS
+        Permission::create(['name' => 'agregar pedido']);
+        Permission::create(['name' => 'editar pedido']);
+        Permission::create(['name' => 'eliminar pedido']);
+
         $admin = Role::findByName('admin');
         $admin->givePermissionTo([
+            // permisos para productos
             'agregar producto',
             'editar producto',
             'eliminar producto',
+            // permisos para categorias
             'agregar categoria',
             'editar categoria',
             'eliminar categoria',
+            // permisos para pedidos
+            'agregar pedido',
+            'editar pedido',
+            'eliminar pedido',
         ]);
 
         $user = Role::findByName('user');
