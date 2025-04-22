@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\ProductoRequest;
 use App\Http\Resources\V1\ProductoResource;
 use App\Models\Producto;
-use App\Models\Tarea;
 use Laravel\Telescope\Telescope;
 
 class ProductoController extends Controller
@@ -44,9 +43,9 @@ class ProductoController extends Controller
                 'No tienes permisos para crear productos'], 403);
         }
 
-        $tarea = Tarea::create($request->validated());
+        $producto = Producto::create($request->validated());
 
-        return new ProductoResource($tarea);
+        return new ProductoResource($producto);
     }
 
     /**
