@@ -69,7 +69,7 @@ class CategoriaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
+    public function update(CategoriaRequest $request, Categoria $categoria)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:update']);
