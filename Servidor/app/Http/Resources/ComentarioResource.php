@@ -16,8 +16,14 @@ class ComentarioResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            'user' => $this->user,
-            'producto' => $this->producto,
+            'user' => [
+                'id' => $this->user->id,
+                'nombre' => $this->user->name,
+            ],
+            'producto' => [
+                'id' => $this->producto->id,
+                'nombre' => $this->producto->nombre,
+            ],
             "comentario" => $this->comentario,
             "calificacion" => $this->calificacion,
             "created_at" => $this->created_at,
