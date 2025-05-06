@@ -10,8 +10,8 @@ class Pedido extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_usuario',
-        'id_producto',
+        'user_id',
+        'producto_id',
         'cantidad',
         'direccion_envio',
         'estado',
@@ -20,9 +20,9 @@ class Pedido extends Model
     /**
      * Relación: Un pedido pertenece a un usuario
      */
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'id_usuario');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class Pedido extends Model
      */
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'id_producto');
+        return $this->belongsTo(Producto::class);
     }
 
 }
