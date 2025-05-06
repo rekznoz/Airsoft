@@ -36,14 +36,10 @@ Route::group([
     Route::post('register'  , [AuthController::class, 'register'])->name('register');
 });
 
-Route::apiResource('categorias', CategoriaController::class)
-    ->middleware(['api', TelescopeMiddleware::class]);
+Route::apiResource('categorias' , CategoriaController::class)->middleware(['api', TelescopeMiddleware::class]);
 
-Route::apiResource('pedidos', PedidoController::class)
-    ->middleware(['api', TelescopeMiddleware::class]);
+Route::apiResource('pedidos'    , PedidoController::class)->middleware(['api', TelescopeMiddleware::class]);
 
-Route::apiResource('productos', ProductoController::class)
-    ->middleware(['api', TelescopeMiddleware::class]);
+Route::apiResource('productos'  , ProductoController::class)->middleware(['api', TelescopeMiddleware::class]);
 
-Route::apiResource('comentarios', ComentarioController::class)
-    ->middleware(['api', TelescopeMiddleware::class]);
+Route::apiResource('comentarios', ComentarioController::class)->middleware(['api', TelescopeMiddleware::class]);
