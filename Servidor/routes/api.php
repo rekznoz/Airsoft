@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\V1\ComentarioController;
-use App\Http\Controllers\Api\V1\TareaController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\PedidoController;
+use App\Http\Controllers\Api\ProductoController;
 use App\Http\Middleware\TelescopeMiddleware;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,17 +26,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group([
     'middleware' => ['api', TelescopeMiddleware::class],
-    'prefix' => 'v1/auth'
+    'prefix' => 'auth'
 ], function () {
-    Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-    Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
-    Route::post('me', [AuthController::class, 'me'])->name('me');
-    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('login'     , [AuthController::class, 'login'])->name('login');
+    Route::post('logout'    , [AuthController::class, 'logout'])->name('logout');
+    Route::post('refresh'   , [AuthController::class, 'refresh'])->name('refresh');
+    Route::post('me'        , [AuthController::class, 'me'])->name('me');
+    Route::post('register'  , [AuthController::class, 'register'])->name('register');
 });
 
-Route::apiResource('v1/tareas', TareaController::class)
+Route::apiResource('categorias', CategoriaController::class)
     ->middleware(['api', TelescopeMiddleware::class]);
 
-Route::apiResource('v1/comentarios', ComentarioController::class)
+Route::apiResource('pedidos', PedidoController::class)
+    ->middleware(['api', TelescopeMiddleware::class]);
+
+Route::apiResource('productos', ProductoController::class)
     ->middleware(['api', TelescopeMiddleware::class]);
