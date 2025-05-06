@@ -16,16 +16,13 @@ class ComentarioResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            'usuario' => [
-                'id' => $this->usuario->id,
-                'nombre' => $this->usuario->name,
-                'email' => $this->usuario->email,
+            'user' => [
+                'id' => $this->user->id,
+                'nombre' => $this->user->name,
             ],
             'producto' => [
                 'id' => $this->producto->id,
                 'nombre' => $this->producto->nombre,
-                'descripcion' => $this->producto->descripcion,
-                'precio' => $this->producto->precio,
             ],
             "comentario" => $this->comentario,
             "calificacion" => $this->calificacion,
