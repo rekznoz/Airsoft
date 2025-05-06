@@ -19,8 +19,8 @@ class PedidoFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'producto_id' => Producto::factory(),
+            'user_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
+            'producto_id' => Producto::inRandomOrder()->first()?->id ?? Producto::factory(),
             'cantidad' => $this->faker->numberBetween(1, 10),
             'direccion_envio' => $this->faker->address(),
             'estado' => $this->faker->randomElement(['pendiente', 'enviado', 'entregado', 'cancelado']),
