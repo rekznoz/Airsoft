@@ -24,5 +24,5 @@ Route::get('/', function (Request $request) {
             'message' => 'Bienvenido a la API de Laravel. Visita la documentación en /api/documentation'
         ]);
     }
-    return redirect('/api/documentation'); // Redirige a Swagger UI
+    //return redirect('/api/documentation'); // Redirige a Swagger UI
 });
