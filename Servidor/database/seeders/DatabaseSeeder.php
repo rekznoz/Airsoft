@@ -35,6 +35,11 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'editar pedido']);
         Permission::create(['name' => 'eliminar pedido']);
 
+        // Permisos para COMENTARIOS
+        Permission::create(['name' => 'agregar comentario']);
+        Permission::create(['name' => 'editar comentario']);
+        Permission::create(['name' => 'eliminar comentario']);
+
         $admin = Role::findByName('admin');
         $admin->givePermissionTo([
             // permisos para productos
@@ -49,10 +54,22 @@ class DatabaseSeeder extends Seeder
             'agregar pedido',
             'editar pedido',
             'eliminar pedido',
+            // permisos para comentarios
+            'agregar comentario',
+            'editar comentario',
+            'eliminar comentario',
         ]);
 
         $user = Role::findByName('user');
-        $user->givePermissionTo([]);
+        $user->givePermissionTo([
+            // permisos para pedidos
+            'agregar pedido',
+            'eliminar pedido',
+            // permisos para comentarios
+            'agregar comentario',
+            'editar comentario',
+            'eliminar comentario',
+        ]);
 
         User::factory()->create([
             'name' => 'Admin',
