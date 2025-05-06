@@ -22,7 +22,7 @@ class ComentarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_usuario' => 'required|integer|exists:users,id',
+            'id_usuario' => 'required|integer|exists:user,id',
             'id_producto' => 'required|integer|exists:productos,id',
             'comentario' => 'required|string|max:255',
             'calificacion' => 'required|integer|min:1|max:10',
