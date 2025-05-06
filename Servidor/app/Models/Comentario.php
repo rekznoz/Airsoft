@@ -32,4 +32,21 @@ class Comentario extends Model
         return $this->belongsTo(Producto::class);
     }
 
+    public function scopeFilter($query, $filters) {
+
+        if ($filters['search'] ?? false) {
+            $query->where('comentario', 'like', '%' . request('search') . '%');
+        }
+
+        if ($filters['calificacion'] ?? false) {
+            $query->where('calificacion', request('calificacion'));
+        }
+
+        if ($filters['user_id'] ?? false) {
+            $query->where('user_id', request('user_id'));
+        }
+
+    }
+
+
 }
