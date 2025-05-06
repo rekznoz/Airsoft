@@ -36,18 +36,7 @@ class ProductoResource extends JsonResource
             'video_demo' => $this->video_demo,
             'tiempo_envio' => $this->tiempo_envio,
             'estado_activo' => $this->estado_activo,
-            'comentarios' => $this->comentarios?->map(function ($comentario) {
-                return [
-                    'id' => $comentario->id,
-                    'usuario' => [
-                        'id' => $comentario->usuario?->id,
-                        'nombre' => $comentario->usuario?->nombre,
-                    ],
-                    'contenido' => $comentario->contenido,
-                    'calificacion' => $comentario->calificacion,
-                    'created_at' => $comentario->created_at?->toDateTimeString(),
-                ];
-            }),
+            'comentarios' => $this->comentarios,
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
         ];
