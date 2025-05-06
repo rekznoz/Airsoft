@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('producto_id')->constrained()->onDelete('cascade');
             $table->integer('cantidad');
-            $table->decimal('total', 10, 2);
             $table->string('estado')->default('pendiente'); // pendiente, enviado, entregado, cancelado
             $table->string('direccion_envio');
             $table->timestamps();
