@@ -35,6 +35,8 @@ class CategoriaRequest extends FormRequest
             'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
             'descripcion.required' => 'La descripción es obligatoria.',
             'descripcion.max' => 'La descripción no puede tener más de 255 caracteres.',
+            'array_productos.array' => 'El campo array_productos debe ser un arreglo.',
+            'array_productos.nullable' => 'El campo array_productos es opcional.',
         ];
     }
 
