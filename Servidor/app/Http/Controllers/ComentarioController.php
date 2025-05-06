@@ -24,7 +24,7 @@ class ComentarioController extends Controller
             Telescope::tag(fn() => ['api_request', 'action:index']);
         }
 
-        $query = Comentario::query();
+        $query = Comentario::filter(request()->only('search', 'calificacion', 'user_id'));
 
         return ComentarioResource::collection($query->latest()->paginate(100));
     }
