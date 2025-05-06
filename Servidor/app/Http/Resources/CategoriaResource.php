@@ -17,7 +17,7 @@ class CategoriaResource extends JsonResource
         return [
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'array_productos' => $this->productos->map(function ($producto) {
+            'array_productos' => $this->productos?->map(function ($producto) {
                 return [
                     'id' => $producto->id,
                     'nombre' => $producto->nombre,
