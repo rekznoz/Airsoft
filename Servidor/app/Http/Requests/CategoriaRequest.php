@@ -24,6 +24,7 @@ class CategoriaRequest extends FormRequest
         return [
             'nombre' => 'required|max:255',
             'descripcion' => 'required|max:255',
+            'array_productos' => 'nullable|array',
         ];
     }
 
