@@ -14,7 +14,7 @@ class ProductoController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
-    
+
     public function index()
     {
         if (config('telescope.enabled')) {
