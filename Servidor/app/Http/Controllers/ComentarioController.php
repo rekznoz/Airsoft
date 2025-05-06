@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ComentariosResource;
-use App\Models\Comentarios;
-use App\Http\Requests\ComentariosRequest;
+use App\Http\Resources\ComentarioResource;
+use App\Models\Comentario;
+use App\Http\Requests\ComentarioRequest;
 use Laravel\Telescope\Telescope;
 
-class ComentariosController extends Controller
+class ComentarioController extends Controller
 {
 
     public function __construct()
@@ -24,15 +24,15 @@ class ComentariosController extends Controller
             Telescope::tag(fn() => ['api_request', 'action:index']);
         }
 
-        $query = Comentarios::query();
+        $query = Comentario::query();
 
-        return ComentariosResource::collection($query->latest()->paginate(100));
+        return ComentarioResource::collection($query->latest()->paginate(100));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ComentariosRequest $request)
+    public function store(ComentarioRequest $request)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(function () {
@@ -45,28 +45,28 @@ class ComentariosController extends Controller
                 'No tienes permisos para crear comentarios'], 403);
         }
 
-        $comentario = Comentarios::create($request->validated());
+        $comentario = Comentario::create($request->validated());
 
-        return new ComentariosResource($comentario);
+        return new ComentarioResource($comentario);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Comentarios $comentarios)
+    public function show(Comentario $comentarios)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:show']);
         }
 
-        return new ComentariosResource($comentarios);
+        return new ComentarioResource($comentarios);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ComentariosRequest $request, Comentarios $comentarios)
+    public function update(ComentarioRequest $request, Comentario $comentarios)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:update']);
@@ -79,13 +79,13 @@ class ComentariosController extends Controller
 
         $comentarios->update($request->validated());
 
-        return new ComentariosResource($comentarios);
+        return new ComentarioResource($comentarios);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comentarios $comentarios)
+    public function destroy(Comentario $comentarios)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:destroy']);
