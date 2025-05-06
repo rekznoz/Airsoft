@@ -21,7 +21,7 @@ class CategoriaController extends Controller
             Telescope::tag(fn() => ['api_request', 'action:index']);
         }
 
-        $query = Categoria::query();
+        $query = Categoria::filter(request()->only('search', 'descripcion'));
 
         return CategoriaResource::collection($query->latest()->paginate(100));
     }
