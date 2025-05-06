@@ -40,8 +40,8 @@ class DatabaseSeeder extends Seeder
         // Crear pedidos
         Pedido::factory()->count(50)->create();
 
-
         // Crear comentarios
         Comentario::factory()->count(50)->create();
+
     }
 }
