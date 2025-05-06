@@ -14,14 +14,16 @@ class ProductoController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
-
+    
     public function index()
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:index']);
         }
 
-        $query = Producto::query();
+        $query = Producto::filter(request()->only('search', 'categoria_id', 'marca', 'modelo', 'fps'
+            , 'calibre', 'capacidad_cargador', 'peso', 'estado_activo', 'descuento'
+            , 'precio_min', 'precio_max', 'stock'));
 
         return ProductoResource::collection($query->latest()->paginate(100));
     }
