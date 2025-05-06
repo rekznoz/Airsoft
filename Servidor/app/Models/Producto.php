@@ -26,7 +26,7 @@ class Producto extends Model
         'video_demo', // URL del video de demostración
         'tiempo_envio',
         'estado_activo',
-        'comentarios',
+        'array_comentarios',
     ];
 
     protected $casts = [
