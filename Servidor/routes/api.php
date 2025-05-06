@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CategoriaController;
-use App\Http\Controllers\Api\PedidoController;
-use App\Http\Controllers\Api\ProductoController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Middleware\TelescopeMiddleware;
 use Illuminate\Support\Facades\Route;
 
