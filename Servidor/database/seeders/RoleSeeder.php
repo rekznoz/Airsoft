@@ -51,7 +51,6 @@ class RoleSeeder extends Seeder
         // Asignar permisos específicos al rol user
         $userPermissions = [
             'agregar pedido',
-            'eliminar pedido',
             'agregar comentario',
             'editar comentario',
             'eliminar comentario',
