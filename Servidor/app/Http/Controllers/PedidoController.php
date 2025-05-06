@@ -21,11 +21,10 @@ class PedidoController extends Controller
             Telescope::tag(fn() => ['api_request', 'action:index']);
         }
 
-        $query = Pedido::query();
+        $query = Pedido::filter(request()->only('search', 'estado', 'user_id'));
 
         return PedidoResource::collection($query->latest()->paginate(100));
     }
-
 
     /**
      * Store a newly created resource in storage.
