@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Producto;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class ComentariosFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id_usuario' => User::factory(),
+            'id_producto' => Producto::factory(),
+            'comentario' => $this->faker->sentence(),
+            'calificacion' => $this->faker->numberBetween(1, 10),
         ];
     }
 }
