@@ -26,6 +26,7 @@ class Producto extends Model
         'video_demo', // URL del video de demostración
         'tiempo_envio',
         'estado_activo',
+        'comentarios',
     ];
 
     protected $casts = [
@@ -43,9 +44,9 @@ class Producto extends Model
     }
 
     // Relación con opiniones
-    public function opiniones()
+    public function comentario()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Comentario::class);
     }
 
     // Precio final calculado
