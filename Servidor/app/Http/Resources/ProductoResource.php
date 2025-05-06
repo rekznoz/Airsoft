@@ -41,7 +41,7 @@ class ProductoResource extends JsonResource
                     'id' => $comentario->id,
                     'user' => [
                         'id' => $comentario->user?->id,
-                        'nombre' => $comentario->user?->nombre,
+                        'name' => $comentario->user?->name,
                     ],
                     'comentario' => $comentario->comentario,
                     'calificacion' => $comentario->calificacion,
