@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Middleware\TelescopeMiddleware;
@@ -42,4 +43,7 @@ Route::apiResource('pedidos', PedidoController::class)
     ->middleware(['api', TelescopeMiddleware::class]);
 
 Route::apiResource('productos', ProductoController::class)
+    ->middleware(['api', TelescopeMiddleware::class]);
+
+Route::apiResource('comentarios', ComentarioController::class)
     ->middleware(['api', TelescopeMiddleware::class]);
