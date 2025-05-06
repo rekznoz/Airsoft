@@ -17,12 +17,13 @@ class CategoriaResource extends JsonResource
         return [
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'productos' => [
-                'id' => $this->productos->id,
-                'nombre' => $this->productos->nombre,
-                'descripcion' => $this->productos->descripcion,
-                'precio' => $this->productos->precio,
-            ],
+            'array_productos' => $this->productos->map(function ($producto) {
+                return [
+                    'id' => $producto->id,
+                    'nombre' => $producto->nombre,
+                    'precio' => $producto->precio,
+                ];
+            }),
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
         ];
