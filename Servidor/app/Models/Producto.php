@@ -44,7 +44,7 @@ class Producto extends Model
     }
 
     // Relación con opiniones
-    public function comentario()
+    public function comentarios()
     {
         return $this->hasMany(Comentario::class);
     }
