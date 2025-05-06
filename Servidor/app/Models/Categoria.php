@@ -22,4 +22,17 @@ class Categoria extends Model
     {
         return $this->hasMany(Producto::class);
     }
+
+    public function scopeFilter($query, $filters) {
+
+        if ($filters['search'] ?? false) {
+            $query->where('nombre', 'like', '%' . request('search') . '%');
+        }
+
+        if ($filters['descripcion'] ?? false) {
+            $query->where('descripcion', request('descripcion'));
+        }
+
+    }
+
 }
