@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use \Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /**@OA\PathItem(
  * path="/api/v1/auth",
