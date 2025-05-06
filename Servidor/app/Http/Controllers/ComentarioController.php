@@ -53,20 +53,20 @@ class ComentarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Comentario $comentarios)
+    public function show(Comentario $comentario)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:show']);
         }
 
-        return new ComentarioResource($comentarios);
+        return new ComentarioResource($comentario);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ComentarioRequest $request, Comentario $comentarios)
+    public function update(ComentarioRequest $request, Comentario $comentario)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:update']);
@@ -77,15 +77,15 @@ class ComentarioController extends Controller
                 'No tienes permisos para editar comentarios'], 403);
         }
 
-        $comentarios->update($request->validated());
+        $comentario->update($request->validated());
 
-        return new ComentarioResource($comentarios);
+        return new ComentarioResource($comentario);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comentario $comentarios)
+    public function destroy(Comentario $comentario)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:destroy']);
@@ -96,7 +96,7 @@ class ComentarioController extends Controller
                 'No tienes permisos para eliminar comentarios'], 403);
         }
 
-        $comentarios->delete();
+        $comentario->delete();
 
         return response()->json(['message' => 'Comentario eliminado correctamente']);
     }
