@@ -14,7 +14,7 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        //$this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -36,8 +36,20 @@ class CategoriaController extends Controller
      */
     public function store(CategoriaRequest $request)
     {
-        // prueba sin nada
-        return response()->json(['ok' => true]);
+        if (config('telescope.enabled')) {
+            Telescope::tag(function () {
+                return ['api_request', 'action:store'];
+            });
+        }
+
+        if (!auth()->user()->can('agregar categoria')) {
+            return response()->json(['error' =>
+                'No tienes permisos para crear categorias'], 403);
+        }
+
+        $categoria = Categoria::create($request->validated());
+
+        return new CategoriaResource($categoria);
     }
 
     /**
