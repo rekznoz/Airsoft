@@ -39,11 +39,11 @@ class ProductoResource extends JsonResource
             'array_comentarios' => $this->comentarios?->map(function ($comentario) {
                 return [
                     'id' => $comentario->id,
-                    'usuario' => [
-                        'id' => $comentario->usuario?->id,
-                        'nombre' => $comentario->usuario?->nombre,
+                    'user' => [
+                        'id' => $comentario->user?->id,
+                        'nombre' => $comentario->user?->nombre,
                     ],
-                    'contenido' => $comentario->contenido,
+                    'comentario' => $comentario->comentario,
                     'calificacion' => $comentario->calificacion,
                     'created_at' => $comentario->created_at?->toDateTimeString(),
                 ];
