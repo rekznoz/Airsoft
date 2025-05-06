@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
+            $table->text('comentario');
+            $table->integer('calificacion')->default(0);
             $table->timestamps();
         });
     }
