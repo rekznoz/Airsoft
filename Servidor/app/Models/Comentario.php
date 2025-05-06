@@ -10,8 +10,8 @@ class Comentario extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_usuario',
-        'id_producto',
+        'user_id',
+        'producto_id',
         'comentario',
         'calificacion',
     ];
@@ -19,9 +19,9 @@ class Comentario extends Model
     /**
      * Relación: Un comentario pertenece a un usuario
      */
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'id_usuario');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -29,7 +29,7 @@ class Comentario extends Model
      */
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'id_producto');
+        return $this->belongsTo(Producto::class);
     }
 
 }
