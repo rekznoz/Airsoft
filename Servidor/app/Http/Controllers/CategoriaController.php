@@ -36,20 +36,8 @@ class CategoriaController extends Controller
      */
     public function store(CategoriaRequest $request)
     {
-        if (config('telescope.enabled')) {
-            Telescope::tag(function () {
-                return ['api_request', 'action:store'];
-            });
-        }
-
-        if (!auth()->user()->can('agregar categoria')) {
-            return response()->json(['error' =>
-                'No tienes permisos para crear categorias'], 403);
-        }
-
-        $categoria = Categoria::create($request->validated());
-
-        return new CategoriaResource($categoria);
+        // prueba sin nada
+        return response()->json(['ok' => true]);
     }
 
     /**
