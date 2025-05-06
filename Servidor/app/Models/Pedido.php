@@ -33,4 +33,20 @@ class Pedido extends Model
         return $this->belongsTo(Producto::class);
     }
 
+    public function scopeFilter($query, $filters) {
+
+        if ($filters['search'] ?? false) {
+            $query->where('direccion_envio', 'like', '%' . request('search') . '%');
+        }
+
+        if ($filters['estado'] ?? false) {
+            $query->where('estado', request('estado'));
+        }
+
+        if ($filters['user_id'] ?? false) {
+            $query->where('user_id', request('user_id'));
+        }
+
+    }
+
 }
