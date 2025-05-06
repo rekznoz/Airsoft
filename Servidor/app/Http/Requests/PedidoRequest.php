@@ -19,15 +19,6 @@ class PedidoRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
-    /*
-     * [
-        'id_usuario',
-        'id_producto',
-        'cantidad',
-        'estado',
-    ];
-     */
     public function rules(): array
     {
         return [
