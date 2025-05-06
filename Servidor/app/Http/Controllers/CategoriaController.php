@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoriaRequest;
-use App\Http\Requests\StoreCategoriaRequest;
-use App\Http\Requests\UpdateCategoriaRequest;
 use App\Http\Resources\CategoriaResource;
 use App\Models\Categoria;
 use Laravel\Telescope\Telescope;
@@ -14,7 +12,7 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
 
     /**
