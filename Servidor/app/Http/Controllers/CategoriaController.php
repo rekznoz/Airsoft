@@ -42,7 +42,10 @@ class CategoriaController extends Controller
             });
         }
 
-
+        if (!auth()->user()->can('agregar categoria')) {
+            return response()->json(['error' =>
+                'No tienes permisos para crear categorias'], 403);
+        }
 
         $categoria = Categoria::create($request->validated());
 
