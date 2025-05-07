@@ -1,0 +1,139 @@
+/* Reset de márgenes y rellenos */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* Ajuste de la fuente base */
+body {
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    /* Puedes cambiar la fuente según tus preferencias */
+}
+
+/* Corrección de errores de presentación para elementos HTML5 */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+/* Eliminar los márgenes de las listas sin ordenar y ordenadas */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Asegurar que los elementos de anclaje sean tratados como enlaces */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Cambiar la dirección del cursor al pasar sobre enlaces */
+a:hover {
+    cursor: pointer;
+}
+
+/* Eliminar el subrayado de los enlaces que no son de texto */
+a img {
+    border: none;
+}
+
+/* Ajuste de bordes y espaciado de tablas */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
