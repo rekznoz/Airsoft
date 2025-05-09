@@ -1,7 +1,17 @@
-:root{
-
+:root {
+    --fondo-principal: #F5F1E6;
+    --fondo-alternativo: #D8CBB1;
+    --bordes-lineas: #C2B28F;
+    --texto-principal: #000000;
+    --texto-alternativo: #5C4B3A;
+    --varios: #7A8450;
 }
 
-.modo-oscuro{
-
+.modo-oscuro {
+    --fondo-principal: #3B4A3F;
+    --fondo-alternativo: #5C6844;
+    --bordes-lineas: #4A3F35;
+    --texto-principal: #FFFFFF;
+    --texto-alternativo: #CCCCCC;
+    --varios: #C2B28F;
 }
