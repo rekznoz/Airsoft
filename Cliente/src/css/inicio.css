@@ -1,0 +1,6 @@
+.container {
+    color: var(--texto-principal);
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
