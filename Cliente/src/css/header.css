@@ -1,23 +1,115 @@
+/* Estilos de la barra superior al navbar */
+
+.navbar-superior {
+    background-color: var(--fondo-principal);
+    color: var(--texto-principal);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--texto-principal);
+}
+
+.narbar-izquierda {
+    flex: 1;
+    font-weight: bold;
+}
+
+.navbar-derecha {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.navbar-derecha a {
+    color: var(--texto-principal);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.navbar-derecha a:hover {
+    color: var(--varios);
+}
+
+@media (max-width: 768px) {
+    .navbar-superior {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-derecha {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar-superior {
+        font-size: 12px;
+    }
+
+    .navbar-derecha a {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .navbar-superior {
+        font-size: 10px;
+    }
+
+    .navbar-derecha a {
+        font-size: 10px;
+    }
+}
+
+/* Logo */
+
+.logo {
+    margin-right: auto;
+    padding-left: 20px;
+}
+
+.logo img {
+    max-width: 100px;
+    object-fit: contain;
+}
+
+/* Estilos del navbar */
+
 .header {
     background: linear-gradient(90deg,
     var(--fondo-principal),
     var(--fondo-alternativo));
-    padding: 20px 0;
+    padding-bottom: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.navbar {
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    color: var(--texto-principal);
+    cursor: pointer;
+    margin-right: 20px;
+    align-self: center;
+}
+
+.navbar-medio {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-.nav-list {
+.navbar-medio .nav-list {
     list-style: none;
     display: flex;
     gap: 30px;
-    padding: 0;
-    margin: 0;
+    margin-right: 50px;
 }
 
 .nav-item {
@@ -25,7 +117,7 @@
 }
 
 /* Enlaces de navegación */
-.nav-link {
+.navbar-medio .nav-link {
     text-decoration: none;
     color: var(--texto-principal);
     font-size: 18px;
@@ -35,7 +127,7 @@
     position: relative;
 }
 
-.nav-link::after {
+.navbar-medio .nav-link::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -47,11 +139,11 @@
     transform: translateX(-50%);
 }
 
-.nav-link:hover::after {
+.navbar-medio .nav-link:hover::after {
     width: 100%;
 }
 
-.nav-link:hover {
+.navbar-medio .nav-link:hover {
     color: var(--varios);
 }
 
@@ -64,18 +156,88 @@ button {
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .nav-list {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
+.navbar-inferior {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .navbar-medio .nav-link {
+        font-size: 18px;
+        padding: 5px 10px;
     }
+}
+
+@media (max-width: 870px) {
+    .navbar-medio .nav-link {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 800px) {
+    .navbar-medio .nav-link {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .logo img {
+        max-width: 80px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .navbar-medio .nav-list {
+        display: none;
+    }
+
     .nav-link {
-        font-size: 17px;
+        text-decoration: none;
+        color: var(--texto-principal);
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .nav-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+        padding-top: 5px;
+    }
+
+    .nav-list .nav-item {
+        width: 90%;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--texto-principal);
+        background-color: var(--fondo-principal);
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-list .nav-item:hover {
+        background-color: var(--varios);
+    }
+
+    .navbar-inferior.open {
+        display: flex;
     }
 }
 
 @media (max-width: 500px) {
+
+    .logo img {
+        max-width: 50px;
+    }
+
     .nav-link {
         font-size: 16px;
     }
