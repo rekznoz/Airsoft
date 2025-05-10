@@ -2,7 +2,7 @@ import "../css/inicio.css"
 
 export default function Inicio() {
     return (
-        <div className="container">
+        <div className="contenedor">
             <h1>Inicio</h1>
             <p>Bienvenido a la aplicación de gestión de mascotas.</p>
             <p>Esta aplicación te permite gestionar tus mascotas de manera eficiente.</p>
