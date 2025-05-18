@@ -2,6 +2,7 @@ import React from 'react'
 import {Outlet} from "react-router-dom";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+
 //import Login from "../components/Login.jsx";
 
 /**
@@ -10,12 +11,12 @@ import Footer from "../components/Footer.jsx";
  * @returns {Element}
  * @constructor
  */
-function Publico({ children }) {
+function Publico({children}) {
     return (
         <>
             <Header/>
             <main className='main'>
-                {children || <Outlet />}
+                {children || <Outlet/>}
             </main>
             <Footer/>
             {/*<Login/>*/}
