@@ -12,7 +12,7 @@
 }
 
 .producto {
-    background-color: #fff;
+    background-color: var(--fondo-principal);
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -34,18 +34,18 @@
 .producto h2 {
     font-size: 1.5rem;
     margin: 1rem;
-    color: #222;
+    color: var(--texto-principal);
 }
 
 .producto p {
     margin: 0 1rem 1rem;
-    color: #555;
+    color: var(--texto-alternativo);
 }
 
 .producto p:last-child {
     margin-bottom: 1.5rem;
     font-weight: bold;
-    color: #007b43;
+    color: var(--varios);
 }
 
 /* Paginacion */
@@ -59,8 +59,8 @@
 }
 
 .paginacion button {
-    background-color: #007b43;
-    color: white;
+    background-color: var(--varios);
+    color: var(--texto-principal);
     border: none;
     padding: 0.6rem 1rem;
     font-size: 1rem;
@@ -70,16 +70,16 @@
 }
 
 .paginacion button:hover:not(:disabled) {
-    background-color: #005f33;
+    background-color: var(--fondo-principal);
 }
 
 .paginacion button:disabled {
-    background-color: #ccc;
+    background-color: var(--bordes-lineas);
     cursor: not-allowed;
 }
 
 .paginacion span {
     font-weight: bold;
-    color: #444;
+    color: var(--varios);
 }
 
