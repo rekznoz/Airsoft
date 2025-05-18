@@ -111,4 +111,26 @@ export default class ProductoService {
             throw error
         }
     }
+
+    static async getProducto({params}) {
+        try {
+            const response = await fetch(apiconfig.productos + "/" + params.id)
+
+            if (!response.ok) {
+                throw new Error('Error al obtener el producto: ' + response.statusText)
+            }
+
+            const data = await response.json()
+
+            if (!data || !data.data) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
 }
