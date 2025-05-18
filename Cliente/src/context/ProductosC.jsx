@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import Swal from 'sweetalert2';
-import {getItemsTienda} from "../hooks/getItemsTienda.jsx";
+import productoService from '../services/ProductoService.jsx';
 
 const STORAGE_KEY = 'productos_cache';
 
@@ -15,25 +15,25 @@ const useProductosStore = create((set, get) => ({
         const { productosCargados } = get();
         if (productosCargados) return;
 
-        // Intenta cargar desde localStorage primero
+        // Intenta cargar desde localStorage
         const cache = localStorage.getItem(STORAGE_KEY);
         if (cache) {
             try {
-                const productos = JSON.parse(cache).data;
+                const productos = JSON.parse(cache); // <--- Ya no usamos .data
                 set({ productos, productosCargados: true });
                 return;
             } catch (e) {
                 console.error('Error al parsear el cache de productos:', e);
-                localStorage.removeItem(STORAGE_KEY); // por si acaso
+                localStorage.removeItem(STORAGE_KEY);
             }
         }
 
         set({ cargando: true, error: null });
 
         try {
-            const productos = await getItemsTienda().data;
+            const productos = await productoService.getProductos().data;
             set({ productos, cargando: false, productosCargados: true });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(productos));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productos)); // <--- Guardamos solo array
         } catch (error) {
             set({ error: error.message, cargando: false });
             Swal.fire({
@@ -43,10 +43,8 @@ const useProductosStore = create((set, get) => ({
                 confirmButtonText: 'Aceptar'
             });
         }
-
     },
 
-    // Función para agregar un producto al carrito
     resetProductos: () => {
         localStorage.removeItem(STORAGE_KEY);
         set({ productos: [], productosCargados: false });
