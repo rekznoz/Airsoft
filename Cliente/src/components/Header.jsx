@@ -23,7 +23,6 @@ export default function Header() {
     const navItems = [
         {path: "/", label: "Inicio"},
         {path: "/tienda", label: "Tienda"},
-        {path: "/contacto", label: "Contacto"},
         {path: "/login", label: "Login"},
     ];
 
