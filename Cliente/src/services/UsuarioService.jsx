@@ -1,12 +1,36 @@
 import apiconfig from "../config/APIConfig.jsx";
+import useAuthStore from "../context/AuthC.jsx";
 
+/*
+{
+	"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjk5LjE1LjUzL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNzQ3NTk3NDY2LCJleHAiOjE3NDc2MDEwNjYsIm5iZiI6MTc0NzU5NzQ2NiwianRpIjoiYjluTEhOWE9zajlSVXd2SCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.UKU28R4T0fkB78AC-Pn4lAaYVw24ujZVhSAri0XyfRQ",
+	"token_type": "bearer",
+	"expires_in": 3600,
+	"user": {
+		"id": 1,
+		"name": "Admin",
+		"email": "admin@admin.com",
+		"roles": [
+			"admin"
+		],
+		"permissions": [
+			"agregar producto",
+			"editar producto",
+			"eliminar producto",
+			"agregar categoria",
+			"editar categoria",
+			"eliminar categoria",
+			"agregar pedido",
+			"editar pedido",
+			"eliminar pedido",
+			"agregar comentario",
+			"editar comentario",
+			"eliminar comentario"
+		]
+	}
+}
+*/
 
-/**
- * Obtiene un usuario autenticado con el email y password
- * @param email
- * @param password
- * @returns {Promise<any>}
- */
 export const getUsuarioAuth = async (email, password) => {
     if (!email || !password) throw new Error("El email y password son requeridos");
 
@@ -22,17 +46,9 @@ export const getUsuarioAuth = async (email, password) => {
 
 };
 
-/**
- * Registra un usuario con el nombre, email, password y password_confirmation
- * @param name
- * @param email
- * @param password
- * @param password_confirmation
- * @returns {Promise<any>}
- */
 export const registerUsuarioAuth = async (name, email, password, password_confirmation) => {
 
-    console.log({ name, email, password, password_confirmation });
+    console.log({name, email, password, password_confirmation});
 
     if (!name || !email || !password || !password_confirmation) {
         throw new Error("Todos los campos son requeridos");
@@ -45,7 +61,7 @@ export const registerUsuarioAuth = async (name, email, password, password_confir
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email, password, password_confirmation }),
+            body: JSON.stringify({name, email, password, password_confirmation}),
         });
 
         if (!res.ok) {
@@ -63,13 +79,9 @@ export const registerUsuarioAuth = async (name, email, password, password_confir
     }
 };
 
-/**
- * Cierra la sesión de un usuario autenticado
- * @returns {Promise<void>}
- */
 export const logoutAuth = async () => {
     try {
-        const token = userStore().access_token;
+        const token = useAuthStore.getState().access_token;
 
         if (!token) {
             console.error('No token found');
@@ -96,11 +108,6 @@ export const logoutAuth = async () => {
     }
 };
 
-/**
- * Actualiza el token de un usuario autenticado
- * @param access_token
- * @returns {Promise<void>}
- */
 export const actualizarToken = async (access_token) => {
     try {
         if (!access_token) {
@@ -124,7 +131,6 @@ export const actualizarToken = async (access_token) => {
         }
 
         console.log('Token refreshed:', data);
-        userStore().login(data);
     } catch (error) {
         console.error('Error during token refresh:', error.message);
     }
