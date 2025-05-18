@@ -102,7 +102,7 @@ export async function getItemsTienda() {
 
         // Ordenar alfabeticamente
         //const productos = data.data.sort((a, b) => a["nombre"].localeCompare(b["nombre"]))
-        //console.log(productos)
+        console.log(data)
         return data
     } catch (error) {
         console.error(error)
