@@ -3,11 +3,22 @@ import "../css/header.css";
 import {Link} from "react-router-dom";
 
 import Logo from "../assets/logo.png";
+import claro from '../assets/navbar/claro.png'
+import oscuro from '../assets/navbar/oscuro.png'
 
 export default function Header() {
 
+    const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    const cambiarModo = () => {
+        setTimeout(() => {
+            const nuevoModo = modo === 'claro' ? 'oscuro' : 'claro'
+            setModo(nuevoModo)
+            document.body.classList.toggle('modo-oscuro')
+        }, 300)
+    }
 
     const navItems = [
         { path: "/", label: "Inicio" },
@@ -49,6 +60,13 @@ export default function Header() {
                         </li>
                     ))}
                 </ul>
+
+                {/* ICONO MODO CLARO OSCURO */}
+                <div className="modo">
+                    <button className="modo-boton" onClick={cambiarModo} aria-label="Cambiar modo claro/oscuro">
+                        <img src={modo === 'claro' ? claro : oscuro} alt="Modo claro/oscuro"/>
+                    </button>
+                </div>
 
                 {/* BOTÓN MENÚ (versión móvil) */}
                 <button className="menu-toggle" onClick={toggleMenu} aria-label="Abrir menú de navegación">
