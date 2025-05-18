@@ -1,4 +1,4 @@
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import {useEffect, useState} from "react";
 import "../css/tienda.css";
 import useProductosStore from "../context/ProductosC.jsx";
@@ -73,7 +73,7 @@ const PRODUCTOS_POR_PAGINA = 6;
 
 export default function Tienda() {
 
-    const { productos, cargarProductos, cargando, error } = useProductosStore();
+    const { productos, cargarProductos, cargando } = useProductosStore();
     const [paginaActual, setPaginaActual] = useState(1);
 
     useEffect(() => {
@@ -83,12 +83,11 @@ export default function Tienda() {
     console.log(productos)
 
     if (cargando) return <Spinner/>
-    if (error) return <p>Error: {error}</p>;
     if (productos.length === 0) return <p>No hay productos disponibles.</p>;
 
-    const totalPaginas = Math.ceil(productos.length / PRODUCTOS_POR_PAGINA);
+    const totalPaginas = Math.ceil(productos.data.length / PRODUCTOS_POR_PAGINA);
     const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
-    const productosPagina = productos.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
+    const productosPagina = productos.data.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
 
     const cambiarPagina = (nuevaPagina) => {
         if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
@@ -101,13 +100,13 @@ export default function Tienda() {
 
             <div className="productos">
                 {productosPagina.map((producto) => (
-                    <div key={producto.id} className="producto">
+                    <Link to={`/tienda/${producto.id}`} key={producto.id} className="producto">
                         <img src="https://i.imgur.com/yMVfJZD.jpeg" alt={producto.nombre} />
                         <h2>{producto.nombre}</h2>
                         <p>{producto.descripcion}</p>
                         <p>Precio: ${producto.precio_final}</p>
                         <p>Stock: {producto.stock}</p>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
