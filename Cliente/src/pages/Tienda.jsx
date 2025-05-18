@@ -73,7 +73,7 @@ const PRODUCTOS_POR_PAGINA = 6;
 
 export default function Tienda() {
 
-    const { productos, cargarProductos, cargando } = useProductosStore();
+    const {productos, cargarProductos, cargando} = useProductosStore();
     const [paginaActual, setPaginaActual] = useState(1);
 
     useEffect(() => {
@@ -101,7 +101,7 @@ export default function Tienda() {
             <div className="productos">
                 {productosPagina.map((producto) => (
                     <Link to={`/tienda/${producto.id}`} key={producto.id} className="producto">
-                        <img src="https://i.imgur.com/yMVfJZD.jpeg" alt={producto.nombre} />
+                        <img src="https://i.imgur.com/yMVfJZD.jpeg" alt={producto.nombre}/>
                         <h2>{producto.nombre}</h2>
                         <p>{producto.descripcion}</p>
                         <p>Precio: ${producto.precio_final}</p>
