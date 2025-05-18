@@ -2,9 +2,11 @@ import {createBrowserRouter} from "react-router-dom";
 import {lazy, Suspense} from "react";
 
 import Loading from "../components/Spinner.jsx";
+import {getItemsTienda} from "../hooks/getItemsTienda.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const Inicio = lazy(() => import("../pages/Inicio.jsx"));
+const Tienda = lazy(() => import("../pages/Tienda.jsx"));
 const Error = lazy(() => import("../pages/Error.jsx"));
 
 /**
@@ -35,15 +37,16 @@ export const router = createBrowserRouter([
                     </Suspense>
                 )
             },
-            {/*
-                path: "/contacto",
+            {
+                path: "/tienda",
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Contacto/>
+                        <Tienda/>
                     </Suspense>
-                )
+                ),
+                loader: getItemsTienda
             },
-            {
+            {/*
                 path: "usuario/:username",
                 element: (
                     <Suspense fallback={<Loading/>}>
