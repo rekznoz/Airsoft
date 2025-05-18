@@ -11,10 +11,9 @@ export default function Header() {
 
     const navItems = [
         { path: "/", label: "Inicio" },
-        { path: "/nosotros", label: "Sobre Nosotros" },
-        { path: "/servicios", label: "Servicios" },
+        { path: "/tienda", label: "Tienda" },
         { path: "/contacto", label: "Contacto" },
-        { path: "/login", label: "Iniciar Sesión" },
+        { path: "/login", label: "Login" },
     ];
 
     return (
