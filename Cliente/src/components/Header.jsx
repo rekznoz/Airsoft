@@ -21,10 +21,10 @@ export default function Header() {
     }
 
     const navItems = [
-        { path: "/", label: "Inicio" },
-        { path: "/tienda", label: "Tienda" },
-        { path: "/contacto", label: "Contacto" },
-        { path: "/login", label: "Login" },
+        {path: "/", label: "Inicio"},
+        {path: "/tienda", label: "Tienda"},
+        {path: "/contacto", label: "Contacto"},
+        {path: "/login", label: "Login"},
     ];
 
     return (
@@ -54,7 +54,7 @@ export default function Header() {
 
                 {/* NAVEGACIÓN */}
                 <ul className="nav-list">
-                    {navItems.map(({ path, label }) => (
+                    {navItems.map(({path, label}) => (
                         <li key={path} className="nav-item" onClick={() => setMenuOpen(false)}>
                             <Link to={path} className="nav-link">{label}</Link>
                         </li>
@@ -78,7 +78,7 @@ export default function Header() {
             {/* BARRA INFERIOR (Version nav-list para movil) */}
             <nav className={`navbar-inferior ${menuOpen ? "open" : ""}`}>
                 <ul className="nav-list">
-                    {navItems.map(({ path, label }) => (
+                    {navItems.map(({path, label}) => (
                         <li key={path} className="nav-item" onClick={() => setMenuOpen(false)}>
                             <Link to={path} className="nav-link">{label}</Link>
                         </li>
