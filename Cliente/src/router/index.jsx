@@ -2,6 +2,8 @@ import {createBrowserRouter} from "react-router-dom";
 import {lazy, Suspense} from "react";
 
 import Loading from "../components/Spinner.jsx";
+import ProductosService from "../services/ProductoService.jsx";
+import Producto from "../pages/Producto.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const Inicio = lazy(() => import("../pages/Inicio.jsx"));
@@ -49,10 +51,10 @@ export const router = createBrowserRouter([
                 path: "/tienda/:id",
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Tienda/>
+                        <Producto/>
                     </Suspense>
                 ),
-                //loader: getItemsTienda
+                loader: ProductosService.getProducto
             },
             {/*
                 path: "usuario/:username",
