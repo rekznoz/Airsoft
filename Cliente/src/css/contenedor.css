@@ -1,29 +1,26 @@
 #root {
     font-family: 'Roboto', sans-serif;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(12, 1fr);
-    gap: 0 0;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
+    height: 100vh;
+}
+
+.header,
+.main,
+.footer {
+    width: 100%;
 }
 
 .header {
-    grid-column: 1 / -1;;
-    grid-row: 1;
+    height: 125px;
 }
 
 .main {
-    grid-column: 1 / -1;
-    grid-row: 2 / 12;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-grow: 1;
 }
 
 .footer {
-    grid-column: 1 / -1;
-    grid-row: 12;
+    height: 50px;
 }
