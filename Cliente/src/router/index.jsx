@@ -137,7 +137,8 @@ export const router = createBrowserRouter([
                         loader: obtenerDatos,
                     }
                 ]
-            */},
+            */
+            },
         ],
     },
 ]);
