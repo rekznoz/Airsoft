@@ -2,6 +2,7 @@ import React from 'react'
 import {Outlet} from "react-router-dom";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import useUserStore from "../context/AuthC.jsx";
 
 //import Login from "../components/Login.jsx";
 
@@ -12,6 +13,7 @@ import Footer from "../components/Footer.jsx";
  * @constructor
  */
 function Publico({children}) {
+    useUserStore.getState().checkTokenValidity()
     return (
         <>
             <Header/>
