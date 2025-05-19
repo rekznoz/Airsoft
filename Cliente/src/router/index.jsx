@@ -3,6 +3,7 @@ import {lazy, Suspense} from "react";
 
 import Loading from "../components/Spinner.jsx";
 import ProductosService from "../services/ProductoService.jsx";
+import LoginRegistro from "../layouts/LoginRegistro.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const Inicio = lazy(() => import("../pages/Inicio.jsx"));
@@ -59,20 +60,40 @@ export const router = createBrowserRouter([
                 loader: ProductosService.getProducto
             },
             {
-                path: "/login",
+                path: '/login',
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Login/>
+                        <LoginRegistro/>
                     </Suspense>
                 ),
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loading/>}>
+                                <Login/>
+                            </Suspense>
+                        ),
+                    }
+                ]
             },
             {
-                path: "/registro",
+                path: '/registro',
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Registro/>
+                        <LoginRegistro/>
                     </Suspense>
                 ),
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loading/>}>
+                                <Registro/>
+                            </Suspense>
+                        ),
+                    }
+                ]
             },
             {/*
                 path: "usuario/:username",
