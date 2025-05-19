@@ -80,14 +80,14 @@ export default function Tienda() {
         cargarProductos()
     }, [cargarProductos]);
 
-    console.log(productos)
-
-    if (cargando) return <Spinner/>
+    if (cargando) return (
+        <Spinner/>
+    )
     if (productos.length === 0) return <p>No hay productos disponibles.</p>;
 
-    const totalPaginas = Math.ceil(productos.data.length / PRODUCTOS_POR_PAGINA);
+    const totalPaginas = Math.ceil(productos.length / PRODUCTOS_POR_PAGINA);
     const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
-    const productosPagina = productos.data.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
+    const productosPagina = productos.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
 
     const cambiarPagina = (nuevaPagina) => {
         if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
