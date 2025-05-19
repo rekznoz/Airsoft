@@ -3,6 +3,8 @@ import {lazy, Suspense} from "react";
 
 import Loading from "../components/Spinner.jsx";
 import ProductosService from "../services/ProductoService.jsx";
+import PedidosService from "../services/PedidosService.jsx";
+import ComentariosService from "../services/ComentariosService.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
@@ -99,13 +101,12 @@ export const router = createBrowserRouter([
                 ]
             },
             {
-                path: '/:id',
+                path: '/perfil/:id',
                 element: (
                     <Suspense fallback={<Loading/>}>
                         <Perfil/>
                     </Suspense>
                 ),
-                //loader: ProductosService.getProducto,
                 children: [
                     {
                         index: true,
@@ -114,10 +115,27 @@ export const router = createBrowserRouter([
                                 <PerfilUsuario/>
                             </Suspense>
                         ),
+                        loader: async ({ params }) => {
+                            const [pedidos, comentarios] = await Promise.all([
+                                PedidosService.getPedidosUsuario({ params }),
+                                ComentariosService.getComentariosUsuario({ params })
+                            ]);
+
+                            return {pedidos, comentarios};
+                        }
+                    },
+                    {/*
+                        path: 'pedidos',
+                        element: (
+                            <Suspense fallback={<Loading/>}>
+                                <PedidosUsuario />
+                            </Suspense>
+                        ),
+                    */
                     }
                 ],
-
             },
+
         ],
     },
 ]);
