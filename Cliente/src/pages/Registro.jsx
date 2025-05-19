@@ -52,7 +52,7 @@ export default function Registro() {
     }
 
     return (
-        <div className="login-contenedor">
+        <div className="registro-contenedor">
             <h1>Registrar Usuario</h1>
             <Formik
                 initialValues={usuarioVacio}
