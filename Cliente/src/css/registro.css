@@ -27,6 +27,7 @@
     font-weight: 500;
 }
 
+.registro-contenedor input[type="text"],
 .registro-contenedor input[type="email"],
 .registro-contenedor input[type="password"] {
     width: 100%;
@@ -38,6 +39,7 @@
     box-sizing: border-box;
 }
 
+.registro-contenedor input[type="text"]:focus,
 .registro-contenedor input[type="email"]:focus,
 .registro-contenedor input[type="password"]:focus {
     border-color: #0077ff;
