@@ -1,0 +1,99 @@
+.registro-contenedor {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 2rem;
+    background-color: var(--fondo-principal);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.registro-contenedor h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--texto-principal);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.registro-contenedor form div {
+    margin-bottom: 1.2rem;
+}
+
+.registro-contenedor label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--texto-principal);
+    font-weight: 500;
+}
+
+.registro-contenedor input[type="email"],
+.registro-contenedor input[type="password"] {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.registro-contenedor input[type="email"]:focus,
+.registro-contenedor input[type="password"]:focus {
+    border-color: #0077ff;
+    outline: none;
+}
+
+/* Checkbox */
+.registro-contenedor input[type="checkbox"] {
+    margin-right: 0.5rem;
+    transform: scale(1.1);
+}
+
+/* Estilo de errores */
+.registro-contenedor .error {
+    margin-top: 0.3rem;
+    color: #FF0000;
+    font-size: 0.9rem;
+}
+
+/* Botón de envío */
+.registro-contenedor button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--fondo-alternativo);
+    color: var(--texto-principal);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.registro-contenedor button[type="submit"]:hover {
+    background-color: var(--varios);
+}
+
+.registro-contenedor button[type="submit"]:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Enlace de registro */
+.registro-contenedor p {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--texto-alternativo);
+}
+
+.registro-contenedor a {
+    color: var(--varios);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.registro-contenedor a:hover {
+    text-decoration: underline;
+}
