@@ -33,9 +33,13 @@ export default function Producto() {
 
     return (
         <div className="producto-container">
-            <h1>{producto.nombre}</h1>
-            <p className="producto-descripcion">{producto.descripcion}</p>
-
+            <div className="producto-breadcrumb">
+                <h1>{producto.nombre}</h1>
+                <p className="producto-descripcion">{producto.descripcion}</p>
+                <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}
+                     className="producto-imagen-principal"
+                     onClick={() => setImagenGrande("https://i.imgur.com/yMVfJZD.jpeg")}/>
+            </div>
             <div className="contenedor-producto-detalles">
                 <section className="producto-detalles">
                     <h2>Detalles</h2>
