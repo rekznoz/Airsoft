@@ -114,95 +114,69 @@ export default function Perfil() {
     }
 
     return (
-        <div className="perfil">
+        <div className="perfil-container">
 
-            <div className="parte-superior">
+            <div className="perfil-header card">
                 <div className="perfil-info">
-                    <h2>Perfil de Usuario</h2>
+                    <h2>👤 Perfil de Usuario</h2>
                     <p><strong>Nombre:</strong> {user.name}</p>
                     <p><strong>Email:</strong> {user.email}</p>
                 </div>
-                <div className="perfil-acciones">
-                    <h3>Acciones</h3>
-                    <button onClick={() => alert('Funcionalidad de editar perfil no implementada')}>Editar Perfil
-                    </button>
-                    <button onClick={() => alert('Funcionalidad de cerrar sesión no implementada')}>Cerrar Sesión
-                    </button>
+                <div className="perfil-actions">
+                    <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
+                    <button onClick={() => alert('Cerrar sesión no implementado')}>Cerrar Sesión</button>
                 </div>
             </div>
 
-            <div className="parte-inferior">
+            <div className="perfil-section card">
+                <h3>📦 Pedidos Realizados</h3>
+                {pedidos.length > 0 ? (
+                    <>
+                        <ul className="item-list">
+                            {pagPedidos.itemsPaginados.map((pedido) => (
+                                <li key={pedido.id} className="item">
+                                    <p><strong>ID:</strong> {pedido.id}</p>
+                                    <p><strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString("es-ES")}</p>
+                                    <p><strong>Producto:</strong> <Link to={`/tienda/${pedido.producto.id}`}>{pedido.producto.nombre}</Link></p>
+                                    <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
+                                    <p><strong>Estado:</strong> {pedido.estado}</p>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="pagination">
+                            <button onClick={pagPedidos.anterior} disabled={pagPedidos.pagina === 1}>⬅</button>
+                            <span>Página {pagPedidos.pagina} de {pagPedidos.totalPaginas}</span>
+                            <button onClick={pagPedidos.siguiente} disabled={pagPedidos.pagina === pagPedidos.totalPaginas}>➡</button>
+                        </div>
+                    </>
+                ) : <p>No tienes pedidos realizados.</p>}
+            </div>
 
-                <div className="perfil-pedidos">
-                    <h3>Pedidos Realizados</h3>
-                    {pedidos.length > 0 ? (
-                        <>
-                            <ul>
-                                {pagPedidos.itemsPaginados.map((pedido) => (
-                                    <li key={pedido.id}>
-                                        <p><strong>Pedido ID:</strong> {pedido.id}</p>
-                                        <p><strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString()}</p>
-                                        <p><strong>Producto: </strong>
-                                            <Link to={"/tienda/" + pedido.producto.id}>{pedido.producto.nombre}</Link>
-                                        </p>
-                                        <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
-                                        <p><strong>Estado:</strong> {pedido.estado}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="paginacion">
-                                <button
-                                    onClick={pagPedidos.anterior}
-                                    disabled={pagPedidos.pagina === 1}
-                                >⬅</button>
-                                <span>Página {pagPedidos.pagina} de {pagPedidos.totalPaginas}</span>
-                                <button
-                                    onClick={pagPedidos.siguiente}
-                                    disabled={pagPedidos.pagina === pagPedidos.totalPaginas}
-                                >➡</button>
-                            </div>
-                        </>
-                    ) : (
-                        <p>No tienes pedidos realizados.</p>
-                    )}
-                </div>
-
-                <div className="perfil-comentarios">
-                    <h3>Comentarios Realizados</h3>
-                    {comentarios.length > 0 ? (
-                        <>
-                            <ul>
-                                {pagComentarios.itemsPaginados.map((comentario) => (
-                                    <li key={comentario.id}>
-                                        <p><strong>Comentario ID:</strong> {comentario.id}</p>
-                                        <p><strong>Fecha:</strong> {new Date(comentario.created_at).toLocaleDateString()}</p>
-                                        <p><strong>Producto: </strong>
-                                            <Link to={"/tienda/" + comentario.producto.id}>{comentario.producto.nombre}</Link>
-                                        </p>
-                                        <p><strong>Comentario:</strong> {comentario.comentario}</p>
-                                        <p><strong>Calificación:</strong> {comentario.calificacion}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="paginacion">
-                                <button
-                                    onClick={pagComentarios.anterior}
-                                    disabled={pagComentarios.pagina === 1}
-                                >⬅</button>
-                                <span>Página {pagComentarios.pagina} de {pagComentarios.totalPaginas}</span>
-                                <button
-                                    onClick={pagComentarios.siguiente}
-                                    disabled={pagComentarios.pagina === pagComentarios.totalPaginas}
-                                >➡</button>
-                            </div>
-                        </>
-                    ) : (
-                        <p>No tienes comentarios realizados.</p>
-                    )}
-                </div>
-
+            <div className="perfil-section card">
+                <h3>💬 Comentarios Realizados</h3>
+                {comentarios.length > 0 ? (
+                    <>
+                        <ul className="item-list">
+                            {pagComentarios.itemsPaginados.map((comentario) => (
+                                <li key={comentario.id} className="item">
+                                    <p><strong>ID:</strong> {comentario.id}</p>
+                                    <p><strong>Fecha:</strong> {new Date(comentario.created_at).toLocaleDateString("es-ES")}</p>
+                                    <p><strong>Producto:</strong> <Link to={`/tienda/${comentario.producto.id}`}>{comentario.producto.nombre}</Link></p>
+                                    <p><strong>Comentario:</strong> {comentario.comentario}</p>
+                                    <p><strong>Calificación:</strong> {comentario.calificacion}/10</p>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="pagination">
+                            <button onClick={pagComentarios.anterior} disabled={pagComentarios.pagina === 1}>⬅</button>
+                            <span>Página {pagComentarios.pagina} de {pagComentarios.totalPaginas}</span>
+                            <button onClick={pagComentarios.siguiente} disabled={pagComentarios.pagina === pagComentarios.totalPaginas}>➡</button>
+                        </div>
+                    </>
+                ) : <p>No tienes comentarios realizados.</p>}
             </div>
 
         </div>
+
     )
 }
