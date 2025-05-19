@@ -35,18 +35,18 @@ export default function Login() {
 
             //console.log(res)
 
+            if (res.error) {
+                if (res.status === 401) {
+                    throw new Error('Email o contraseña incorrectos')
+                }
+                throw new Error(res.error)
+            }
+
             useUserStore.getState().login({
                 user: res.user,
                 access_token: res.access_token
             })
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Inicio de sesión exitoso',
-                text: `Bienvenido ${values.email}`,
-                showConfirmButton: false,
-                timer: 1500
-            })
         } catch (error) {
             Swal.fire({
                 icon: 'error',
