@@ -1,5 +1,6 @@
 import apiconfig from "../config/APIConfig.jsx";
 import useAuthStore from "../context/AuthC.jsx";
+import useUserStore from "../context/AuthC.jsx";
 
 /*
 {
@@ -47,42 +48,41 @@ export const getUsuarioAuth = async (email, password) => {
 };
 
 export const registerUsuarioAuth = async (name, email, password, password_confirmation) => {
-
-    console.log({name, email, password, password_confirmation});
+    console.log({ name, email, password, password_confirmation });
 
     if (!name || !email || !password || !password_confirmation) {
         throw new Error("Todos los campos son requeridos");
     }
 
     try {
-        // Realizar la solicitud POST
+        console.log('Intentando registrar usuario...');
+
         const res = await fetch(apiconfig.auth.register, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({name, email, password, password_confirmation}),
+            body: JSON.stringify({ name, email, password, password_confirmation }),
         });
 
+        const data = await res.json(); // Siempre intenta leer la respuesta
+
         if (!res.ok) {
-            console.error(res);
-            Error(`Error en la respuesta: ${res.status} ${res.statusText}`);
-            return
+            console.error('Respuesta del servidor con error 422:', data);
+            throw new Error(data.message || 'Error en el registro. Revisa los campos.');
         }
 
-        // Devolver los datos de la respuesta si todo es correcto
-        return await res.json();
+        return data;
 
     } catch (error) {
-        // Manejar cualquier error en la solicitud
         console.error('Error en el registro:', error.message);
-        throw new Error('Hubo un problema al intentar registrarte. Intenta nuevamente más tarde.');
+        throw new Error(error.message || 'Hubo un problema al intentar registrarte. Intenta nuevamente más tarde.');
     }
 };
 
-export const logoutAuth = async () => {
+
+export const logoutAuth = async (token) => {
     try {
-        const token = useAuthStore.getState().access_token;
 
         if (!token) {
             console.error('No token found');
@@ -104,6 +104,7 @@ export const logoutAuth = async () => {
             return
         }
         console.log('Logout successful:', data);
+        useUserStore.getState().logout();
     } catch (error) {
         console.error('Error during logout:', error.message);
     }
