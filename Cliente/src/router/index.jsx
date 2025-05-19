@@ -9,6 +9,7 @@ const Inicio = lazy(() => import("../pages/Inicio.jsx"));
 const Tienda = lazy(() => import("../pages/Tienda.jsx"));
 const Producto = lazy(() => import("../pages/Producto.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
+const Registro = lazy(() => import("../pages/Registro.jsx"));
 const Error = lazy(() => import("../pages/Error.jsx"));
 
 /**
@@ -62,6 +63,14 @@ export const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={<Loading/>}>
                         <Login/>
+                    </Suspense>
+                ),
+            },
+            {
+                path: "/registro",
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                        <Registro/>
                     </Suspense>
                 ),
             },
