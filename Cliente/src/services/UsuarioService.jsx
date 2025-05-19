@@ -1,5 +1,4 @@
 import apiconfig from "../config/APIConfig.jsx";
-import useAuthStore from "../context/AuthC.jsx";
 import useUserStore from "../context/AuthC.jsx";
 
 /*
@@ -43,7 +42,13 @@ export const getUsuarioAuth = async (email, password) => {
         body: JSON.stringify({email, password})
     });
 
-    return await res.json();
+    const data = await res.json();
+
+    if (!res.ok) {
+        return { error: data.error || 'Error desconocido', status: res.status };
+    }
+
+    return data;
 
 };
 
@@ -68,7 +73,6 @@ export const registerUsuarioAuth = async (name, email, password, password_confir
         const data = await res.json(); // Siempre intenta leer la respuesta
 
         if (!res.ok) {
-            console.error('Respuesta del servidor con error 422:', data);
             throw new Error(data.message || 'Error en el registro. Revisa los campos.');
         }
 
