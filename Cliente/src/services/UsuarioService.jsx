@@ -66,6 +66,7 @@ export const registerUsuarioAuth = async (name, email, password, password_confir
 
         if (!res.ok) {
             console.error(res);
+            Error(`Error en la respuesta: ${res.status} ${res.statusText}`);
             return
         }
 
