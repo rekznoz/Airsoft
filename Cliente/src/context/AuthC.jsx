@@ -56,7 +56,7 @@ const useUserStore = create(persist((set, get) => ({
                         console.log("Token expirado");
                     } else {
                         console.log("Token válido");
-                        actualizarToken(access_token)
+                        //actualizarToken(access_token)
                     }
                 } catch (err) {
                     console.error("Error al verificar el token:", err);
