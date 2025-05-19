@@ -7,9 +7,24 @@ import {bool, object, string} from 'yup'
 import Swal from "sweetalert2"
 import {Link} from "react-router-dom"
 
-import "../css/login.css"
+import "../css/registro.css"
+import {registerUsuarioAuth} from "../services/UsuarioService.jsx";
+
+/*
+{
+	"name": "Rafa",
+	"email":"admin21@admin.com",
+	"password": "12345678",
+	"password_confirmation": "12345678"
+}
+*/
 
 const validationSchema = object({
+    nombre: string()
+        .required('El campo nombre es obligatorio')
+        .min(3, 'El nombre debe tener al menos 3 caracteres')
+        .max(20, 'El nombre debe tener como máximo 20 caracteres')
+        .matches(/^[a-zA-Z\s]+$/, 'El nombre solo puede contener letras y espacios'),
     email: string()
         .required('El campo email es obligatorio')
         .email('El email no es válido'),
@@ -31,12 +46,14 @@ export default function Registro() {
 
     const handleSubmit = async (values, {setSubmitting}) => {
         try {
-            // const res = await loginAPI(values)
-            // if (!res.ok) throw new Error('Credenciales inválidas')
+            const {nombre, email, password, password_confirmation} = values
+            const res = await registerUsuarioAuth(nombre, email, password, password_confirmation)
+
+            console.log(res)
 
             Swal.fire({
                 icon: 'success',
-                title: 'Inicio de sesión exitoso',
+                title: 'Registro exitoso',
                 text: `Bienvenido ${values.email}`,
                 showConfirmButton: false,
                 timer: 1500
@@ -62,6 +79,17 @@ export default function Registro() {
                 {({handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting}) => (
                     <form onSubmit={handleSubmit}>
                         <div>
+                            <label htmlFor="nombre">Nombre</label>
+                            <input
+                                type="text"
+                                name="nombre"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.nombre}
+                            />
+                            {errors.nombre && touched.nombre && <div className="error">{errors.nombre}</div>}
+                        </div>
+                        <div>
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
@@ -82,6 +110,17 @@ export default function Registro() {
                                 value={values.password}
                             />
                             {errors.password && touched.password && <div className="error">{errors.password}</div>}
+                        </div>
+                        <div>
+                            <label htmlFor="password_confirmation">Confirmar Contraseña</label>
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.password_confirmation}
+                            />
+                            {errors.password_confirmation && touched.password_confirmation && <div className="error">{errors.password_confirmation}</div>}
                         </div>
 
                         <div>
@@ -105,7 +144,7 @@ export default function Registro() {
             </Formik>
 
             {/* Enlace para registrarse */}
-            <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+            <p>¿Ya tienes tienes cuenta? <Link to="/login">Inicia sesion aquí</Link></p>
 
         </div>
     )
