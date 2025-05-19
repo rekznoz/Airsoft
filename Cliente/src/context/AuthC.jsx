@@ -1,5 +1,4 @@
 import {create} from 'zustand';
-import {loguearUsuario} from '../config/AuthService';
 import Swal from "sweetalert2";
 
 const usuarioVacio = {
