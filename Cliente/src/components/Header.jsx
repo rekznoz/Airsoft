@@ -1,22 +1,23 @@
-import {useState} from "react";
-import "../css/header.css";
-import {Link} from "react-router-dom";
+import {useState} from "react"
+import "../css/header.css"
+import {Link} from "react-router-dom"
 
-import Logo from "../assets/logo.png";
+import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
-import useUserStore from "../context/AuthC.jsx";
-import {logoutAuth} from "../services/UsuarioService.jsx";
+import useUserStore from "../context/AuthC.jsx"
+import {logoutAuth} from "../services/UsuarioService.jsx"
 
 export default function Header() {
 
     const [modo, setModo] = useState('claro')
-    const [menuOpen, setMenuOpen] = useState(false);
-    const toggleMenu = () => setMenuOpen(!menuOpen);
+    const [menuOpen, setMenuOpen] = useState(false)
+    const toggleMenu = () => setMenuOpen(!menuOpen)
 
-    const isLoggedIn = useUserStore(state => state.isLoggedIn);
-    const logout = useUserStore(state => state.logout);
-    const token = useUserStore(state => state.access_token);
+    const isLoggedIn = useUserStore(state => state.isLoggedIn)
+    const logout = useUserStore(state => state.logout)
+    const userid = useUserStore(state => state.user.id)
+    //const token = useUserStore(state => state.access_token)
 
     const cambiarModo = () => {
         setTimeout(() => {
@@ -62,12 +63,12 @@ export default function Header() {
                     {isLoggedIn ? (
                         <>
                             <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                                <Link to="/perfil" className="nav-link">Perfil</Link>
+                                <Link to={"/perfil" + "/" + userid} className="nav-link">Perfil</Link>
                             </li>
                             <li className="nav-item" onClick={() => {
                                 //logoutAuth(token)
-                                logout();
-                                setMenuOpen(false);
+                                logout()
+                                setMenuOpen(false)
                             }}>
                                 <Link to="/" className="nav-link">Cerrar sesión</Link>
                             </li>
@@ -109,5 +110,5 @@ export default function Header() {
             </nav>
 
         </header>
-    );
+    )
 }
