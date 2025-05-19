@@ -9,6 +9,7 @@ import {Link} from "react-router-dom"
 
 import "../css/registro.css"
 import {registerUsuarioAuth} from "../services/UsuarioService.jsx";
+import useUserStore from "../context/AuthC.jsx";
 
 /*
 {
@@ -44,20 +45,18 @@ const usuarioVacio = {
 
 export default function Registro() {
 
-    const handleSubmit = async (values, {setSubmitting}) => {
+    const handleSubmit = async (values) => {
         try {
             const {name, email, password, password_confirmation} = values
             const res = await registerUsuarioAuth(name, email, password, password_confirmation)
 
             console.log(res)
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Registro exitoso',
-                text: `Bienvenido ${values.email}`,
-                showConfirmButton: false,
-                timer: 1500
+            useUserStore.getState().login({
+                user: res.user,
+                access_token: res.access_token
             })
+
         } catch (error) {
             Swal.fire({
                 icon: 'error',
