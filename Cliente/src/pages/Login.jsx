@@ -3,11 +3,13 @@ import {Formik} from 'formik'
 // https://formik.org/docs/overview
 
 // Validar los datos del formulario con Yup
-import {bool, object, string} from 'yup'
+import {object, string} from 'yup'
 import Swal from "sweetalert2"
 import {Link} from "react-router-dom"
 
 import "../css/login.css"
+import {getUsuarioAuth} from "../services/UsuarioService.jsx";
+import useUserStore from "../context/AuthC.jsx"
 
 const validationSchema = object({
     email: string()
@@ -15,7 +17,7 @@ const validationSchema = object({
         .email('El email no es válido'),
     password: string()
         .required('El campo contraseña es obligatorio')
-        .min(6, 'La contraseña debe tener al menos 6 caracteres')
+        .min(8, 'La contraseña debe tener al menos 6 caracteres')
         .max(20, 'La contraseña debe tener como máximo 20 caracteres'),
 })
 
@@ -26,10 +28,17 @@ const usuarioVacio = {
 
 export default function Login() {
 
-    const handleSubmit = async (values, {setSubmitting}) => {
+    const handleSubmit = async (values) => {
         try {
-            // const res = await loginAPI(values)
-            // if (!res.ok) throw new Error('Credenciales inválidas')
+            const {email, password} = values
+            const res = await getUsuarioAuth(email, password)
+
+            //console.log(res)
+
+            useUserStore.getState().login({
+                user: res.user,
+                access_token: res.access_token
+            })
 
             Swal.fire({
                 icon: 'success',
