@@ -16,9 +16,9 @@ function LoginRegistro({ children }) {
     }, [isLoggedIn, navigate]);
 
     return (
-        <main className='main'>
+        <>
             {children || <Outlet />}
-        </main>
+        </>
     );
 }
 
