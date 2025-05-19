@@ -1,0 +1,132 @@
+.perfil {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--fondo-principal);
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--texto-principal);
+}
+
+.perfil .parte-superior {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.perfil .perfil-info,
+.perfil .perfil-acciones {
+    flex: 1 1 300px;
+}
+
+.perfil .perfil-info h2 {
+    margin-top: 0;
+    color: var(--texto-principal);
+    font-weight: bold;
+}
+
+.perfil .perfil-acciones h3 {
+    margin-bottom: 1rem;
+    color: var(--texto-principal);
+    font-weight: bold;
+}
+
+.perfil .perfil-acciones button {
+    display: block;
+    margin-bottom: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--fondo-alternativo);
+    color: var(--texto-principal);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.perfil .perfil-acciones button:hover {
+    background-color: var(--varios);
+}
+
+.perfil .parte-inferior {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.perfil .perfil-pedidos,
+.perfil .perfil-comentarios {
+    flex: 1 1 400px;
+    background-color: var(--fondo-alternativo);
+    padding: 1.5rem;
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 8px;
+}
+
+.perfil .perfil-pedidos h3,
+.perfil .perfil-comentarios h3 {
+    margin-top: 0;
+    color: var(--texto-principal);
+}
+
+.perfil ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.perfil li {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bordes-lineas);
+}
+
+.perfil li:last-child {
+    border-bottom: none;
+}
+
+.perfil li p {
+    margin: 0.3rem 0;
+}
+
+.perfil .paginacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.perfil .paginacion button {
+    padding: 0.4rem 1rem;
+    background-color: var(--bordes-lineas);
+    color: var(--texto-principal);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.perfil .paginacion button:disabled {
+    background-color: var(--fondo-alternativo);
+    cursor: not-allowed;
+}
+
+.perfil .paginacion button:hover:not(:disabled) {
+    background-color: var(--varios);
+}
+
+.perfil .paginacion span {
+    font-weight: bold;
+}
+
+@media (max-width: 550px) {
+    .perfil .paginacion button {
+        margin-bottom: 0.5rem;
+        text-align: center;
+        padding: 0.25rem 1rem;
+        font-size: 1rem;
+    }
+}
