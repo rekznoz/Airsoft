@@ -3,14 +3,17 @@ import {lazy, Suspense} from "react";
 
 import Loading from "../components/Spinner.jsx";
 import ProductosService from "../services/ProductoService.jsx";
-import LoginRegistro from "../layouts/LoginRegistro.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
+const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
+const Perfil = lazy(() => import("../layouts/Perfil.jsx"));
+
 const Inicio = lazy(() => import("../pages/Inicio.jsx"));
 const Tienda = lazy(() => import("../pages/Tienda.jsx"));
 const Producto = lazy(() => import("../pages/Producto.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
 const Registro = lazy(() => import("../pages/Registro.jsx"));
+const PerfilUsuario = lazy(() => import("../pages/Perfil.jsx"));
 const Error = lazy(() => import("../pages/Error.jsx"));
 
 /**
@@ -95,88 +98,25 @@ export const router = createBrowserRouter([
                     }
                 ]
             },
-            {/*
-                path: "usuario/:username",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <PerfilUsuario/>
-                    </Suspense>
-                ),
-                loader: obtenerPerfilePorUsername,
-            },
             {
-                path: "mascotas",
+                path: '/:id',
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Mascotas/>
+                        <Perfil/>
                     </Suspense>
                 ),
-                loader: obtenerAnimales,
-            },
-            {
-                path: "mascota/:id",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <Mascota/>
-                    </Suspense>
-                ),
-                loader: obtenerAnimal,
-            },
-            {
-                path: "/tienda",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <Tienda/>
-                    </Suspense>
-                ),
-                loader: obtenerProductosRevisados,
-            },
-            {
-                path: "/tienda/:id",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <Producto/>
-                    </Suspense>
-                ),
-                loader: obtenerProductoPorId,
-            },
-            {
-                path: "/blog",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <Blog/>
-                    </Suspense>
-                ),
-                loader: obtenerPublicacionesRevisadas,
-            },
-            {
-                path: "/blog/:id",
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <Publicacion/>
-                    </Suspense>
-                ),
-                loader: obtenerPublicacionPorId,
-            },
-            {
-                path: '/admin',
-                element: (
-                    <Suspense fallback={<Loading/>}>
-                        <LayoutPrivado/>
-                    </Suspense>
-                ),
+                //loader: ProductosService.getProducto,
                 children: [
                     {
                         index: true,
                         element: (
                             <Suspense fallback={<Loading/>}>
-                                <Admin/>
+                                <PerfilUsuario/>
                             </Suspense>
                         ),
-                        loader: obtenerDatos,
                     }
-                ]
-            */
+                ],
+
             },
         ],
     },
