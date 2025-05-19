@@ -20,7 +20,7 @@ import {registerUsuarioAuth} from "../services/UsuarioService.jsx";
 */
 
 const validationSchema = object({
-    nombre: string()
+    name: string()
         .required('El campo nombre es obligatorio')
         .min(3, 'El nombre debe tener al menos 3 caracteres')
         .max(20, 'El nombre debe tener como máximo 20 caracteres')
@@ -30,7 +30,7 @@ const validationSchema = object({
         .email('El email no es válido'),
     password: string()
         .required('El campo contraseña es obligatorio')
-        .min(6, 'La contraseña debe tener al menos 6 caracteres')
+        .min(8, 'La contraseña debe tener al menos 6 caracteres')
         .max(20, 'La contraseña debe tener como máximo 20 caracteres'),
     terminos: bool()
         .oneOf([true], 'Debes aceptar los términos y condiciones')
@@ -46,8 +46,8 @@ export default function Registro() {
 
     const handleSubmit = async (values, {setSubmitting}) => {
         try {
-            const {nombre, email, password, password_confirmation} = values
-            const res = await registerUsuarioAuth(nombre, email, password, password_confirmation)
+            const {name, email, password, password_confirmation} = values
+            const res = await registerUsuarioAuth(name, email, password, password_confirmation)
 
             console.log(res)
 
@@ -79,15 +79,15 @@ export default function Registro() {
                 {({handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting}) => (
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label htmlFor="nombre">Nombre</label>
+                            <label htmlFor="name">Nombre</label>
                             <input
                                 type="text"
-                                name="nombre"
+                                name="name"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.nombre}
+                                value={values.name}
                             />
-                            {errors.nombre && touched.nombre && <div className="error">{errors.nombre}</div>}
+                            {errors.name && touched.name && <div className="error">{errors.name}</div>}
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
