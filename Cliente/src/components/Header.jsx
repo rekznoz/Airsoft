@@ -5,12 +5,18 @@ import {Link} from "react-router-dom";
 import Logo from "../assets/logo.png";
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
+import useUserStore from "../context/AuthC.jsx";
+import {logoutAuth} from "../services/UsuarioService.jsx";
 
 export default function Header() {
 
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    const isLoggedIn = useUserStore(state => state.isLoggedIn);
+    const logout = useUserStore(state => state.logout);
+    const token = useUserStore(state => state.access_token);
 
     const cambiarModo = () => {
         setTimeout(() => {
@@ -19,12 +25,6 @@ export default function Header() {
             document.body.classList.toggle('modo-oscuro')
         }, 300)
     }
-
-    const navItems = [
-        {path: "/", label: "Inicio"},
-        {path: "/tienda", label: "Tienda"},
-        {path: "/login", label: "Login"},
-    ];
 
     return (
         <header className="header">
@@ -53,11 +53,30 @@ export default function Header() {
 
                 {/* NAVEGACIÓN */}
                 <ul className="nav-list">
-                    {navItems.map(({path, label}) => (
-                        <li key={path} className="nav-item" onClick={() => setMenuOpen(false)}>
-                            <Link to={path} className="nav-link">{label}</Link>
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to="/" className="nav-link">Inicio</Link>
+                    </li>
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to="/tienda" className="nav-link">Tienda</Link>
+                    </li>
+                    {isLoggedIn ? (
+                        <>
+                            <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                                <Link to="/perfil" className="nav-link">Perfil</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => {
+                                //logoutAuth(token)
+                                logout();
+                                setMenuOpen(false);
+                            }}>
+                                <Link to="/" className="nav-link">Cerrar sesión</Link>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                            <Link to="/login" className="nav-link">Login</Link>
                         </li>
-                    ))}
+                    )}
                 </ul>
 
                 {/* ICONO MODO CLARO OSCURO */}
@@ -77,11 +96,15 @@ export default function Header() {
             {/* BARRA INFERIOR (Version nav-list para movil) */}
             <nav className={`navbar-inferior ${menuOpen ? "open" : ""}`}>
                 <ul className="nav-list">
-                    {navItems.map(({path, label}) => (
-                        <li key={path} className="nav-item" onClick={() => setMenuOpen(false)}>
-                            <Link to={path} className="nav-link">{label}</Link>
-                        </li>
-                    ))}
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to="/" className="nav-link">Inicio</Link>
+                    </li>
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to="/tienda" className="nav-link">Tienda</Link>
+                    </li>
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to="/login" className="nav-link">Login</Link>
+                    </li>
                 </ul>
             </nav>
 
