@@ -114,27 +114,27 @@ export default function Perfil() {
     }
 
     return (
-        <div className="perfil-container">
+        <div className="perfil-contenedor">
 
-            <div className="perfil-header card">
+            <div className="perfil-header carta-perfil">
                 <div className="perfil-info">
                     <h2>👤 Perfil de Usuario</h2>
                     <p><strong>Nombre:</strong> {user.name}</p>
                     <p><strong>Email:</strong> {user.email}</p>
                 </div>
-                <div className="perfil-actions">
+                <div className="perfil-acciones">
                     <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
                     <button onClick={() => alert('Cerrar sesión no implementado')}>Cerrar Sesión</button>
                 </div>
             </div>
 
-            <div className="perfil-section card">
+            <div className="perfil-seccion carta-perfil">
                 <h3>📦 Pedidos Realizados</h3>
                 {pedidos.length > 0 ? (
                     <>
-                        <ul className="item-list">
+                        <ul className="perfil-lista-objetos">
                             {pagPedidos.itemsPaginados.map((pedido) => (
-                                <li key={pedido.id} className="item">
+                                <li key={pedido.id} className="perfil-objeto">
                                     <p><strong>ID:</strong> {pedido.id}</p>
                                     <p><strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString("es-ES")}</p>
                                     <p><strong>Producto:</strong> <Link to={`/tienda/${pedido.producto.id}`}>{pedido.producto.nombre}</Link></p>
@@ -143,7 +143,7 @@ export default function Perfil() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="pagination">
+                        <div className="perfil-paginacion">
                             <button onClick={pagPedidos.anterior} disabled={pagPedidos.pagina === 1}>⬅</button>
                             <span>Página {pagPedidos.pagina} de {pagPedidos.totalPaginas}</span>
                             <button onClick={pagPedidos.siguiente} disabled={pagPedidos.pagina === pagPedidos.totalPaginas}>➡</button>
@@ -152,13 +152,13 @@ export default function Perfil() {
                 ) : <p>No tienes pedidos realizados.</p>}
             </div>
 
-            <div className="perfil-section card">
+            <div className="perfil-seccion carta-perfil">
                 <h3>💬 Comentarios Realizados</h3>
                 {comentarios.length > 0 ? (
                     <>
-                        <ul className="item-list">
+                        <ul className="perfil-lista-objetos">
                             {pagComentarios.itemsPaginados.map((comentario) => (
-                                <li key={comentario.id} className="item">
+                                <li key={comentario.id} className="perfil-objeto">
                                     <p><strong>ID:</strong> {comentario.id}</p>
                                     <p><strong>Fecha:</strong> {new Date(comentario.created_at).toLocaleDateString("es-ES")}</p>
                                     <p><strong>Producto:</strong> <Link to={`/tienda/${comentario.producto.id}`}>{comentario.producto.nombre}</Link></p>
@@ -167,7 +167,7 @@ export default function Perfil() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="pagination">
+                        <div className="perfil-paginacion">
                             <button onClick={pagComentarios.anterior} disabled={pagComentarios.pagina === 1}>⬅</button>
                             <span>Página {pagComentarios.pagina} de {pagComentarios.totalPaginas}</span>
                             <button onClick={pagComentarios.siguiente} disabled={pagComentarios.pagina === pagComentarios.totalPaginas}>➡</button>
