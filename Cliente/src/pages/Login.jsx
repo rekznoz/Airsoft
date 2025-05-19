@@ -17,14 +17,11 @@ const validationSchema = object({
         .required('El campo contraseña es obligatorio')
         .min(6, 'La contraseña debe tener al menos 6 caracteres')
         .max(20, 'La contraseña debe tener como máximo 20 caracteres'),
-    terminos: bool()
-        .oneOf([true], 'Debes aceptar los términos y condiciones')
 })
 
 const usuarioVacio = {
     email: '',
     password: '',
-    terminos: false
 }
 
 export default function Login() {
@@ -83,19 +80,6 @@ export default function Login() {
                             />
                             {errors.password && touched.password && <div className="error">{errors.password}</div>}
                         </div>
-                        <div>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    name="terminos"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    checked={values.terminos}
-                                />
-                                Acepto los términos y condiciones
-                            </label>
-                            {errors.terminos && touched.terminos && <div className="error">{errors.terminos}</div>}
-                        </div>
                         <button type="submit" disabled={isSubmitting}>
                             {isSubmitting ? 'Enviando...' : 'Iniciar Sesión'}
                         </button>
@@ -104,7 +88,7 @@ export default function Login() {
             </Formik>
 
             {/* Enlace para registrarse */}
-            <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+            <p>¿No tienes cuenta? <Link to="/registro">Regístrate aquí</Link></p>
 
         </div>
     )
