@@ -1,25 +1,41 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import useUserStore from "../context/AuthC.jsx";
+import PedidosService from "../services/PedidosService.jsx";
 
-/**
- * Layout para rutas de login y registro, para evitar que un usuario logueado acceda a estas rutas
- */
-function Privado({ children }) {
-    const isLoggedIn = useUserStore(state => state.isLoggedIn);
+function PedidoLayout() {
+    const { id } = useParams();
     const navigate = useNavigate();
+    const user = useUserStore(state => state.user); // { id, role: [] }
+
+    const [pedido, setPedido] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('/');
+        async function fetchPedido() {
+            try {
+                const response = await PedidosService.getPedido({ params: { id } });
+                setPedido(response);
+                setLoading(false);
+
+                // Comprobamos si no es admin ni dueño
+                if (!user.roles.includes('admin') && response.user.id !== user.id) {
+                    navigate('/no-autorizado');
+                }
+            } catch (error) {
+                navigate('/no-encontrado');
+            }
         }
-    }, [isLoggedIn, navigate]);
+        fetchPedido();
+    }, [id, navigate, user]);
+
+    if (loading) return <p>Cargando pedido...</p>;
 
     return (
         <>
-            {children || <Outlet />}
+            <Outlet context={{ pedido }} />
         </>
     );
 }
 
-export default Privado;
+export default PedidoLayout;
