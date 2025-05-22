@@ -7,6 +7,7 @@ import PedidosService from "../services/PedidosService.jsx";
 import ComentariosService from "../services/ComentariosService.jsx";
 import {getUsuario} from "../services/UsuarioService.jsx";
 import Pedido from "../pages/Pedido.jsx";
+import CategoriasService from "../services/CategoriasService.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
@@ -80,7 +81,7 @@ export const router = createBrowserRouter([
                         <Tienda/>
                     </Suspense>
                 ),
-                //loader: getItemsTienda
+                loader: CategoriasService.getCategorias
             },
             {
                 path: "/tienda/:id",
