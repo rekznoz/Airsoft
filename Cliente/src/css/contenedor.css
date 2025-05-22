@@ -14,7 +14,7 @@
 }
 
 .header {
-    height: 125px;
+    max-height: 500px;
 }
 
 .main {
