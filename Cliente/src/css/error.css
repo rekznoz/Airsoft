@@ -1,0 +1,49 @@
+/* Estilo para el componente Error */
+
+.error-page {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.error-box {
+    background-color: var(--fondo-principal);
+    border: 2px solid var(--bordes-lineas);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.error-code {
+    font-size: 6rem;
+    margin: 0;
+    color: #ff4e4e;
+    text-shadow: 0 0 10px rgba(255, 78, 78, 0.7);
+    text-transform: uppercase;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: var(--texto-principal);
+}
+
+.error-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #ff4e4e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.error-button:hover {
+    background-color: #e43c3c;
+}
