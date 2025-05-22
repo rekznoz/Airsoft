@@ -1,4 +1,4 @@
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import "../css/producto.css"
 import {useState} from "react";
 
@@ -105,7 +105,9 @@ export default function Producto() {
                     <ul style={{listStyle: "none", padding: 0}}>
                         {comentariosPaginados.map(comentario => (
                             <li key={comentario.id} style={{borderBottom: "1px solid #ddd", padding: "1rem 0"}}>
-                                <p><strong>{comentario.user.name}</strong> <em>({comentario.calificacion}/10)</em></p>
+                                <p><strong>
+                                    <Link to={`/perfil/${comentario.user.id}`}>{comentario.user.name}</Link>
+                                </strong> <em>({comentario.calificacion}/10)</em></p>
                                 <p>{comentario.comentario}</p>
                                 <p style={{fontSize: "0.8rem", color: "#999"}}>
                                     {new Date(comentario.created_at).toLocaleString()}
