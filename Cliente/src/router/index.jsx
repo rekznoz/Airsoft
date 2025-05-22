@@ -6,17 +6,19 @@ import ProductosService from "../services/ProductoService.jsx";
 import PedidosService from "../services/PedidosService.jsx";
 import ComentariosService from "../services/ComentariosService.jsx";
 import {getUsuario} from "../services/UsuarioService.jsx";
+import Pedido from "../pages/Pedido.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
-const Perfil = lazy(() => import("../layouts/Perfil.jsx"));
+const Privado = lazy(() => import("../layouts/Privado.jsx"));
+const PedidoLayout = lazy(() => import("../layouts/Pedido.jsx"));
 
 const Inicio = lazy(() => import("../pages/Inicio.jsx"));
 const Tienda = lazy(() => import("../pages/Tienda.jsx"));
 const Producto = lazy(() => import("../pages/Producto.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
 const Registro = lazy(() => import("../pages/Registro.jsx"));
-const PerfilUsuario = lazy(() => import("../pages/Perfil.jsx"));
+const Perfil = lazy(() => import("../pages/Perfil.jsx"));
 const Error = lazy(() => import("../pages/Error.jsx"));
 
 /**
@@ -105,7 +107,7 @@ export const router = createBrowserRouter([
                 path: '/perfil/:id',
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Perfil/>
+                        <Privado/>
                     </Suspense>
                 ),
                 children: [
@@ -113,7 +115,7 @@ export const router = createBrowserRouter([
                         index: true,
                         element: (
                             <Suspense fallback={<Loading/>}>
-                                <PerfilUsuario/>
+                                <Perfil/>
                             </Suspense>
                         ),
                         loader: async ({ params }) => {
@@ -125,15 +127,25 @@ export const router = createBrowserRouter([
 
                             return {pedidos, comentarios, usuario};
                         }
-                    },
-                    {/*
-                        path: 'pedidos',
+                    }
+                ],
+            },
+            {
+                path: '/pedido/:id',
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                        <PedidoLayout/>
+                    </Suspense>
+                ),
+                children: [
+                    {
+                        index: true,
                         element: (
                             <Suspense fallback={<Loading/>}>
-                                <PedidosUsuario />
+                                <Pedido/>
                             </Suspense>
                         ),
-                    */
+                        loader: PedidosService.getPedido
                     }
                 ],
             },
