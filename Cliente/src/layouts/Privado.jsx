@@ -11,7 +11,7 @@ function Privado({ children }) {
 
     useEffect(() => {
         if (!isLoggedIn) {
-            navigate('/');
+            navigate('/no-perfil');
         }
     }, [isLoggedIn, navigate]);
 
