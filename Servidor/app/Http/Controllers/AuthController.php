@@ -26,7 +26,7 @@ class AuthController extends Controller
      */
     public function listUsers()
     {
-        $users = User::select('name', 'email')->get();
+        $users = User::select('id', 'name', 'email')->get();
         return response()->json($users);
     }
 
