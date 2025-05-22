@@ -50,6 +50,22 @@ export const router = createBrowserRouter([
                 )
             },
             {
+                path: "/no-encontrado",
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                            <Error code={404} message="No encontrado"/>
+                    </Suspense>
+                )
+            },
+            {
+                path: "/no-autorizado",
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                            <Error code={403} message="No autorizado"/>
+                    </Suspense>
+                )
+            },
+            {
                 path: "/tienda",
                 element: (
                     <Suspense fallback={<Loading/>}>
