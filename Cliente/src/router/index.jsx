@@ -5,6 +5,7 @@ import Loading from "../components/Spinner.jsx";
 import ProductosService from "../services/ProductoService.jsx";
 import PedidosService from "../services/PedidosService.jsx";
 import ComentariosService from "../services/ComentariosService.jsx";
+import {getUsuario} from "../services/UsuarioService.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
@@ -116,12 +117,13 @@ export const router = createBrowserRouter([
                             </Suspense>
                         ),
                         loader: async ({ params }) => {
-                            const [pedidos, comentarios] = await Promise.all([
+                            const [pedidos, comentarios, usuario] = await Promise.all([
                                 PedidosService.getPedidosUsuario({ params }),
-                                ComentariosService.getComentariosUsuario({ params })
+                                ComentariosService.getComentariosUsuario({ params }),
+                                getUsuario(params.id)
                             ]);
 
-                            return {pedidos, comentarios};
+                            return {pedidos, comentarios, usuario};
                         }
                     },
                     {/*
