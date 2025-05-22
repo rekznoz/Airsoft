@@ -101,9 +101,6 @@ export default class ProductoService {
                 throw new Error('Error: Datos no encontrados o mal formateados')
             }
 
-            // Ordenar alfabeticamente
-            //const productos = data.data.sort((a, b) => a["nombre"].localeCompare(b["nombre"]))
-            console.log(data)
             return data["data"]
         } catch (error) {
             console.error(error)
