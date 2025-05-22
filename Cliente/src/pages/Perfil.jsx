@@ -5,70 +5,6 @@ import Spinner from "../components/Spinner.jsx"
 import "../css/perfil.css"
 import {useEffect, useState} from "react"
 
-/* PEDIDOS */
-/*
-{
-      "id": 19,
-      "user": {
-        "id": 1,
-        "name": "Admin",
-        "email": "admin@admin.com",
-        "email_verified_at": "2025-05-19T16:57:55.000000Z",
-        "created_at": "2025-05-19T16:57:56.000000Z",
-        "updated_at": "2025-05-19T16:57:56.000000Z"
-      },
-      "producto": {
-        "id": 16,
-        "nombre": "iusto ducimus qui",
-        "descripcion": "Maiores iste architecto similique vitae optio voluptatibus.",
-        "precio": "582.29",
-        "stock": 78,
-        "categoria_id": 2,
-        "marca": "Arellano y Delapaz",
-        "modelo": "MODEL-67LA",
-        "descuento": "42.26",
-        "fps": 292,
-        "calibre": "4.5 mm",
-        "capacidad_cargador": 28,
-        "peso": 2.7,
-        "imagenes": [
-          "https://via.placeholder.com/640x480.png/0066ff?text=reprehenderit",
-          "https://via.placeholder.com/640x480.png/00ccdd?text=voluptatem"
-        ],
-        "video_demo": "http://solano.com.es/temporibus-totam-eum-officia-rerum-distinctio-distinctio-voluptas",
-        "tiempo_envio": "24h",
-        "estado_activo": true,
-        "created_at": "2025-05-19T16:57:56.000000Z",
-        "updated_at": "2025-05-19T16:57:56.000000Z"
-      },
-      "direccion_envio": "Calle Leire, 51, 6º 9º, 80183, Dávila del Bages",
-      "cantidad": 6,
-      "estado": "entregado",
-      "created_at": "2025-05-19T16:57:56.000000Z",
-      "updated_at": "2025-05-19T16:57:56.000000Z"
-    },
-}
-*/
-
-/* COMENTARIOS */
-/*
-{
-  "id": 1,
-  "user": {
-    "id": 1,
-    "nombre": "Admin"
-  },
-  "producto": {
-    "id": 15,
-    "nombre": "laboriosam suscipit fugiat"
-  },
-  "comentario": "Ad laborum eum reprehenderit deleniti voluptate.",
-  "calificacion": 10,
-  "created_at": "2025-05-19T16:57:56.000000Z",
-  "updated_at": "2025-05-19T16:57:56.000000Z"
-},
- */
-
 function usePaginacion(items, porPagina) {
     const [pagina, setPagina] = useState(1)
 
@@ -92,25 +28,26 @@ function usePaginacion(items, porPagina) {
     }
 }
 
+function Paginacion({ pagina, totalPaginas, anterior, siguiente }) {
+    return (
+        <div className="perfil-paginacion">
+            <button onClick={anterior} disabled={pagina === 1}>⬅</button>
+            <span>Página {pagina} de {totalPaginas}</span>
+            <button onClick={siguiente} disabled={pagina === totalPaginas}>➡</button>
+        </div>
+    )
+}
 
 export default function Perfil() {
 
     const user = useUserStore(state => state.user)
-    const {pedidos, comentarios} = useLoaderData()
+    const {pedidos, comentarios, usuario} = useLoaderData()
 
     const pagPedidos = usePaginacion(pedidos, 3)
     const pagComentarios = usePaginacion(comentarios, 3)
 
-    if (!user) {
-        return <Spinner/>
-    }
-
-    if (!pedidos || !Array.isArray(pedidos)) {
-        return <Spinner/>
-    }
-
-    if (!comentarios || !Array.isArray(comentarios)) {
-        return <Spinner/>
+    if (!user || !pedidos || !Array.isArray(pedidos) || !comentarios || !Array.isArray(comentarios)) {
+        return <Spinner />;
     }
 
     return (
@@ -119,12 +56,19 @@ export default function Perfil() {
             <div className="perfil-header carta-perfil">
                 <div className="perfil-info">
                     <h2>👤 Perfil de Usuario</h2>
-                    <p><strong>Nombre:</strong> {user.name}</p>
-                    <p><strong>Email:</strong> {user.email}</p>
+                    <p><strong>Nombre:</strong> {usuario.name}</p>
+                    <p><strong>Email:</strong> {usuario.email}</p>
                 </div>
-                <div className="perfil-acciones">
-                    <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
-                </div>
+                {
+                    user.id === usuario.id ? (
+                        <div className="perfil-acciones">
+                            <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
+                        </div>
+                    ) : (
+                        <></>
+                    )
+                }
+
             </div>
 
             <div className="perfil-seccion carta-perfil">
@@ -142,11 +86,12 @@ export default function Perfil() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="perfil-paginacion">
-                            <button onClick={pagPedidos.anterior} disabled={pagPedidos.pagina === 1}>⬅</button>
-                            <span>Página {pagPedidos.pagina} de {pagPedidos.totalPaginas}</span>
-                            <button onClick={pagPedidos.siguiente} disabled={pagPedidos.pagina === pagPedidos.totalPaginas}>➡</button>
-                        </div>
+                        <Paginacion
+                            pagina={pagPedidos.pagina}
+                            totalPaginas={pagPedidos.totalPaginas}
+                            anterior={pagPedidos.anterior}
+                            siguiente={pagPedidos.siguiente}
+                        />
                     </>
                 ) : <p>No tienes pedidos realizados.</p>}
             </div>
@@ -166,11 +111,12 @@ export default function Perfil() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="perfil-paginacion">
-                            <button onClick={pagComentarios.anterior} disabled={pagComentarios.pagina === 1}>⬅</button>
-                            <span>Página {pagComentarios.pagina} de {pagComentarios.totalPaginas}</span>
-                            <button onClick={pagComentarios.siguiente} disabled={pagComentarios.pagina === pagComentarios.totalPaginas}>➡</button>
-                        </div>
+                        <Paginacion
+                            pagina={pagComentarios.pagina}
+                            totalPaginas={pagComentarios.totalPaginas}
+                            anterior={pagComentarios.anterior}
+                            siguiente={pagComentarios.siguiente}
+                        />
                     </>
                 ) : <p>No tienes comentarios realizados.</p>}
             </div>
