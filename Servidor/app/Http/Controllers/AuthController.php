@@ -6,22 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-/**@OA\PathItem(
- * path="/api/v1/auth",
- * @OA\Response(response="200", description="Success"),
- * @OA\Response(response="401", description="Unauthorized"),
- * @OA\Response(response="403", description="Forbidden"),
- * )
- * * @OA\SecurityScheme(
- *    type="http",
- *   scheme="bearer",
- *  bearerFormat="JWT",
- * )
- */
 class AuthController extends Controller
 {
+
     /**
-     * Create a new AuthController instance.
+     * Create a new controller instance.
      *
      * @return void
      */
@@ -29,27 +18,22 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
     /**
-     * Get a JWT via given credentials.
+     * List all users
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function listUsers()
+    {
+        $users = User::select('name', 'email')->get();
+        return response()->json($users);
+    }
+
     /**
-     * @OA\Post(
-     *     path="/api/v1/auth/login",
-     *     summary="Login user and get token",
-     *    tags={"Auth"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"email","password"},
-     *             @OA\Property(property="email", type="string", format="email"),
-     *             @OA\Property(property="password", type="string", format="password")
-     *         ),
-     *     ),
-     *     @OA\Response(response=200, description="Successful login"),
-     *     @OA\Response(response=401, description="Unauthorized")
-     * )
+     * Login a user and return a JWT token
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login()
     {
@@ -60,31 +44,11 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-
     /**
-     * Register a new user.
+     * Register a new user
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @OA\Post(
-     *     path="/api/v1/auth/register",
-     *     summary="Register a new user",
-     *     tags={"Auth"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password", "password_confirmation"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="securepassword123"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", example="securepassword123")
-     *         ),
-     *     ),
-     *     @OA\Response(response=201, description="User registered successfully"),
-     *     @OA\Response(response=400, description="Validation error"),
-     *     @OA\Response(response=500, description="Server error")
-     * )
      */
     public function register(Request $request)
     {
@@ -110,69 +74,32 @@ class AuthController extends Controller
 
         return $this->respondWithToken($token);
     }
+
     /**
-     * Get the authenticated User.
+     * Get the authenticated User
      *
      * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @OA\Post(
-     *     path="/api/v1/auth/me",
-     *     summary="Get authenticated user",
-    <<<<<<< HEAD
-    =======
-     *    tags={"Auth"},
-    >>>>>>> bffea660d68704463bd1d92ba4780334398f9fc9
-     *     security={{"bearerAuth": {}}},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *            type="object",
-     *            @OA\Property(property="token", type="string",description="JWT Token")
-     *        )
-     *    ),
-     *
-     *     @OA\Response(response=200, description="Authenticated user data"),
-     *     @OA\Response(response=401, description="Unauthorized")
-     * )
      */
     public function me()
     {
         return response()->json(auth()->user());
     }
+
     /**
-     * Log the user out (Invalidate the token).
+     * Logout the user (Invalidate the token)
      *
      * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @OA\Post(
-     *     path="/api/v1/auth/logout",
-     *     summary="Logout user",
-     *     tags={"Auth"},
-     *     security={{"bearerAuth": {}}},
-     *     @OA\Response(response=200, description="Successfully logged out"),
-     *     @OA\Response(response=401, description="Unauthorized")
-     * )
      */
     public function logout()
     {
         auth()->logout(true);
         return response()->json(['message' => 'Successfully logged out']);
     }
+
     /**
-     * Refresh a token.
+     * Refresh a token
      *
      * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @OA\Post(
-     *     path="/api/v1/auth/refresh",
-     *     summary="Refresh token",
-     *     tags={"Auth"},
-     *     @OA\Response(response=200, description="Token refreshed"),
-     *     @OA\Response(response=401, description="Unauthorized")
-     * )
      */
     public function refresh()
     {
@@ -187,13 +114,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the token array structure.
+     * Respond with the token and user information
      *
-     * @param string $token
-     *
+     * @param $token
      * @return \Illuminate\Http\JsonResponse
      */
-
     protected function respondWithToken($token)
     {
         $user = auth()->user(); // Obtener usuario autenticado
