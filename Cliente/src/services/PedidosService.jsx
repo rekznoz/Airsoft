@@ -112,5 +112,27 @@ export default class PedidosService {
         }
     }
 
+    static async getPedido({params}) {
+        try {
+            const response = await fetch(apiconfig.pedidos + "/" + params.id)
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los productos: ' + response.statusText)
+            }
+
+            const data = await response.json()
+
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            console.log(data["data"])
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
 
 }
