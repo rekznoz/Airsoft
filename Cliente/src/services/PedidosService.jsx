@@ -103,8 +103,6 @@ export default class PedidosService {
                 throw new Error('Error: Datos no encontrados o mal formateados')
             }
 
-            console.log(data["data"])
-
             return data["data"]
         } catch (error) {
             console.error(error)
@@ -125,8 +123,6 @@ export default class PedidosService {
             if (!data || !data["data"]) {
                 throw new Error('Error: Datos no encontrados o mal formateados')
             }
-
-            console.log(data["data"])
 
             return data["data"]
         } catch (error) {
