@@ -124,7 +124,6 @@ export default function Perfil() {
                 </div>
                 <div className="perfil-acciones">
                     <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
-                    <button onClick={() => alert('Cerrar sesión no implementado')}>Cerrar Sesión</button>
                 </div>
             </div>
 
