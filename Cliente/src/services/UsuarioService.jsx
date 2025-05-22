@@ -31,6 +31,53 @@ import useUserStore from "../context/AuthC.jsx";
 }
 */
 
+export const getUsuarios = async () => {
+    try {
+        const res = await fetch(apiconfig.auth.users, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { error: data.error || 'Error desconocido', status: res.status };
+        }
+
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        throw new Error('Error fetching users');
+    }
+}
+
+export const getUsuario = async (id) => {
+    try {
+        const res = await fetch(apiconfig.auth.users + "/" + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { error: data.error || 'Error desconocido', status: res.status };
+        }
+
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw new Error('Error fetching user');
+    }
+}
+
+
 export const getUsuarioAuth = async (email, password) => {
     if (!email || !password) throw new Error("El email y password son requeridos");
 
