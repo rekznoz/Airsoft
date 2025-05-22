@@ -1,4 +1,4 @@
-import {Link, useLoaderData} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import "../css/tienda.css";
 import useProductosStore from "../context/ProductosC.jsx";
@@ -32,36 +32,6 @@ import Spinner from "../components/Spinner.jsx";
     "tiempo_envio": "48h",
     "estado_activo": true,
     "array_comentarios": [
-      {
-        "id": 3,
-        "user": {
-          "id": 7,
-          "name": "Dr. Rayan Jaimes Hijo"
-        },
-        "comentario": "A qui praesentium ipsam.",
-        "calificacion": 4,
-        "created_at": "2025-05-18 11:42:16"
-      },
-      {
-        "id": 11,
-        "user": {
-          "id": 10,
-          "name": "Izan Alonso"
-        },
-        "comentario": "Suscipit rerum aspernatur est asperiores ut porro.",
-        "calificacion": 4,
-        "created_at": "2025-05-18 11:42:16"
-      },
-      {
-        "id": 22,
-        "user": {
-          "id": 9,
-          "name": "Leo Macías"
-        },
-        "comentario": "Quia illo totam qui dolorem quia.",
-        "calificacion": 1,
-        "created_at": "2025-05-18 11:42:16"
-      }
     ],
     "created_at": "2025-05-18 11:42:16",
     "updated_at": "2025-05-18 11:42:16"
@@ -78,7 +48,7 @@ export default function Tienda() {
 
     useEffect(() => {
         cargarProductos()
-    }, [cargarProductos]);
+    }, []);
 
     if (cargando) return (
         <Spinner/>
@@ -97,19 +67,54 @@ export default function Tienda() {
 
     return (
         <div className="tienda">
+            <div className="tienda-contenido">
 
-            <div className="productos">
-                {productosPagina.map((producto) => (
-                    <Link to={`/tienda/${producto.id}`} key={producto.id} className="producto">
-                        <img src="https://i.imgur.com/yMVfJZD.jpeg" alt={producto.nombre}/>
-                        <h2>{producto.nombre}</h2>
-                        <p>{producto.descripcion}</p>
-                        <p>Precio: ${producto.precio_final}</p>
-                        <p>Stock: {producto.stock}</p>
-                    </Link>
-                ))}
+                {/* Filtros */}
+                <aside className="filtros">
+                    <h3>Filtros</h3>
+                    {/* Aquí puedes agregar inputs, selects, checkboxes, etc. */}
+                    <div className="filtro">
+                        <label>Buscar:</label>
+                        <input type="text" placeholder="Nombre, modelo..." />
+                    </div>
+
+                    <div className="filtro">
+                        <label>Precio máximo:</label>
+                        <input type="number" placeholder="Ej. 200" />
+                    </div>
+
+                    <div className="filtro">
+                        <label>Categoría:</label>
+                        <select>
+                            <option value="">Todas</option>
+                            <option value="1">Réplica</option>
+                            <option value="2">Accesorios</option>
+                            <option value="3">Munición</option>
+                        </select>
+                    </div>
+
+                    <div className="filtro">
+                        <label>En stock:</label>
+                        <input type="checkbox" /> <span>Solo disponibles</span>
+                    </div>
+                </aside>
+
+                {/* Productos */}
+                <div className="productos">
+                    {productosPagina.map((producto) => (
+                        <Link to={`/tienda/${producto.id}`} key={producto.id} className="producto">
+                            <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre} />
+                            <h2>{producto.nombre}</h2>
+                            <p>{producto.descripcion.length > 80 ? producto.descripcion.slice(0, 80) + '…' : producto.descripcion}</p>
+                            <p>Precio: ${producto.precio_final?.toFixed(2)}</p>
+                            <p>Stock: {producto.stock}</p>
+                        </Link>
+                    ))}
+                </div>
+
             </div>
 
+            {/* Paginación */}
             <div className="paginacion">
                 <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>
                     ⬅ Anterior
@@ -119,8 +124,8 @@ export default function Tienda() {
                     Siguiente ➡
                 </button>
             </div>
-
         </div>
     );
+
 }
 
