@@ -6,6 +6,7 @@ const apiconfig = {
     pedidos: import.meta.env.VITE_API_PEDIDOS_URL,
     comentarios: import.meta.env.VITE_API_COMENTARIOS_URL,
     auth: {
+        users: import.meta.env.VITE_API_URL_USERS,
         login: import.meta.env.VITE_API_URL_AUTH,
         register: import.meta.env.VITE_API_URL_REGISTER,
         logout: import.meta.env.VITE_API_URL_LOGOUT,
