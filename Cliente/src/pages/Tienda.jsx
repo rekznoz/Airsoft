@@ -152,7 +152,7 @@ export default function Tienda() {
 
                 {/* Filtros */}
                 <aside className="filtros">
-                    
+
                     {/* Filtro por Nombre, Modelo, etc. */}
                     <div className="filtro">
                         <label>Buscar:</label>
