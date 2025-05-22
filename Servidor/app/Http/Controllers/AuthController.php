@@ -31,6 +31,18 @@ class AuthController extends Controller
     }
 
     /**
+     * Get a user by ID
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUser($id)
+    {
+        $user = User::select('id', 'name', 'email')->findOrFail($id);
+        return response()->json($user);
+    }
+
+    /**
      * Login a user and return a JWT token
      *
      * @return \Illuminate\Http\JsonResponse
