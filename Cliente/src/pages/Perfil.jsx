@@ -28,7 +28,7 @@ function usePaginacion(items, porPagina) {
     }
 }
 
-function Paginacion({ pagina, totalPaginas, anterior, siguiente }) {
+function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
     return (
         <div className="perfil-paginacion">
             <button onClick={anterior} disabled={pagina === 1}>⬅</button>
@@ -47,7 +47,7 @@ export default function Perfil() {
     const pagComentarios = usePaginacion(comentarios, 3)
 
     if (!user || !pedidos || !Array.isArray(pedidos) || !comentarios || !Array.isArray(comentarios)) {
-        return <Spinner />;
+        return <Spinner/>;
     }
 
     return (
@@ -78,11 +78,23 @@ export default function Perfil() {
                         <ul className="perfil-lista-objetos">
                             {pagPedidos.itemsPaginados.map((pedido) => (
                                 <li key={pedido.id} className="perfil-objeto">
-                                    <p><strong>ID:</strong> {pedido.id}</p>
-                                    <p><strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString("es-ES")}</p>
-                                    <p><strong>Producto:</strong> <Link to={`/tienda/${pedido.producto.id}`}>{pedido.producto.nombre}</Link></p>
-                                    <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
-                                    <p><strong>Estado:</strong> {pedido.estado}</p>
+                                    <div className="perfil-objeto-informacion">
+                                        <p><strong>ID:</strong> {pedido.id}</p>
+                                        <p>
+                                            <strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString("es-ES")}
+                                        </p>
+                                        <p><strong>Producto:</strong> {pedido.producto.nombre}</p>
+                                        <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
+                                        <p><strong>Estado:</strong> {pedido.estado}</p>
+                                    </div>
+                                    <div className="perfil-botones">
+                                        <Link to={`/pedido/${pedido.id}`}>
+                                            <button className="btn-ver">Ver Pedido</button>
+                                        </Link>
+                                        <Link to={`/tienda/${pedido.producto.id}`}>
+                                            <button className="btn-ver">Ver Producto</button>
+                                        </Link>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
@@ -103,11 +115,21 @@ export default function Perfil() {
                         <ul className="perfil-lista-objetos">
                             {pagComentarios.itemsPaginados.map((comentario) => (
                                 <li key={comentario.id} className="perfil-objeto">
-                                    <p><strong>ID:</strong> {comentario.id}</p>
-                                    <p><strong>Fecha:</strong> {new Date(comentario.created_at).toLocaleDateString("es-ES")}</p>
-                                    <p><strong>Producto:</strong> <Link to={`/tienda/${comentario.producto.id}`}>{comentario.producto.nombre}</Link></p>
-                                    <p><strong>Comentario:</strong> {comentario.comentario}</p>
-                                    <p><strong>Calificación:</strong> {comentario.calificacion}/10</p>
+                                    <div className="perfil-objeto-informacion">
+                                        <p><strong>ID:</strong> {comentario.id}</p>
+                                        <p>
+                                            <strong>Fecha:</strong> {new Date(comentario.created_at).toLocaleDateString("es-ES")}
+                                        </p>
+                                        <p><strong>Producto:</strong> {comentario.producto.nombre}
+                                        </p>
+                                        <p><strong>Comentario:</strong> {comentario.comentario}</p>
+                                        <p><strong>Calificación:</strong> {comentario.calificacion}/10</p>
+                                    </div>
+                                    <div className="perfil-botones">
+                                        <Link to={`/tienda/${comentario.producto.id}`}>
+                                            <button className="btn-ver">Ver Producto</button>
+                                        </Link>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
