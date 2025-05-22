@@ -23,12 +23,8 @@
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.filtros h3 {
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-    color: var(--texto-principal);
+    text-align: center;
+    align-content: flex-start;
 }
 
 .filtro {
@@ -55,6 +51,22 @@
 
 .filtro input[type="checkbox"] {
     margin-right: 0.5rem;
+}
+
+.btn-limpiar-filtros {
+    background-color: var(--fondo-alternativo);
+    color: var(--texto-principal);
+    border: none;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-limpiar-filtros:hover {
+    background-color: var(--varios);
+    color: var(--fondo-principal);
 }
 
 .productos {
