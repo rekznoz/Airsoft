@@ -66,6 +66,14 @@ export const router = createBrowserRouter([
                 )
             },
             {
+                path: "/no-perfil",
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                            <Error code={403} message="Necesitas estar logueado para ver otros usuarios"/>
+                    </Suspense>
+                )
+            },
+            {
                 path: "/tienda",
                 element: (
                     <Suspense fallback={<Loading/>}>
