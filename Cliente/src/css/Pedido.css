@@ -33,6 +33,7 @@
     align-items: center;
 }
 
+
 .detalle .enlace {
     text-decoration: none;
     color: var(--texto-principal);
@@ -73,21 +74,49 @@
 .estado.pendiente {
     color: orange;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .estado.cancelado {
     color: red;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
+    .detalle {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.2rem;
+    }
+
+    .detalle .enlace {
+        align-self: stretch;
+        width: 100%;
+        text-align: center;
+        padding: 0.4rem;
+        font-size: 1rem;
+    }
+
+    .etiqueta,
+    .valor {
+        padding: 0.2rem;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+
+    .pedido-detalles {
+        gap: 0.8rem;
+    }
+
     .pedido-container {
         margin: 1rem;
         padding: 1rem;
     }
 
     .pedido-titulo {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
+
 }
