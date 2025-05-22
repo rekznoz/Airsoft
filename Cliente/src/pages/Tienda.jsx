@@ -152,8 +152,7 @@ export default function Tienda() {
 
                 {/* Filtros */}
                 <aside className="filtros">
-                    <h3>Filtros</h3>
-
+                    
                     {/* Filtro por Nombre, Modelo, etc. */}
                     <div className="filtro">
                         <label>Buscar:</label>
@@ -194,6 +193,7 @@ export default function Tienda() {
                         </select>
                     </div>
 
+                    {/* Filtro por Stock */}
                     <div className="filtro">
                         <label>
                             <input
@@ -204,6 +204,16 @@ export default function Tienda() {
                             <span> Solo disponibles</span>
                         </label>
                     </div>
+
+                    {/* Boton de Limpiar Filtros */}
+                    <button className="btn-limpiar-filtros" onClick={() => {
+                        setFiltroTexto("");
+                        setFiltroPrecioMax("");
+                        setFiltroCategoria("");
+                        setFiltroStock(false);
+                    }}>
+                        Limpiar filtros
+                    </button>
                 </aside>
                 
                 {/* Productos */}
