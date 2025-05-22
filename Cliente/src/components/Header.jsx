@@ -103,9 +103,24 @@ export default function Header() {
                     <li className="nav-item" onClick={() => setMenuOpen(false)}>
                         <Link to="/tienda" className="nav-link">Tienda</Link>
                     </li>
-                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                        <Link to="/login" className="nav-link">Login</Link>
-                    </li>
+                    {isLoggedIn ? (
+                        <>
+                            <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                                <Link to={"/perfil" + "/" + userid} className="nav-link">Perfil</Link>
+                            </li>
+                            <li className="nav-item" onClick={() => {
+                                //logoutAuth(token)
+                                logout()
+                                setMenuOpen(false)
+                            }}>
+                                <Link to="/" className="nav-link">Cerrar sesión</Link>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                            <Link to="/login" className="nav-link">Login</Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
 
