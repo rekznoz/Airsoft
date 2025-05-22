@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import {useEffect, useState} from "react";
 import "../css/tienda.css";
 import useProductosStore from "../context/ProductosC.jsx";
@@ -39,15 +39,95 @@ import Spinner from "../components/Spinner.jsx";
 }
 */
 
+/* CATEGORIAS */
+
+/*
+[
+    {
+        "nombre": "Airsoft",
+        "descripcion": "Productos de categoría: Airsoft",
+        "array_productos": [
+        ],
+        "created_at": "2025-05-19 16:57:55",
+        "updated_at": "2025-05-19 16:57:55"
+    },
+    {
+        "nombre": "Réplica de armas",
+        "descripcion": "Productos de categoría: Réplica de armas",
+        "array_productos": [
+        ],
+        "created_at": "2025-05-19 16:57:55",
+        "updated_at": "2025-05-19 16:57:55"
+    },
+    {
+        "nombre": "Munición",
+        "descripcion": "Productos de categoría: Munición",
+        "array_productos": [
+        ],
+        "created_at": "2025-05-19 16:57:55",
+        "updated_at": "2025-05-19 16:57:55"
+    },
+    {
+        "nombre": "Accesorios",
+        "descripcion": "Productos de categoría: Accesorios",
+        "array_productos": [
+        ],
+        "created_at": "2025-05-19 16:57:55",
+        "updated_at": "2025-05-19 16:57:55"
+    },
+    {
+        "nombre": "Ropa táctica",
+        "descripcion": "Productos de categoría: Ropa táctica",
+        "array_productos": [
+        ],
+        "created_at": "2025-05-19 16:57:55",
+        "updated_at": "2025-05-19 16:57:55"
+    }
+]
+ */
+
 const PRODUCTOS_POR_PAGINA = 6;
 
 export default function Tienda() {
 
+    const [filtroTexto, setFiltroTexto] = useState("");
+    const [filtroPrecioMax, setFiltroPrecioMax] = useState("");
+    const [filtroCategoria, setFiltroCategoria] = useState("");
+    const [filtroStock, setFiltroStock] = useState(false);
+    
     const {productos, cargarProductos, cargando} = useProductosStore();
     const [paginaActual, setPaginaActual] = useState(1);
+    const categorias = useLoaderData()
+
+    const filtrarProductos = () => {
+        return productos.filter(producto => {
+            // Filtro texto (nombre o modelo)
+            const texto = filtroTexto.toLowerCase();
+            const coincideTexto = producto.nombre.toLowerCase().includes(texto) || producto.modelo.toLowerCase().includes(texto);
+
+            // Filtro precio máximo
+            const precioOk = filtroPrecioMax === "" || parseFloat(producto.precio_final) <= parseFloat(filtroPrecioMax);
+
+            // Filtro categoría
+            const categoriaOk = filtroCategoria === "" || producto.categoria.nombre === filtroCategoria;
+
+            // Filtro stock
+            const stockOk = !filtroStock || producto.stock > 0;
+
+            return coincideTexto && precioOk && categoriaOk && stockOk;
+        });
+    };
 
     useEffect(() => {
-        cargarProductos()
+        setPaginaActual(1);
+    }, [filtroTexto, filtroPrecioMax, filtroCategoria, filtroStock]);
+
+    useEffect(() => {
+        cargarProductos().catch(
+            (error) => {
+                console.error("Error al cargar los productos:", error);
+            }
+        )
     }, []);
 
     if (cargando) return (
@@ -55,9 +135,10 @@ export default function Tienda() {
     )
     if (productos.length === 0) return <p>No hay productos disponibles.</p>;
 
-    const totalPaginas = Math.ceil(productos.length / PRODUCTOS_POR_PAGINA);
+    const productosFiltrados = filtrarProductos();
+    const totalPaginas = Math.ceil(productosFiltrados.length / PRODUCTOS_POR_PAGINA);
     const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
-    const productosPagina = productos.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
+    const productosPagina = productosFiltrados.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
 
     const cambiarPagina = (nuevaPagina) => {
         if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
@@ -72,38 +153,64 @@ export default function Tienda() {
                 {/* Filtros */}
                 <aside className="filtros">
                     <h3>Filtros</h3>
-                    {/* Aquí puedes agregar inputs, selects, checkboxes, etc. */}
+
+                    {/* Filtro por Nombre, Modelo, etc. */}
                     <div className="filtro">
                         <label>Buscar:</label>
-                        <input type="text" placeholder="Nombre, modelo..." />
+                        <input
+                            type="text"
+                            placeholder="Nombre, modelo..."
+                            value={filtroTexto}
+                            onChange={(e) => setFiltroTexto(e.target.value)}
+                        />
                     </div>
 
+                    {/* Filtro por Precio */}
                     <div className="filtro">
                         <label>Precio máximo:</label>
-                        <input type="number" placeholder="Ej. 200" />
+                        <input
+                            type="number"
+                            placeholder="Ej. 200"
+                            value={filtroPrecioMax}
+                            onChange={(e) => setFiltroPrecioMax(e.target.value)}
+                        />
                     </div>
 
+                    {/* Filtro por Categoría */}
                     <div className="filtro">
                         <label>Categoría:</label>
-                        <select>
+                        <select
+                            value={filtroCategoria}
+                            onChange={(e) => setFiltroCategoria(e.target.value)}
+                        >
                             <option value="">Todas</option>
-                            <option value="1">Réplica</option>
-                            <option value="2">Accesorios</option>
-                            <option value="3">Munición</option>
+                            {
+                                categorias.map((categoria) => (
+                                    <option key={categoria.id} value={categoria.nombre}>
+                                        {categoria.nombre}
+                                    </option>
+                                ))
+                            }
                         </select>
                     </div>
 
                     <div className="filtro">
-                        <label>En stock:</label>
-                        <input type="checkbox" /> <span>Solo disponibles</span>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filtroStock}
+                                onChange={(e) => setFiltroStock(e.target.checked)}
+                            />
+                            <span> Solo disponibles</span>
+                        </label>
                     </div>
                 </aside>
-
+                
                 {/* Productos */}
                 <div className="productos">
                     {productosPagina.map((producto) => (
                         <Link to={`/tienda/${producto.id}`} key={producto.id} className="producto">
-                            <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre} />
+                            <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}/>
                             <h2>{producto.nombre}</h2>
                             <p>{producto.descripcion.length > 80 ? producto.descripcion.slice(0, 80) + '…' : producto.descripcion}</p>
                             <p>Precio: ${producto.precio_final?.toFixed(2)}</p>
@@ -115,15 +222,17 @@ export default function Tienda() {
             </div>
 
             {/* Paginación */}
-            <div className="paginacion">
-                <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>
-                    ⬅ Anterior
-                </button>
-                <span>Página {paginaActual} de {totalPaginas}</span>
-                <button onClick={() => cambiarPagina(paginaActual + 1)} disabled={paginaActual === totalPaginas}>
-                    Siguiente ➡
-                </button>
-            </div>
+            {totalPaginas > 1 && (
+                <div className="paginacion">
+                    <button onClick={() => cambiarPagina(paginaActual - 1)} disabled={paginaActual === 1}>
+                        ⬅ Anterior
+                    </button>
+                    <span>Página {paginaActual} de {totalPaginas}</span>
+                    <button onClick={() => cambiarPagina(paginaActual + 1)} disabled={paginaActual === totalPaginas}>
+                        Siguiente ➡
+                    </button>
+                </div>
+            )}
         </div>
     );
 
