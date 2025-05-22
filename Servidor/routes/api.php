@@ -37,6 +37,7 @@ Route::group([
 
     // get usuarios
     Route::get('users'     , [AuthController::class, 'listUsers'])->name('users');
+    Route::get('users/{id}', [AuthController::class, 'getUser' ])->name('user');
 });
 
 Route::apiResource('categorias' , CategoriaController::class)->middleware(['api', TelescopeMiddleware::class]);
