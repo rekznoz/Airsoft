@@ -1,6 +1,5 @@
 import {create} from 'zustand';
 import {persist} from 'zustand/middleware';
-import {actualizarToken} from "../services/UsuarioService.jsx";
 
 const usuarioVacio = {
     id: 0,
@@ -17,10 +16,14 @@ const useUserStore = create(persist((set, get) => ({
         isLoggedIn: false,
         access_token: null,
 
-        /**
-         * Loguea al usuario
-         * @param {{ user: object, access_token: string }} param0
-         */
+        cart: [
+
+        ],
+
+        // =====================
+        // 👤 Usuario
+        // =====================
+
         login: ({user, access_token}) => {
             if (!access_token) return;
             set({
@@ -30,20 +33,15 @@ const useUserStore = create(persist((set, get) => ({
             });
         },
 
-        /**
-         * Cierra la sesión del usuario
-         */
         logout: () => {
             set({
                 isLoggedIn: false,
                 user: usuarioVacio,
-                access_token: null
+                access_token: null,
+                cart: []
             });
         },
 
-        /**
-         * Valida si el token ha expirado
-         */
         checkTokenValidity: () => {
             const access_token = get().access_token;
             if (access_token) {
@@ -55,7 +53,6 @@ const useUserStore = create(persist((set, get) => ({
                         console.log("Token expirado");
                     } else {
                         console.log("Token válido");
-                        //actualizarToken(access_token)
                     }
                 } catch (err) {
                     console.error("Error al verificar el token:", err);
@@ -64,11 +61,43 @@ const useUserStore = create(persist((set, get) => ({
             }
         },
 
+        // =====================
+        // 🛒 Carrito de compras
+        // =====================
+
+        addToCart: (producto) => {
+            const cart = get().cart;
+            const existingItem = cart.find(item => item.id === producto.id);
+
+            if (existingItem) {
+                const updatedCart = cart.map(item =>
+                    item.id === producto.id
+                        ? {...item, cantidad: item.cantidad + 1}
+                        : item
+                );
+                set({cart: updatedCart});
+            } else {
+                set({cart: [...cart, {...producto, cantidad: 1}]});
+            }
+        },
+
+        removeFromCart: (productId) => {
+            const updatedCart = get().cart.filter(item => item.id !== productId);
+            set({cart: updatedCart});
+        },
+
+        clearCart: () => {
+            set({cart: []});
+        },
+
+        get totalItems() {
+            return get().cart.reduce((acc, item) => acc + item.cantidad, 0);
+        }
+
     }),
     {
-        name: 'userStore', // clave en localStorage
+        name: 'userStore',
         getStorage: () => sessionStorage,
-    }
-));
+    }));
 
 export default useUserStore;
