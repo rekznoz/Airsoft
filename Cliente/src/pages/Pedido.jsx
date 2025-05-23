@@ -19,7 +19,7 @@
 
 */
 
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import "../css/pedido.css"; // Asegúrate de importar el CSS
 
 export default function Pedido() {
@@ -35,7 +35,11 @@ export default function Pedido() {
                 </div>
                 <div className="detalle">
                     <span className="etiqueta">🛒 Producto ID</span>
-                    <span className="valor">{pedido.producto.id}</span>
+                    <span className="valor">
+                        <Link to={`/tienda/${pedido.producto.id}`} className="enlace">
+                            {pedido.producto.nombre}
+                        </Link>
+                    </span>
                 </div>
                 <div className="detalle">
                     <span className="etiqueta">📍 Dirección de envío</span>
