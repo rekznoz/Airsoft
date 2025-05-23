@@ -123,25 +123,11 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
             {isLoggedIn && !yaComento && (
                 <form onSubmit={manejarEnvio} className="formulario-comentario">
-                    <div className="selector-estrellas">
-                        {[1, 2, 3, 4, 5].map(valor => (
-                            <span
-                                key={valor}
-                                onClick={() => setCalificacionSeleccionada(valor)}
-                                style={{
-                                    cursor: "pointer",
-                                    color: valor <= calificacionSeleccionada ? "#f5b301" : "#ccc",
-                                    fontSize: "1.5rem",
-                                    marginRight: "0.2rem"
-                                }}
-                            >
-                                ★
-                            </span>
-                        ))}
-                        {calificacionSeleccionada > 0 && (
-                            <span className="texto-calificacion">({calificacionSeleccionada * 2}/10)</span>
-                        )}
-                    </div>
+                    <Estrellas
+                        interactivas
+                        valorSeleccionado={calificacionSeleccionada}
+                        setValor={setCalificacionSeleccionada}
+                    />
 
                     <textarea
                         value={nuevoComentario}
@@ -176,23 +162,11 @@ export default function ComentariosPaginados({comentarios, producto}) {
                                 className="formulario-edicion"
                             >
                                 <div className="selector-estrellas">
-                                    {[1, 2, 3, 4, 5].map(valor => (
-                                        <span
-                                            key={valor}
-                                            onClick={() => setCalificacionEditada(valor)}
-                                            style={{
-                                                cursor: "pointer",
-                                                color: valor <= calificacionEditada ? "#f5b301" : "#ccc",
-                                                fontSize: "1.5rem",
-                                                marginRight: "0.2rem"
-                                            }}
-                                        >
-                                        ★
-                                    </span>
-                                    ))}
-                                    {calificacionEditada > 0 && (
-                                        <span className="texto-calificacion">({calificacionEditada * 2}/10)</span>
-                                    )}
+                                    <Estrellas
+                                        interactivas
+                                        valorSeleccionado={calificacionEditada}
+                                        setValor={setCalificacionEditada}
+                                    />
                                 </div>
                                 <textarea
                                     value={comentarioEditado}
