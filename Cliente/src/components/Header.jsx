@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import "../css/header.css"
 import {Link} from "react-router-dom"
 
@@ -6,9 +6,60 @@ import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
 import useUserStore from "../context/AuthC.jsx"
-import {logoutAuth} from "../services/UsuarioService.jsx"
+import CarritoIcon from "../assets/navbar/carrito.png"
+
+function ListaNavbar({
+                         setMenuOpen,
+                         isLoggedIn,
+                         logout,
+                         userid
+                     }) {
+    return (
+        <ul className="nav-list">
+            <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                <Link to="/" className="nav-link">Inicio</Link>
+            </li>
+            <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                <Link to="/tienda" className="nav-link">Tienda</Link>
+            </li>
+            {isLoggedIn ? (
+                <>
+                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                        <Link to={"/perfil" + "/" + userid} className="nav-link">Perfil</Link>
+                    </li>
+                    <li className="nav-item" onClick={() => {
+                        //logoutAuth(token)
+                        logout()
+                        setMenuOpen(false)
+                    }}>
+                        <Link to="/" className="nav-link">Cerrar sesión</Link>
+                    </li>
+                </>
+            ) : (
+                <li className="nav-item" onClick={() => setMenuOpen(false)}>
+                    <Link to="/login" className="nav-link">Login</Link>
+                </li>
+            )}
+        </ul>
+    )
+}
 
 export default function Header() {
+
+    const addToCart = useUserStore(state => state.addToCart)
+
+    useEffect(() => {
+        addToCart({id: 1, name: "Réplica AK47", precio: 149.99})
+        addToCart({id: 2, name: "Gafas tácticas", precio: 29.99})
+        addToCart({id: 3, name: "Chaleco MOLLE", precio: 59.99})
+        addToCart({id: 4, name: "Botiquín de supervivencia", precio: 39.99})
+        addToCart({id: 5, name: "Linterna táctica", precio: 19.99})
+        addToCart({id: 6, name: "Mochila táctica", precio: 49.99})
+        addToCart({id: 7, name: "Guantes tácticos", precio: 14.99})
+        addToCart({id: 8, name: "Máscara de gas", precio: 24.99})
+        addToCart({id: 9, name: "Cuchillo de supervivencia", precio: 34.99})
+        addToCart({id: 10, name: "Batería portátil", precio: 9.99})
+    }, [])
 
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
@@ -32,11 +83,10 @@ export default function Header() {
 
             {/* BARRA SUPERIOR */}
             <nav className="navbar-superior">
-                <div className="narbar-izquierda">
+                <div className="navbar-izquierda">
                     <span>Horario: Lunes a Viernes - 10:30 a 18:50 | Sábados - 11 a 15:00</span>
                 </div>
                 <div className="navbar-derecha">
-                    <a href="#" aria-label="Facebook">📘</a>
                     <Link to="/newsletter">NEWSLETTER</Link>
                     <Link to="/contacto">CONTACTO</Link>
                     <Link to="/faqs">FAQS</Link>
@@ -45,83 +95,49 @@ export default function Header() {
 
             <nav className="navbar-medio">
 
-                {/* LOGO */}
-                <div className="logo">
-                    <Link to="/">
-                        <img src={Logo} alt="Logo"/>
-                    </Link>
+                <div className="navbar-izquierda">
+                    <div className="logo">
+                        <Link to="/">
+                            <img src={Logo} alt="Logo"/>
+                        </Link>
+                    </div>
                 </div>
 
-                {/* NAVEGACIÓN */}
-                <ul className="nav-list">
-                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                        <Link to="/" className="nav-link">Inicio</Link>
-                    </li>
-                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                        <Link to="/tienda" className="nav-link">Tienda</Link>
-                    </li>
-                    {isLoggedIn ? (
-                        <>
-                            <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                                <Link to={"/perfil" + "/" + userid} className="nav-link">Perfil</Link>
-                            </li>
-                            <li className="nav-item" onClick={() => {
-                                //logoutAuth(token)
-                                logout()
-                                setMenuOpen(false)
-                            }}>
-                                <Link to="/" className="nav-link">Cerrar sesión</Link>
-                            </li>
-                        </>
-                    ) : (
-                        <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                            <Link to="/login" className="nav-link">Login</Link>
-                        </li>
-                    )}
-                </ul>
+                <div className="navbar-centro">
+                    {/* NAVEGACIÓN */}
+                    <ListaNavbar
+                        setMenuOpen={setMenuOpen}
+                        isLoggedIn={isLoggedIn}
+                        logout={logout}
+                        userid={userid}
+                    />
+                </div>
 
-                {/* ICONO MODO CLARO OSCURO */}
-                <div className="modo">
-                    <button className="modo-boton" onClick={cambiarModo} aria-label="Cambiar modo claro/oscuro">
-                        <img src={modo === 'claro' ? claro : oscuro} alt="Modo claro/oscuro"/>
+                <div className="navbar-derecha">
+                    {/* ICONO MODO CLARO OSCURO */}
+                    <div className="modo">
+                        <button className="modo-boton" onClick={cambiarModo} aria-label="Cambiar modo claro/oscuro">
+                            <img src={modo === 'claro' ? claro : oscuro} alt="Modo claro/oscuro"/>
+                        </button>
+                    </div>
+
+                    {/* ICONO MENU */}
+                    <button className="menu-toggle" onClick={toggleMenu} aria-label="Abrir menú de navegación">
+                        ☰
                     </button>
-                </div>
 
-                {/* BOTÓN MENÚ (versión móvil) */}
-                <button className="menu-toggle" onClick={toggleMenu} aria-label="Abrir menú de navegación">
-                    ☰
-                </button>
+                </div>
 
             </nav>
 
             {/* BARRA INFERIOR (Version nav-list para movil) */}
             <nav className={`navbar-inferior ${menuOpen ? "open" : ""}`}>
-                <ul className="nav-list">
-                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                        <Link to="/" className="nav-link">Inicio</Link>
-                    </li>
-                    <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                        <Link to="/tienda" className="nav-link">Tienda</Link>
-                    </li>
-                    {isLoggedIn ? (
-                        <>
-                            <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                                <Link to={"/perfil" + "/" + userid} className="nav-link">Perfil</Link>
-                            </li>
-                            <li className="nav-item" onClick={() => {
-                                //logoutAuth(token)
-                                logout()
-                                setMenuOpen(false)
-                            }}>
-                                <Link to="/" className="nav-link">Cerrar sesión</Link>
-                            </li>
-                        </>
-                    ) : (
-                        <li className="nav-item" onClick={() => setMenuOpen(false)}>
-                            <Link to="/login" className="nav-link">Login</Link>
-                        </li>
-                    )}
-                </ul>
+                <ListaNavbar
+                    setMenuOpen={setMenuOpen}
+                    isLoggedIn={isLoggedIn}
+                    logout={logout}
+                    userid={userid}
+                />
             </nav>
 
         </header>
