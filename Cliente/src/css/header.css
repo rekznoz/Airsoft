@@ -71,11 +71,12 @@
 .navbar-medio {
     background: linear-gradient(90deg, var(--fondo-principal), var(--fondo-alternativo));
     color: var(--texto-principal);
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .navbar-medio .navbar-izquierda {
@@ -91,6 +92,7 @@
 .navbar-medio .navbar-centro {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .navbar-medio .navbar-centro .nav-list {
@@ -113,7 +115,7 @@
 
 .navbar-medio .navbar-derecha {
     display: flex;
-    align-items: flex-end;
+    justify-content: flex-end;
     gap: 20px;
 }
 
@@ -274,9 +276,9 @@
 }
 
 @media (max-width: 600px) {
+
     .navbar-medio {
-        flex-direction: row;
-        align-items: center;
+        grid-template-columns: 1fr 1fr;
         padding: 10px;
     }
 
