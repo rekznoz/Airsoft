@@ -1,10 +1,12 @@
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 import ComentariosService from "../../services/ComentariosService.jsx";
 import useUserStore from "../../context/AuthC.jsx";
-import Swal from "sweetalert2";
+import validarComentario from "../../hooks/validarComentario.jsx";
 import Estrellas from "./Estrellas.jsx";
+import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx";
+import ComentarioItem from "./Comentarios/ComentarioItem.jsx";
 
 export default function ComentariosPaginados({comentarios, producto}) {
 
@@ -14,8 +16,8 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
     const [pagina, setPagina] = useState(1);
     const porPagina = 4;
-    const totalPaginas = Math.ceil(comentarios.length / porPagina);
-    const comentariosPagina = comentarios.slice((pagina - 1) * porPagina, pagina * porPagina);
+    const totalPaginas = useMemo(() => Math.ceil(comentarios.length / porPagina), [comentarios]);
+    const comentariosPagina = useMemo(() => comentarios.slice((pagina - 1) * porPagina, pagina * porPagina), [comentarios, pagina]);
 
     const yaComento = comentarios.some(c => c.user.id === user?.id);
 
@@ -61,21 +63,8 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
     const manejarEnvio = (e) => {
         e.preventDefault();
-        if (nuevoComentario.trim() === "") {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "El comentario no puede estar vacío.",
-            })
-        }
-        if (calificacionSeleccionada === 0) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Debes seleccionar una calificación.",
-            })
-            return;
-        }
+
+        if (!validarComentario(nuevoComentario, calificacionSeleccionada)) return;
 
         const comentario = {
             user_id: user.id,
@@ -122,72 +111,34 @@ export default function ComentariosPaginados({comentarios, producto}) {
             <h2>Comentarios ({comentarios.length})</h2>
 
             {isLoggedIn && !yaComento && (
-                <form onSubmit={manejarEnvio} className="formulario-comentario">
-                    <Estrellas
-                        interactivas
-                        valorSeleccionado={calificacionSeleccionada}
-                        setValor={setCalificacionSeleccionada}
-                    />
-
-                    <textarea
-                        value={nuevoComentario}
-                        onChange={(e) => setNuevoComentario(e.target.value)}
-                        placeholder="Escribe tu comentario..."
-                        rows={4}
-                        required
-                    />
-                    <button type="submit" disabled={enviando}>Enviar comentario</button>
-                </form>
+                <FormularioNuevoComentario
+                    onSubmit={manejarEnvio}
+                    comentario={nuevoComentario}
+                    setComentario={setNuevoComentario}
+                    calificacion={calificacionSeleccionada}
+                    setCalificacion={setCalificacionSeleccionada}
+                    enviando={enviando}
+                />
             )}
+
 
             <ul className="lista-comentarios">
                 {comentariosPagina.map(comentario => (
-                    <li key={comentario.id}>
-                        <p>
-                            <strong><Link to={`/perfil/${comentario.user.id}`}>{comentario.user.name}</Link></strong>
-                            <Estrellas calificacion={comentario.calificacion}/>
-                            {comentario.user.id === user?.id && (
-                                <button
-                                    onClick={() => manejarEditar(comentario)}
-                                    className="btn-editar-comentario"
-                                >
-                                    Editar
-                                </button>
-                            )}
-                        </p>
-
-                        {comentarioEditando === comentario.id ? (
-                            <form
-                                onSubmit={(e) => manejarGuardarEdicion(e, comentario)}
-                                className="formulario-edicion"
-                            >
-                                <div className="selector-estrellas">
-                                    <Estrellas
-                                        interactivas
-                                        valorSeleccionado={calificacionEditada}
-                                        setValor={setCalificacionEditada}
-                                    />
-                                </div>
-                                <textarea
-                                    value={comentarioEditado}
-                                    onChange={(e) => setComentarioEditado(e.target.value)}
-                                    rows={3}
-                                />
-                                <button type="submit">Guardar</button>
-                                <button type="button" onClick={() => setComentarioEditando(null)}>Cancelar</button>
-                            </form>
-                        ) : (
-                            <>
-                                <p>{comentario.comentario}</p>
-                                <time>{new Date(comentario.created_at).toLocaleString()}</time>
-                            </>
-
-                        )}
-
-                    </li>
+                    <ComentarioItem
+                        key={comentario.id}
+                        comentario={comentario}
+                        esUsuarioActual={comentario.user.id === user?.id}
+                        enEdicion={comentarioEditando === comentario.id}
+                        manejarEditar={manejarEditar}
+                        manejarGuardarEdicion={manejarGuardarEdicion}
+                        cancelarEdicion={() => setComentarioEditando(null)}
+                        comentarioEditado={comentarioEditado}
+                        setComentarioEditado={setComentarioEditado}
+                        calificacionEditada={calificacionEditada}
+                        setCalificacionEditada={setCalificacionEditada}
+                    />
                 ))}
             </ul>
-
 
             {comentarios.length > porPagina && (
                 <div className="paginacion-comentarios">
