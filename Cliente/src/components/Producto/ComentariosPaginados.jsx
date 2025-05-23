@@ -4,21 +4,7 @@ import {useEffect, useState} from "react";
 import ComentariosService from "../../services/ComentariosService.jsx";
 import useUserStore from "../../context/AuthC.jsx";
 import Swal from "sweetalert2";
-
-function Estrellas({calificacion, max = 5}) {
-    const estrellasLlenas = Math.round((calificacion / 10) * max);
-    const estrellas = [];
-
-    for (let i = 1; i <= max; i++) {
-        estrellas.push(
-            <span key={i} style={{color: i <= estrellasLlenas ? "#f5b301" : "#ccc"}}>
-                ★
-            </span>
-        );
-    }
-
-    return <span className="estrellas">{estrellas}</span>;
-}
+import Estrellas from "./Estrellas.jsx";
 
 export default function ComentariosPaginados({comentarios, producto}) {
 
@@ -31,8 +17,47 @@ export default function ComentariosPaginados({comentarios, producto}) {
     const totalPaginas = Math.ceil(comentarios.length / porPagina);
     const comentariosPagina = comentarios.slice((pagina - 1) * porPagina, pagina * porPagina);
 
+    const yaComento = comentarios.some(c => c.user.id === user?.id);
+
     const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
     const [nuevoComentario, setNuevoComentario] = useState("");
+    const [enviando, setEnviando] = useState(false);
+
+    const [comentarioEditando, setComentarioEditando] = useState(null);
+    const [comentarioEditado, setComentarioEditado] = useState("");
+    const [calificacionEditada, setCalificacionEditada] = useState(0);
+
+    const manejarEditar = (comentario) => {
+        setComentarioEditando(comentario.id);
+        setComentarioEditado(comentario.comentario);
+        setCalificacionEditada(comentario.calificacion / 2);
+    };
+
+    const manejarGuardarEdicion = (e, comentarioEdit) => {
+        e.preventDefault();
+
+        const datosEditados = {
+            comentario: comentarioEditado,
+            calificacion: calificacionEditada * 2,
+        };
+
+        ComentariosService.putComentario({
+            params: {id: comentarioEdit.id, access_token, ...datosEditados, user_id: user.id, producto_id: producto.id},
+        }).then(res => {
+            if (res) {
+                const index = comentarios.findIndex(c => c.id === comentarioEdit.id);
+                if (index !== -1) {
+                    comentarios[index].comentario = res.comentario;
+                    comentarios[index].calificacion = res.calificacion;
+                }
+                setComentarioEditando(null);
+            } else {
+                console.error("Error al editar el comentario");
+            }
+        }).catch(error => {
+            console.error("Error al editar el comentario:", error);
+        });
+    };
 
     const manejarEnvio = (e) => {
         e.preventDefault();
@@ -58,6 +83,7 @@ export default function ComentariosPaginados({comentarios, producto}) {
             comentario: nuevoComentario,
             calificacion: calificacionSeleccionada * 2,
         };
+        setEnviando(true);
 
         ComentariosService.postComentario({params: {access_token, ...comentario}}).then(res => {
             if (res) {
@@ -79,7 +105,11 @@ export default function ComentariosPaginados({comentarios, producto}) {
             }
         }).catch(error => {
             console.error("Error al agregar el comentario:", error);
-        });
+        }).finally(() => {
+            setEnviando(false);
+            setCalificacionSeleccionada(0);
+            setNuevoComentario("");
+        })
     };
 
     useEffect(() => {
@@ -91,7 +121,7 @@ export default function ComentariosPaginados({comentarios, producto}) {
         <section className="producto-comentarios">
             <h2>Comentarios ({comentarios.length})</h2>
 
-            {isLoggedIn && (
+            {isLoggedIn && !yaComento && (
                 <form onSubmit={manejarEnvio} className="formulario-comentario">
                     <div className="selector-estrellas">
                         {[1, 2, 3, 4, 5].map(valor => (
@@ -120,7 +150,7 @@ export default function ComentariosPaginados({comentarios, producto}) {
                         rows={4}
                         required
                     />
-                    <button type="submit">Enviar comentario</button>
+                    <button type="submit" disabled={enviando}>Enviar comentario</button>
                 </form>
             )}
 
@@ -130,9 +160,56 @@ export default function ComentariosPaginados({comentarios, producto}) {
                         <p>
                             <strong><Link to={`/perfil/${comentario.user.id}`}>{comentario.user.name}</Link></strong>
                             <Estrellas calificacion={comentario.calificacion}/>
+                            {comentario.user.id === user?.id && (
+                                <button
+                                    onClick={() => manejarEditar(comentario)}
+                                    className="btn-editar-comentario"
+                                >
+                                    Editar
+                                </button>
+                            )}
                         </p>
-                        <p>{comentario.comentario}</p>
-                        <time>{new Date(comentario.created_at).toLocaleString()}</time>
+
+                        {comentarioEditando === comentario.id ? (
+                            <form
+                                onSubmit={(e) => manejarGuardarEdicion(e, comentario)}
+                                className="formulario-edicion"
+                            >
+                                <div className="selector-estrellas">
+                                    {[1, 2, 3, 4, 5].map(valor => (
+                                        <span
+                                            key={valor}
+                                            onClick={() => setCalificacionEditada(valor)}
+                                            style={{
+                                                cursor: "pointer",
+                                                color: valor <= calificacionEditada ? "#f5b301" : "#ccc",
+                                                fontSize: "1.5rem",
+                                                marginRight: "0.2rem"
+                                            }}
+                                        >
+                                        ★
+                                    </span>
+                                    ))}
+                                    {calificacionEditada > 0 && (
+                                        <span className="texto-calificacion">({calificacionEditada * 2}/10)</span>
+                                    )}
+                                </div>
+                                <textarea
+                                    value={comentarioEditado}
+                                    onChange={(e) => setComentarioEditado(e.target.value)}
+                                    rows={3}
+                                />
+                                <button type="submit">Guardar</button>
+                                <button type="button" onClick={() => setComentarioEditando(null)}>Cancelar</button>
+                            </form>
+                        ) : (
+                            <>
+                                <p>{comentario.comentario}</p>
+                                <time>{new Date(comentario.created_at).toLocaleString()}</time>
+                            </>
+
+                        )}
+
                     </li>
                 ))}
             </ul>
