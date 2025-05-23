@@ -3,7 +3,6 @@ import "../css/producto.css"
 import {useState} from "react";
 
 import ProductoDetalles from '../components/Producto/ProductoDetalles';
-import ProductoEspecificaciones from '../components/Producto/ProductoEspecificaciones';
 import GaleriaImagenes from '../components/Producto/GaleriaImagenes';
 import ModalImagen from '../components/Producto/ModalImagen';
 import ComentariosPaginados from '../components/Producto/ComentariosPaginados';
@@ -27,8 +26,6 @@ export default function Producto() {
             </div>
 
             <ProductoDetalles producto={producto}/>
-
-            <ProductoEspecificaciones producto={producto}/>
 
             {producto.imagenes.length > 0 && (
                 <GaleriaImagenes imagenes={producto.imagenes} setImagenGrande={setImagenGrande}/>
