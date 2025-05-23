@@ -43,7 +43,6 @@ export default class ComentariosService {
 
     // Metodo para agregar un comentario
     static async postComentario({params}) {
-        console.log(params)
         try {
 
             const response = await fetch(apiconfig.comentarios, {
