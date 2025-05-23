@@ -41,21 +41,7 @@ function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
 
 export default function Header() {
 
-    const addToCart = useUserStore(state => state.addToCart)
     const removeFromCart = useUserStore(state => state.removeFromCart)
-
-    useEffect(() => {
-        addToCart({id: 1, name: "Réplica AK47", precio: 149.99})
-        addToCart({id: 2, name: "Gafas tácticas", precio: 29.99})
-        addToCart({id: 3, name: "Chaleco MOLLE", precio: 59.99})
-        addToCart({id: 4, name: "Botiquín de supervivencia", precio: 39.99})
-        addToCart({id: 5, name: "Linterna táctica", precio: 19.99})
-        addToCart({id: 6, name: "Mochila táctica", precio: 49.99})
-        addToCart({id: 7, name: "Guantes tácticos", precio: 14.99})
-        addToCart({id: 8, name: "Máscara de gas", precio: 24.99})
-        addToCart({id: 9, name: "Cuchillo de supervivencia", precio: 34.99})
-        addToCart({id: 10, name: "Batería portátil", precio: 9.99})
-    }, [])
 
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
