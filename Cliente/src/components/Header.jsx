@@ -116,6 +116,7 @@ export default function Header() {
 
                 <div className="navbar-derecha">
 
+                    {/* ICONO CARRITO */}
                     <div className="carrito" onClick={abrirMiniCarrito}>
                         <span className="carrito-boton" aria-label="Ver carrito">
                             <img src={CarritoIcon} alt="Carrito"/>
