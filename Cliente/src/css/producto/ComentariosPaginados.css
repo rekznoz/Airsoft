@@ -31,6 +31,23 @@
     background-color: var(--texto-principal);
 }
 
+.estrellas {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    vertical-align: middle;
+}
+
+.selector-estrellas {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.selector-estrellas .texto-calificacion {
+    margin-left: 0.5rem;
+    font-style: italic;
+    color: var(--texto-alternativo);
+}
 
 .lista-comentarios {
     list-style: none;
