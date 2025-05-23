@@ -1,0 +1,53 @@
+.producto-comentarios li {
+    border-bottom: 1px solid var(--bordes-lineas);
+    padding: 1rem 0;
+}
+
+.producto-comentarios p {
+    margin: 0.3rem 0;
+    font-style: italic;
+    color: var(--texto-alternativo);
+}
+
+.producto-comentarios strong {
+    color: var(--texto-principal);
+    font-weight: bold;
+}
+
+.producto-comentarios em {
+    color: var(--texto-alternativo);
+}
+
+.producto-comentarios time {
+    font-size: 0.8rem;
+    color: var(--texto-alternativo);
+}
+
+/* Paginacion Comentarios */
+
+.paginacion-comentarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.paginacion-comentarios button {
+    padding: 0.5rem 1rem;
+    background-color: var(--fondo-alternativo);
+    border: none;
+    color: var(--texto-alternativo);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.paginacion-comentarios button:hover:not(:disabled) {
+    background-color: var(--varios);
+}
+
+.paginacion-comentarios button:disabled {
+    background-color: var(--bordes-lineas);
+    cursor: not-allowed;
+}
