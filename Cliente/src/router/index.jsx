@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
                 loader: ProductosService.getProducto
             },
             {
-                path: "/compra",
+                path: "/carrito",
                 element: (
                     <Suspense fallback={<Loading/>}>
                         <Compra/>
