@@ -24,7 +24,7 @@ class PedidoRequest extends FormRequest
     {
         return [
             'user_id' => 'required|integer|exists:users,id',
-            'producto_id' => 'required|integer|exists:producto,id',
+            'producto_id' => 'required|integer|exists:productos,id',
             'cantidad' => 'required|integer|min:1',
             'estado' => 'required|string|max:255',
             'direccion_envio' => 'required|string|max:255',
