@@ -55,6 +55,9 @@
 }
 
 .producto-comentarios li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
     border-bottom: 1px solid var(--bordes-lineas);
     padding: 1rem 0;
 }
@@ -81,6 +84,60 @@
 .producto-comentarios time {
     font-size: 0.8rem;
     color: var(--texto-alternativo);
+}
+
+.formulario-edicion {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formulario-edicion textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 6px;
+    resize: vertical;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.formulario-edicion button {
+    align-self: flex-start;
+    padding: 0.4rem 0.8rem;
+    background-color: var(--varios);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 0.5rem;
+}
+
+.formulario-edicion button:hover {
+    background-color: var(--texto-principal);
+}
+
+.btn-editar-comentario {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--fondo-alternativo);
+    color: var(--texto-principal);
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-editar-comentario:hover {
+    background-color: var(--varios);
+    color: white;
+    transform: scale(1.05);
 }
 
 /* Paginacion Comentarios */
