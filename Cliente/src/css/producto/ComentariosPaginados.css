@@ -1,3 +1,42 @@
+.formulario-comentario {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formulario-comentario textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 6px;
+    resize: vertical;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.formulario-comentario button {
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    background-color: var(--varios);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.formulario-comentario button:hover {
+    background-color: var(--texto-principal);
+}
+
+
+.lista-comentarios {
+    list-style: none;
+    padding: 0;
+}
+
 .producto-comentarios li {
     border-bottom: 1px solid var(--bordes-lineas);
     padding: 1rem 0;
@@ -12,6 +51,10 @@
 .producto-comentarios strong {
     color: var(--texto-principal);
     font-weight: bold;
+}
+
+.producto-comentarios p > strong {
+    margin-right: 0.5rem;
 }
 
 .producto-comentarios em {
@@ -40,11 +83,12 @@
     color: var(--texto-alternativo);
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .paginacion-comentarios button:hover:not(:disabled) {
     background-color: var(--varios);
+    transform: scale(1.05);
 }
 
 .paginacion-comentarios button:disabled {
