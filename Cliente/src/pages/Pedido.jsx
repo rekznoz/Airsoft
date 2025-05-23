@@ -1,6 +1,6 @@
 
 import {Link, useLoaderData} from "react-router-dom";
-import "../css/pedido.css"
+import '../css/pedidos.css'
 
 export default function Pedido() {
     const pedido = useLoaderData();
