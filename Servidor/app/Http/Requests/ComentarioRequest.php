@@ -23,8 +23,8 @@ class ComentarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_usuario' => 'required|integer|exists:user,id',
-            'id_producto' => 'required|integer|exists:productos,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'producto_id' => 'required|integer|exists:productos,id',
             'comentario' => 'required|string|max:255',
             'calificacion' => 'required|integer|min:1|max:10',
         ];
@@ -33,12 +33,12 @@ class ComentarioRequest extends FormRequest
     public function messages()
     {
         return [
-            'id_usuario.required' => 'El id_usuario es obligatorio.',
-            'id_usuario.integer' => 'El id_usuario debe ser un número entero.',
-            'id_usuario.exists' => 'El id_usuario no existe en la base de datos.',
-            'id_producto.required' => 'El id_producto es obligatorio.',
-            'id_producto.integer' => 'El id_producto debe ser un número entero.',
-            'id_producto.exists' => 'El id_producto no existe en la base de datos.',
+            'user_id.required' => 'El user_id es obligatorio.',
+            'user_id.integer' => 'El user_id debe ser un número entero.',
+            'user_id.exists' => 'El user_id no existe en la base de datos.',
+            'producto_id.required' => 'El producto_id es obligatorio.',
+            'producto_id.integer' => 'El producto_id debe ser un número entero.',
+            'producto_id.exists' => 'El producto_id no existe en la base de datos.',
             'comentario.required' => 'El comentario es obligatorio.',
             'comentario.string' => 'El comentario debe ser una cadena de texto.',
             'comentario.max' => 'El comentario no puede superar los 255 caracteres.',
