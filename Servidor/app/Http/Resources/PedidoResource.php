@@ -16,8 +16,14 @@ class PedidoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->user,
-            'producto' => $this->producto,
+            'user' => [
+                'id' => $this->user->id,
+                'nombre' => $this->user->name,
+            ],
+            'producto' => [
+                'id' => $this->producto->id,
+                'nombre' => $this->producto->nombre,
+            ],
             'direccion_envio' => $this->direccion_envio,
             'cantidad' => $this->cantidad,
             'estado' => $this->estado,
