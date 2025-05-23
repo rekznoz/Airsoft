@@ -66,6 +66,11 @@ const useUserStore = create(persist((set, get) => ({
         // =====================
 
         addToCart: (producto) => {
+
+            producto.precio = parseFloat(producto.precio);
+
+            console.log(producto)
+
             const cart = get().cart;
             const existingItem = cart.find(item => item.id === producto.id);
 
