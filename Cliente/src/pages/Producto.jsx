@@ -1,4 +1,4 @@
-import {Link, useLoaderData} from "react-router-dom";
+import {useLoaderData} from "react-router-dom";
 import "../css/producto.css"
 import {useState} from "react";
 
@@ -45,7 +45,7 @@ export default function Producto() {
             )}
 
             {producto.array_comentarios.length > 0 && (
-                <ComentariosPaginados comentarios={producto.array_comentarios}/>
+                <ComentariosPaginados comentarios={producto.array_comentarios} producto={producto}/>
             )}
 
         </div>
