@@ -75,4 +75,37 @@ export default class ComentariosService {
         }
     }
 
+    // Metodo para editar un comentario
+    static async putComentario({params}) {
+        try {
+            const response = await fetch(apiconfig.comentarios + "/" + params.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                },
+                body: JSON.stringify({
+                    user_id: params.user_id,
+                    producto_id: params.producto_id,
+                    comentario: params.comentario,
+                    calificacion: params.calificacion
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al editar el comentario: ' + response.statusText)
+            }
+
+            const data = await response.json()
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
 }
