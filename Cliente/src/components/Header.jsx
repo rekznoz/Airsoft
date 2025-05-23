@@ -157,7 +157,7 @@ export default function Header() {
                     <ul>
                         {carrito.map((producto, index) => (
                             <li key={index} className="mini-carrito-item">
-                                <span>{producto.name}</span>
+                                <span><Link to={`/tienda/${producto.id}`}>{producto.nombre}</Link></span>
                                 <span>{producto.precio.toFixed(2)}€</span>
                                 <span>{producto.cantidad || 1}</span>
                                 <span className="mini-carrito-eliminar"
