@@ -3,37 +3,22 @@ import {useEffect, useState} from "react";
 
 import ComentariosService from "../../services/ComentariosService.jsx";
 import useUserStore from "../../context/AuthC.jsx";
+import Swal from "sweetalert2";
 
-/*
-    static async postComentario({params}) {
-        try {
-            const response = await fetch(apiconfig.comentarios, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + params.access_token
-                },
-                body: JSON.stringify({
-                    user_id: params.id,
-                    producto_id: params.id,
-                    comentario: params.comentario,
-                    calificacion: params.calificacion
-                })
-            })
-            if (!response.ok) {
-                throw new Error('Error al agregar el comentario: ' + response.statusText)
-            }
-            const data = await response.json()
-            if (!data || !data["data"]) {
-                throw new Error('Error: Datos no encontrados o mal formateados')
-            }
-            return data["data"]
-        } catch (error) {
-            console.error(error)
-            throw error
-        }
+function Estrellas({calificacion, max = 5}) {
+    const estrellasLlenas = Math.round((calificacion / 10) * max);
+    const estrellas = [];
+
+    for (let i = 1; i <= max; i++) {
+        estrellas.push(
+            <span key={i} style={{color: i <= estrellasLlenas ? "#f5b301" : "#ccc"}}>
+                ★
+            </span>
+        );
     }
- */
+
+    return <span className="estrellas">{estrellas}</span>;
+}
 
 export default function ComentariosPaginados({comentarios, producto}) {
 
@@ -46,27 +31,49 @@ export default function ComentariosPaginados({comentarios, producto}) {
     const totalPaginas = Math.ceil(comentarios.length / porPagina);
     const comentariosPagina = comentarios.slice((pagina - 1) * porPagina, pagina * porPagina);
 
+    const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
     const [nuevoComentario, setNuevoComentario] = useState("");
 
     const manejarEnvio = (e) => {
         e.preventDefault();
-        if (nuevoComentario.trim() === "") return;
+        if (nuevoComentario.trim() === "") {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "El comentario no puede estar vacío.",
+            })
+        }
+        if (calificacionSeleccionada === 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Debes seleccionar una calificación.",
+            })
+            return;
+        }
 
         const comentario = {
             user_id: user.id,
-            producto_id: producto.id, // Cambia esto por el ID del producto correspondiente
+            producto_id: producto.id,
             comentario: nuevoComentario,
-            calificacion: 5, // Cambia esto por la calificación deseada
+            calificacion: calificacionSeleccionada * 2,
         };
-
-        console.log(producto)
 
         ComentariosService.postComentario({params: {access_token, ...comentario}}).then(res => {
             if (res) {
                 setNuevoComentario("");
                 setPagina(1);
-                console.log(res)
-                // Aquí puedes actualizar el estado de los comentarios si es necesario
+                const nuevoComentario = {
+                    id: res.id,
+                    user: {
+                        id: user.id,
+                        name: user.name,
+                    },
+                    comentario: res.comentario,
+                    calificacion: res.calificacion,
+                    created_at: res.created_at,
+                }
+                comentarios.unshift(nuevoComentario);
             } else {
                 console.error("Error al agregar el comentario");
             }
@@ -76,7 +83,8 @@ export default function ComentariosPaginados({comentarios, producto}) {
     };
 
     useEffect(() => {
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        //window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
     }, [pagina]);
 
     return (
@@ -85,6 +93,26 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
             {isLoggedIn && (
                 <form onSubmit={manejarEnvio} className="formulario-comentario">
+                    <div className="selector-estrellas">
+                        {[1, 2, 3, 4, 5].map(valor => (
+                            <span
+                                key={valor}
+                                onClick={() => setCalificacionSeleccionada(valor)}
+                                style={{
+                                    cursor: "pointer",
+                                    color: valor <= calificacionSeleccionada ? "#f5b301" : "#ccc",
+                                    fontSize: "1.5rem",
+                                    marginRight: "0.2rem"
+                                }}
+                            >
+                                ★
+                            </span>
+                        ))}
+                        {calificacionSeleccionada > 0 && (
+                            <span className="texto-calificacion">({calificacionSeleccionada * 2}/10)</span>
+                        )}
+                    </div>
+
                     <textarea
                         value={nuevoComentario}
                         onChange={(e) => setNuevoComentario(e.target.value)}
@@ -101,7 +129,7 @@ export default function ComentariosPaginados({comentarios, producto}) {
                     <li key={comentario.id}>
                         <p>
                             <strong><Link to={`/perfil/${comentario.user.id}`}>{comentario.user.name}</Link></strong>
-                            <em> ({comentario.calificacion}/10)</em>
+                            <Estrellas calificacion={comentario.calificacion}/>
                         </p>
                         <p>{comentario.comentario}</p>
                         <time>{new Date(comentario.created_at).toLocaleString()}</time>
