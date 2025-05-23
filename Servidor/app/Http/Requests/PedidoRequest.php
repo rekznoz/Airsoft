@@ -27,6 +27,7 @@ class PedidoRequest extends FormRequest
             'producto_id' => 'required|integer|exists:producto,id',
             'cantidad' => 'required|integer|min:1',
             'estado' => 'required|string|max:255',
+            'direccion_envio' => 'required|string|max:255',
         ];
     }
 
@@ -45,6 +46,9 @@ class PedidoRequest extends FormRequest
             'estado.required' => 'El estado es obligatorio.',
             'estado.string' => 'El estado debe ser una cadena de texto.',
             'estado.max' => 'El estado no puede superar los 255 caracteres.',
+            'direccion_envio.required' => 'La dirección de envío es obligatoria.',
+            'direccion_envio.string' => 'La dirección de envío debe ser una cadena de texto.',
+            'direccion_envio.max' => 'La dirección de envío no puede superar los 255 caracteres.',
         ];
     }
 }
