@@ -8,6 +8,7 @@ import ComentariosService from "../services/ComentariosService.jsx";
 import {getUsuario} from "../services/UsuarioService.jsx";
 import Pedido from "../pages/Pedido.jsx";
 import CategoriasService from "../services/CategoriasService.jsx";
+import Compra from "../pages/Compra.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
@@ -91,6 +92,14 @@ export const router = createBrowserRouter([
                     </Suspense>
                 ),
                 loader: ProductosService.getProducto
+            },
+            {
+                path: "/compra",
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                        <Compra/>
+                    </Suspense>
+                ),
             },
             {
                 path: '/login',
