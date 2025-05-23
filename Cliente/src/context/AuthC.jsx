@@ -63,7 +63,8 @@ const useUserStore = create(persist((set, get) => ({
                     get().logout();
                 }
             }
-        }
+        },
+
     }),
     {
         name: 'userStore', // clave en localStorage
