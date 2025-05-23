@@ -1,26 +1,6 @@
-/*
-
-{
-  "data": {
-    "id": 1,
-    "user": {
-      "id": 4,
-    },
-    "producto": {
-      "id": 17,
-    },
-    "direccion_envio": "Praza Dario, 5, 9º 6º, 92023, As Fierro del Puerto",
-    "cantidad": 3,
-    "estado": "entregado",
-    "created_at": "2025-05-19T16:57:56.000000Z",
-    "updated_at": "2025-05-19T16:57:56.000000Z"
-  }
-}
-
-*/
 
 import {Link, useLoaderData} from "react-router-dom";
-import "../css/pedido.css"; // Asegúrate de importar el CSS
+import "../css/pedido.css"
 
 export default function Pedido() {
     const pedido = useLoaderData();
