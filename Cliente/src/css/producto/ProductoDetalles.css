@@ -1,0 +1,34 @@
+.producto-detalles,
+.producto-video,
+.producto-imagenes,
+.producto-comentarios {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bordes-lineas);
+}
+
+.producto-detalles h2,
+.producto-video h2,
+.producto-imagenes h2,
+.producto-comentarios h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--texto-alternativo);
+}
+
+.producto-detalles ul,
+.producto-especificaciones ul {
+    list-style: none;
+    padding: 0;
+    color: var(--texto-principal);
+}
+
+.producto-detalles li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.producto-detalles strong {
+    color: var(--texto-principal);
+    font-weight: bold;
+}
