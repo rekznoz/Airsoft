@@ -1,6 +1,6 @@
 [build]
   base = "Cliente"
-  publish = "Cliente/dist"
+  publish = "dist"
   command = "npm run build"
 
 [[redirects]]
