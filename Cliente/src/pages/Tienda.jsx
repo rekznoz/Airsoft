@@ -185,7 +185,7 @@ export default function Tienda() {
                             <option value="">Todas</option>
                             {
                                 categorias.map((categoria) => (
-                                    <option key={categoria.id} value={categoria.nombre}>
+                                    <option key={categoria.nombre} value={categoria.nombre}>
                                         {categoria.nombre}
                                     </option>
                                 ))
