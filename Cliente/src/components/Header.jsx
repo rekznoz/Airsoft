@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 import "../css/header.css"
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 
 import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
@@ -41,6 +41,7 @@ function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
 
 export default function Header() {
 
+    const location = useLocation()
     const removeFromCart = useUserStore(state => state.removeFromCart)
 
     const [modo, setModo] = useState('claro')
@@ -70,7 +71,7 @@ export default function Header() {
     const logout = useUserStore(state => state.logout)
     const userid = useUserStore(state => state.user.id)
 
-    const totalItems = useUserStore(state => state.totalItems)
+    //const totalItems = useUserStore(state => state.totalItems)
     const carrito = useUserStore(state => state.cart)
 
     const cambiarModo = () => {
@@ -78,6 +79,8 @@ export default function Header() {
         setModo(nuevoModo)
         document.body.classList.toggle('modo-oscuro')
     }
+
+    const mostrarCarrito = location.pathname === '/tienda'
 
     return (
         <header className="header">
@@ -117,11 +120,13 @@ export default function Header() {
                 <div className="navbar-derecha">
 
                     {/* ICONO CARRITO */}
-                    <div className="carrito" onClick={abrirMiniCarrito}>
-                        <span className="carrito-boton" aria-label="Ver carrito">
-                            <img src={CarritoIcon} alt="Carrito"/>
-                        </span>
-                    </div>
+                    {isLoggedIn && mostrarCarrito && (
+                        <div className="carrito" onClick={abrirMiniCarrito}>
+                            <span className="carrito-boton" aria-label="Ver carrito">
+                                <img src={CarritoIcon} alt="Carrito"/>
+                            </span>
+                        </div>
+                    )}
 
                     {/* ICONO MODO CLARO OSCURO */}
                     <div className="modo">
