@@ -23,7 +23,6 @@ const useUserStore = create(persist((set, get) => ({
          */
         login: ({user, access_token}) => {
             if (!access_token) return;
-            console.log({user, access_token});
             set({
                 isLoggedIn: true,
                 user: {...user},
