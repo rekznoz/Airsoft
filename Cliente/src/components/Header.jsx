@@ -80,7 +80,7 @@ export default function Header() {
         document.body.classList.toggle('modo-oscuro')
     }
 
-    const mostrarCarrito = location.pathname === '/tienda'
+    const mostrarCarrito = location.pathname === '/tienda' || location.pathname.startsWith('/tienda/')
 
     return (
         <header className="header">
@@ -155,25 +155,27 @@ export default function Header() {
             </nav>
 
             {/* MINI CARRITO */}
-            <div className={`mini-carrito ${mostrarMiniCarrito ? 'visible' : ''}`}>
-                {carrito.length === 0 ? (
-                    <p className="mini-carrito-vacio">El carrito está vacío</p>
-                ) : (
-                    <ul>
-                        {carrito.map((producto, index) => (
-                            <li key={index} className="mini-carrito-item">
-                                <span><Link to={`/tienda/${producto.id}`}>{producto.nombre}</Link></span>
-                                <span>{producto.precio.toFixed(2)}€</span>
-                                <span>{producto.cantidad || 1}</span>
-                                <span className="mini-carrito-eliminar"
-                                      onClick={() => removeFromCart(producto.id)}>Eliminar</span>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-                <p className="mini-carrito-total">Total: {carrito.reduce((total, producto) => total + producto.precio, 0).toFixed(2)}€</p>
-                <Link to="/carrito" className="mini-carrito-ver">Ver carrito</Link>
-            </div>
+            {location.pathname !== '/carrito' && (
+                <div className={`mini-carrito ${mostrarMiniCarrito ? 'visible' : ''}`}>
+                    {carrito.length === 0 ? (
+                        <p className="mini-carrito-vacio">El carrito está vacío</p>
+                    ) : (
+                        <ul>
+                            {carrito.map((producto, index) => (
+                                <li key={index} className="mini-carrito-item">
+                                    <span><Link to={`/tienda/${producto.id}`}>{producto.nombre}</Link></span>
+                                    <span>{producto.precio.toFixed(2)}€</span>
+                                    <span>{producto.cantidad || 1}</span>
+                                    <span className="mini-carrito-eliminar"
+                                          onClick={() => removeFromCart(producto.id)}>Eliminar</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    <p className="mini-carrito-total">Total: {carrito.reduce((total, producto) => total + producto.precio, 0).toFixed(2)}€</p>
+                    <Link to="/carrito" className="mini-carrito-ver">Ver carrito</Link>
+                </div>
+            )}
 
         </header>
     )
