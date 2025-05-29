@@ -3,7 +3,6 @@ import {useEffect, useState} from "react"
 import "../css/tienda.css"
 import productosStore from "../context/ProductosStore.jsx"
 import Spinner from "../components/Spinner.jsx"
-import usuarioStore from "../context/UsuarioStore.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
 
 const PRODUCTOS_POR_PAGINA = 6
