@@ -4,12 +4,13 @@ import "../css/tienda.css";
 import useProductosStore from "../context/ProductosC.jsx";
 import Spinner from "../components/Spinner.jsx";
 import useUserStore from "../context/AuthC.jsx";
+import useCartStore from "../context/CarritoC.jsx";
 
 const PRODUCTOS_POR_PAGINA = 6;
 
 export default function Tienda() {
 
-    const addToCart = useUserStore(state => state.addToCart)
+    const addToCart = useCartStore(state => state.addToCart)
 
     const [filtroTexto, setFiltroTexto] = useState("");
     const [filtroPrecioMax, setFiltroPrecioMax] = useState("");
