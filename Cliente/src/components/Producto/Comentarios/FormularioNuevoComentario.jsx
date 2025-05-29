@@ -1,4 +1,4 @@
-import Estrellas from "../Estrellas.jsx";
+import Estrellas from "../Estrellas.jsx"
 
 export default function FormularioNuevoComentario({ onSubmit, comentario, setComentario, calificacion, setCalificacion, enviando }) {
     return (
@@ -13,5 +13,5 @@ export default function FormularioNuevoComentario({ onSubmit, comentario, setCom
             />
             <button type="submit" disabled={enviando}>Enviar comentario</button>
         </form>
-    );
+    )
 }
