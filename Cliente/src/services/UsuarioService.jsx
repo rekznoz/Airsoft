@@ -1,5 +1,5 @@
-import apiconfig from "../config/APIConfig.jsx";
-import useUserStore from "../context/AuthC.jsx";
+import apiconfig from "../config/APIConfig.jsx"
+import useUserStore from "../context/AuthC.jsx"
 
 /*
 {
@@ -38,19 +38,19 @@ export const getUsuarios = async () => {
             headers: {
                 'Content-Type': 'application/json',
             }
-        });
+        })
 
-        const data = await res.json();
+        const data = await res.json()
 
         if (!res.ok) {
-            return { error: data.error || 'Error desconocido', status: res.status };
+            return { error: data.error || 'Error desconocido', status: res.status }
         }
 
-        return data;
+        return data
 
     } catch (error) {
-        console.error('Error fetching users:', error);
-        throw new Error('Error fetching users');
+        console.error('Error fetching users:', error)
+        throw new Error('Error fetching users')
     }
 }
 
@@ -61,25 +61,25 @@ export const getUsuario = async (id) => {
             headers: {
                 'Content-Type': 'application/json',
             }
-        });
+        })
 
-        const data = await res.json();
+        const data = await res.json()
 
         if (!res.ok) {
-            return { error: data.error || 'Error desconocido', status: res.status };
+            return { error: data.error || 'Error desconocido', status: res.status }
         }
 
-        return data;
+        return data
 
     } catch (error) {
-        console.error('Error fetching user:', error);
-        throw new Error('Error fetching user');
+        console.error('Error fetching user:', error)
+        throw new Error('Error fetching user')
     }
 }
 
 
 export const getUsuarioAuth = async (email, password) => {
-    if (!email || !password) throw new Error("El email y password son requeridos");
+    if (!email || !password) throw new Error("El email y password son requeridos")
 
     const res = await fetch(apiconfig.auth.login, {
         method: 'POST',
@@ -87,27 +87,27 @@ export const getUsuarioAuth = async (email, password) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({email, password})
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
     if (!res.ok) {
-        return { error: data.error || 'Error desconocido', status: res.status };
+        return { error: data.error || 'Error desconocido', status: res.status }
     }
 
-    return data;
+    return data
 
-};
+}
 
 export const registerUsuarioAuth = async (name, email, password, password_confirmation) => {
-    console.log({ name, email, password, password_confirmation });
+    console.log({ name, email, password, password_confirmation })
 
     if (!name || !email || !password || !password_confirmation) {
-        throw new Error("Todos los campos son requeridos");
+        throw new Error("Todos los campos son requeridos")
     }
 
     try {
-        console.log('Intentando registrar usuario...');
+        console.log('Intentando registrar usuario...')
 
         const res = await fetch(apiconfig.auth.register, {
             method: 'POST',
@@ -115,28 +115,28 @@ export const registerUsuarioAuth = async (name, email, password, password_confir
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ name, email, password, password_confirmation }),
-        });
+        })
 
-        const data = await res.json(); // Siempre intenta leer la respuesta
+        const data = await res.json() // Siempre intenta leer la respuesta
 
         if (!res.ok) {
-            throw new Error(data.message || 'Error en el registro. Revisa los campos.');
+            throw new Error(data.message || 'Error en el registro. Revisa los campos.')
         }
 
-        return data;
+        return data
 
     } catch (error) {
-        console.error('Error en el registro:', error.message);
-        throw new Error(error.message || 'Hubo un problema al intentar registrarte. Intenta nuevamente más tarde.');
+        console.error('Error en el registro:', error.message)
+        throw new Error(error.message || 'Hubo un problema al intentar registrarte. Intenta nuevamente más tarde.')
     }
-};
+}
 
 
 export const logoutAuth = async (token) => {
     try {
 
         if (!token) {
-            console.error('No token found');
+            console.error('No token found')
             return
         }
 
@@ -146,25 +146,25 @@ export const logoutAuth = async (token) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        });
+        })
 
-        const data = await res.json();
+        const data = await res.json()
 
         if (!res.ok) {
-            console.error(data.message || 'Error during logout');
+            console.error(data.message || 'Error during logout')
             return
         }
-        console.log('Logout successful:', data);
-        useUserStore.getState().logout();
+        console.log('Logout successful:', data)
+        useUserStore.getState().logout()
     } catch (error) {
-        console.error('Error during logout:', error.message);
+        console.error('Error during logout:', error.message)
     }
-};
+}
 
 export const actualizarToken = async (access_token) => {
     try {
         if (!access_token) {
-            console.error('No token found');
+            console.error('No token found')
             return
         }
 
@@ -174,17 +174,17 @@ export const actualizarToken = async (access_token) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${access_token}`
             }
-        });
+        })
 
-        const data = await res.json();
+        const data = await res.json()
 
         if (!res.ok) {
-            console.error(data.message || 'Error during token refresh');
+            console.error(data.message || 'Error during token refresh')
             return
         }
 
-        console.log('Token refreshed:', data);
+        console.log('Token refreshed:', data)
     } catch (error) {
-        console.error('Error during token refresh:', error.message);
+        console.error('Error during token refresh:', error.message)
     }
 }
