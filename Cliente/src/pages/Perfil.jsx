@@ -1,4 +1,4 @@
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 import {Link, useLoaderData} from "react-router-dom"
 import Spinner from "../components/Spinner.jsx"
 
@@ -40,7 +40,7 @@ function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
 
 export default function Perfil() {
 
-    const user = useUserStore(state => state.user)
+    const user = usuarioStore(state => state.user)
     const {pedidos, comentarios, usuario} = useLoaderData()
 
     const pagPedidos = usePaginacion(pedidos, 3)
