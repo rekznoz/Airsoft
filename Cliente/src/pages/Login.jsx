@@ -9,7 +9,7 @@ import {Link} from "react-router-dom"
 
 import "../css/login.css"
 import {getUsuarioAuth} from "../services/UsuarioService.jsx"
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 
 const validationSchema = object({
     email: string()
@@ -42,7 +42,7 @@ export default function Login() {
                 throw new Error(res.error)
             }
 
-            useUserStore.getState().login({
+            usuarioStore.getState().login({
                 user: res.user,
                 access_token: res.access_token
             })
