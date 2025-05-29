@@ -23,4 +23,34 @@ export default class CategoriasService {
         }
     }
 
+    static async postCategoria({params}) {
+        try {
+            const response = await fetch(apiconfig.categorias, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                },
+                body: JSON.stringify({
+                    nombre: params.nombre,
+                    descripcion: params.descripcion
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al agregar la categoria: ' + response.statusText)
+            }
+            const data = await response.json()
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+            return data["data"]
+
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+
+    }
+
 }
