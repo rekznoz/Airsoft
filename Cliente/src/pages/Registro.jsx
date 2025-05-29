@@ -8,8 +8,8 @@ import Swal from "sweetalert2"
 import {Link} from "react-router-dom"
 
 import "../css/registro.css"
-import {registerUsuarioAuth} from "../services/UsuarioService.jsx";
-import useUserStore from "../context/AuthC.jsx";
+import {registerUsuarioAuth} from "../services/UsuarioService.jsx"
+import useUserStore from "../context/AuthC.jsx"
 
 /*
 {
