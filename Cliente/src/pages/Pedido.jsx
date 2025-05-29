@@ -1,9 +1,9 @@
 
-import {Link, useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom"
 import '../css/pedidos.css'
 
 export default function Pedido() {
-    const pedido = useLoaderData();
+    const pedido = useLoaderData()
 
     return (
         <div className="pedido-container">
@@ -59,5 +59,5 @@ export default function Pedido() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
