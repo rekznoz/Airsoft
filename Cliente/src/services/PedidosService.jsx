@@ -83,7 +83,7 @@
 }
 */
 
-import apiconfig from "../config/APIConfig.jsx";
+import apiconfig from "../config/APIConfig.jsx"
 
 export default class PedidosService {
 
