@@ -1,23 +1,23 @@
 import {Link, useLoaderData} from "react-router-dom"
 import {useEffect, useState} from "react"
 import "../css/tienda.css"
-import useProductosStore from "../context/ProductosC.jsx"
+import productosStore from "../context/ProductosStore.jsx"
 import Spinner from "../components/Spinner.jsx"
-import useUserStore from "../context/AuthC.jsx"
-import useCartStore from "../context/CarritoC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
+import carritoStore from "../context/CarritoStore.jsx"
 
 const PRODUCTOS_POR_PAGINA = 6
 
 export default function Tienda() {
 
-    const addToCart = useCartStore(state => state.addToCart)
+    const addToCart = carritoStore(state => state.addToCart)
 
     const [filtroTexto, setFiltroTexto] = useState("")
     const [filtroPrecioMax, setFiltroPrecioMax] = useState("")
     const [filtroCategoria, setFiltroCategoria] = useState("")
     const [filtroStock, setFiltroStock] = useState(false)
 
-    const {productos, cargarProductos, cargando} = useProductosStore()
+    const {productos, cargarProductos, cargando} = productosStore()
     const [paginaActual, setPaginaActual] = useState(1)
     const categorias = useLoaderData()
 
