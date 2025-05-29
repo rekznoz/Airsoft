@@ -8,7 +8,7 @@ import Swal from "sweetalert2"
 import {Link} from "react-router-dom"
 
 import "../css/login.css"
-import {getUsuarioAuth} from "../services/UsuarioService.jsx";
+import {getUsuarioAuth} from "../services/UsuarioService.jsx"
 import useUserStore from "../context/AuthC.jsx"
 
 const validationSchema = object({
