@@ -1,4 +1,4 @@
-import "../css/comprad.css"
+import "../css/compra.css"
 import carritoStore from "../context/CarritoStore.jsx"
 
 export default function Compra() {
