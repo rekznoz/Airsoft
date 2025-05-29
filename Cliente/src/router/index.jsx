@@ -9,6 +9,7 @@ import {getUsuario} from "../services/UsuarioService.jsx";
 import Pedido from "../pages/Pedido.jsx";
 import CategoriasService from "../services/CategoriasService.jsx";
 import Compra from "../pages/Compra.jsx";
+import Gestion from "../pages/Gestion.jsx";
 
 const Publico = lazy(() => import("../layouts/Publico.jsx"));
 const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
@@ -180,6 +181,24 @@ export const router = createBrowserRouter([
                             </Suspense>
                         ),
                         loader: PedidosService.getPedido
+                    }
+                ],
+            },
+            {
+                path: '/gestor',
+                element: (
+                    <Suspense fallback={<Loading/>}>
+                        <Publico/>
+                    </Suspense>
+                ),
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loading/>}>
+                                <Gestion/>
+                            </Suspense>
+                        ),
                     }
                 ],
             },
