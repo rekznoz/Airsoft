@@ -1,18 +1,18 @@
-import {useLoaderData} from "react-router-dom";
+import {useLoaderData} from "react-router-dom"
 import "../css/producto.css"
-import {useState} from "react";
+import {useState} from "react"
 
-import ProductoDetalles from '../components/Producto/ProductoDetalles';
-import GaleriaImagenes from '../components/Producto/GaleriaImagenes';
-import ModalImagen from '../components/Producto/ModalImagen';
-import ComentariosPaginados from '../components/Producto/ComentariosPaginados';
+import ProductoDetalles from '../components/Producto/ProductoDetalles'
+import GaleriaImagenes from '../components/Producto/GaleriaImagenes'
+import ModalImagen from '../components/Producto/ModalImagen'
+import ComentariosPaginados from '../components/Producto/ComentariosPaginados'
 
 export default function Producto() {
 
-    const producto = useLoaderData();
+    const producto = useLoaderData()
 
-    const [imagenGrande, setImagenGrande] = useState(null);
-    const cerrarModal = () => setImagenGrande(null);
+    const [imagenGrande, setImagenGrande] = useState(null)
+    const cerrarModal = () => setImagenGrande(null)
 
     return (
         <div className="producto-container">
@@ -49,5 +49,5 @@ export default function Producto() {
             )}
 
         </div>
-    );
+    )
 }
