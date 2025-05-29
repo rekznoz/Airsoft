@@ -131,8 +131,8 @@
 }
 
 .navbar-medio .navbar-derecha .carrito-boton img {
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 60px;
+    max-height: 60px;
 }
 
 /* Estilos para el mini carrito */
@@ -243,8 +243,8 @@
 }
 
 .navbar-medio .navbar-derecha .modo-boton img {
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 60px;
+    max-height: 60px;
 }
 
 .navbar-medio .navbar-derecha .menu-toggle {
@@ -265,13 +265,13 @@
     }
 
     .navbar-medio .navbar-derecha .modo-boton img {
-        max-width: 60px;
-        max-height: 60px;
+        max-width: 40px;
+        max-height: 40px;
     }
 
     .navbar-medio .navbar-derecha .carrito-boton img {
-        max-width: 60px;
-        max-height: 60px;
+        max-width: 40px;
+        max-height: 40px;
     }
 }
 
