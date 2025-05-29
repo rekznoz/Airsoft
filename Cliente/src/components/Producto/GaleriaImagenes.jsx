@@ -13,5 +13,5 @@ export default function GaleriaImagenes({imagenes, setImagenGrande}) {
                 ))}
             </div>
         </section>
-    );
+    )
 }
