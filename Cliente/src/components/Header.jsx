@@ -5,9 +5,9 @@ import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 import CarritoIcon from "../assets/navbar/carrito.png"
-import useCartStore from "../context/CarritoC.jsx"
+import carritoStore from "../context/CarritoStore.jsx"
 
 function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
     return (
@@ -43,7 +43,7 @@ function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
 export default function Header() {
 
     const location = useLocation()
-    const removeFromCart = useCartStore(state => state.removeFromCart)
+    const removeFromCart = carritoStore(state => state.removeFromCart)
 
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
@@ -68,12 +68,12 @@ export default function Header() {
         }
     }
 
-    const isLoggedIn = useUserStore(state => state.isLoggedIn)
-    const logout = useUserStore(state => state.logout)
-    const userid = useUserStore(state => state.user.id)
+    const isLoggedIn = usuarioStore(state => state.logueado)
+    const logout = usuarioStore(state => state.logout)
+    const userid = usuarioStore(state => state.user.id)
 
     //const totalItems = useUserStore(state => state.totalItems)
-    const carrito = useCartStore(state => state.cart)
+    const carrito = carritoStore(state => state.informacionCarrito)
 
     const cambiarModo = () => {
         const nuevoModo = modo === 'claro' ? 'oscuro' : 'claro'
