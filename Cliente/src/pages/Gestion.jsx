@@ -5,5 +5,5 @@ export default function Gestion() {
             <p>Esta sección está en desarrollo.</p>
             <p>Pronto podrás gestionar usuarios, productos y más.</p>
         </div>
-    );
+    )
 }
