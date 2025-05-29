@@ -20,6 +20,27 @@ import apiconfig from "../config/APIConfig.jsx"
 
 export default class ComentariosService {
 
+    static async getComentarios() {
+        try {
+            const response = await fetch(apiconfig.comentarios)
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los comentarios: ' + response.statusText)
+            }
+
+            const data = await response.json()
+
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
     static async getComentariosUsuario({params}) {
         try {
             const response = await fetch(apiconfig.comentarios + "?user_id=" + params.id)
