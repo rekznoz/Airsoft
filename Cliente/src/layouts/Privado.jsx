@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from "react-router-dom";
-import useUserStore from "../context/AuthC.jsx";
+import React, { useEffect } from 'react'
+import { Outlet, useNavigate } from "react-router-dom"
+import useUserStore from "../context/AuthC.jsx"
 
 /**
  * Layout para rutas de login y registro, para evitar que un usuario logueado acceda a estas rutas
  */
 function Privado({ children }) {
-    const isLoggedIn = useUserStore(state => state.isLoggedIn);
-    const navigate = useNavigate();
+    const isLoggedIn = useUserStore(state => state.isLoggedIn)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        console.log(isLoggedIn);
+        console.log(isLoggedIn)
         if (!isLoggedIn) {
-            navigate('/no-perfil');
+            navigate('/no-perfil')
         }
-    }, [isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate])
 
     return (
         <>
             {children || <Outlet />}
         </>
-    );
+    )
 }
 
-export default Privado;
+export default Privado
