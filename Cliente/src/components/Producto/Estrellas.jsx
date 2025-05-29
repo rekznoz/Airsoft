@@ -5,17 +5,17 @@ export default function Estrellas({
                                       valorSeleccionado = 0,
                                       setValor = () => {}
                                   }) {
-    const estrellasLlenas = Math.round((calificacion / 10) * max);
+    const estrellasLlenas = Math.round((calificacion / 10) * max)
 
     const renderEstrella = (i) => {
-        const valor = i + 1;
+        const valor = i + 1
         const color = interactivas
             ? valor <= valorSeleccionado
                 ? "#f5b301"
                 : "#ccc"
             : valor <= estrellasLlenas
                 ? "#f5b301"
-                : "#ccc";
+                : "#ccc"
 
         return (
             <span
@@ -30,8 +30,8 @@ export default function Estrellas({
             >
                 ★
             </span>
-        );
-    };
+        )
+    }
 
     return (
         <span className="estrellas">
@@ -40,5 +40,5 @@ export default function Estrellas({
                 <span className="texto-calificacion">({valorSeleccionado * 2}/10)</span>
             )}
         </span>
-    );
+    )
 }
