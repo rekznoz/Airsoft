@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from "react-router-dom"
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 
 /**
  * Layout para rutas de login y registro, para evitar que un usuario logueado acceda a estas rutas
  */
 function LoginRegistro({ children }) {
-    const isLoggedIn = useUserStore(state => state.isLoggedIn)
+    const isLoggedIn = usuarioStore(state => state.logueado)
     const navigate = useNavigate()
 
     useEffect(() => {
