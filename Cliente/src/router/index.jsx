@@ -199,6 +199,16 @@ export const router = createBrowserRouter([
                                 <Gestion/>
                             </Suspense>
                         ),
+                        loader: async () => {
+                            const [productos, pedidos, comentarios, categorias] = await Promise.all([
+                                ProductosService.getProductos(),
+                                PedidosService.getPedidos(),
+                                ComentariosService.getComentarios(),
+                                CategoriasService.getCategorias()
+                            ])
+
+                            return {productos, pedidos, comentarios, categorias}
+                        }
                     }
                 ],
             },
