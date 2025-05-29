@@ -1,12 +1,13 @@
 import useUserStore from "../context/AuthC.jsx";
 import "../css/Compra.css"
+import useCartStore from "../context/CarritoC.jsx";
 
 export default function Compra() {
 
-    const carrito = useUserStore(state => state.cart)
-    const totalItems = useUserStore(state => state.totalItems)
-    const removeFromCart = useUserStore(state => state.removeFromCart)
-    const clearCart = useUserStore(state => state.clearCart)
+    const carrito = useCartStore(state => state.cart)
+    const totalItems = useCartStore(state => state.totalItems)
+    const removeFromCart = useCartStore(state => state.removeFromCart)
+    const clearCart = useCartStore(state => state.clearCart)
 
     const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
