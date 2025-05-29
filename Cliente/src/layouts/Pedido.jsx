@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from "react-router-dom"
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 import PedidosService from "../services/PedidosService.jsx"
 
 function PedidoLayout() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const user = useUserStore(state => state.user) // { id, role: [] }
+    const user = usuarioStore(state => state.user) // { id, role: [] }
 
     const [pedido, setPedido] = useState(null)
     const [loading, setLoading] = useState(true)
