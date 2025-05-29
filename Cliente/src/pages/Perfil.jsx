@@ -47,7 +47,7 @@ export default function Perfil() {
     const pagComentarios = usePaginacion(comentarios, 3)
 
     if (!user || !pedidos || !Array.isArray(pedidos) || !comentarios || !Array.isArray(comentarios)) {
-        return <Spinner/>;
+        return <Spinner/>
     }
 
     return (
