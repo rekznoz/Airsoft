@@ -7,7 +7,7 @@ import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
 import useUserStore from "../context/AuthC.jsx"
 import CarritoIcon from "../assets/navbar/carrito.png"
-import useCartStore from "../context/CarritoC.jsx";
+import useCartStore from "../context/CarritoC.jsx"
 
 function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
     return (
