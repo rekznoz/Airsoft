@@ -1,5 +1,5 @@
-import "../css/error.css";
-import {Link} from "react-router-dom";
+import "../css/error.css"
+import {Link} from "react-router-dom"
 
 export default function Error({ code, message }) {
 
@@ -16,12 +16,12 @@ export default function Error({ code, message }) {
             title: "500",
             description: "Ha ocurrido un error interno en el servidor.",
         },
-    };
+    }
 
     const error = errorMessages[code] || {
         title: code || "Error !",
         description: message || "Ha ocurrido un error inesperado.",
-    };
+    }
 
     return (
         <div className="error-page">
@@ -31,5 +31,5 @@ export default function Error({ code, message }) {
                 <Link to="/" className="error-button">Volver al inicio</Link>
             </div>
         </div>
-    );
+    )
 }
