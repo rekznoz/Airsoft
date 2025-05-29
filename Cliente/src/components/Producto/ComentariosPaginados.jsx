@@ -1,83 +1,83 @@
-import {Link} from "react-router-dom";
-import {useEffect, useMemo, useState} from "react";
+import {Link} from "react-router-dom"
+import {useEffect, useMemo, useState} from "react"
 
-import ComentariosService from "../../services/ComentariosService.jsx";
-import useUserStore from "../../context/AuthC.jsx";
-import validarComentario from "../../hooks/validarComentario.jsx";
-import Estrellas from "./Estrellas.jsx";
-import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx";
-import ComentarioItem from "./Comentarios/ComentarioItem.jsx";
+import ComentariosService from "../../services/ComentariosService.jsx"
+import useUserStore from "../../context/AuthC.jsx"
+import validarComentario from "../../hooks/validarComentario.jsx"
+import Estrellas from "./Estrellas.jsx"
+import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx"
+import ComentarioItem from "./Comentarios/ComentarioItem.jsx"
 
 export default function ComentariosPaginados({comentarios, producto}) {
 
-    const access_token = useUserStore(state => state.access_token);
-    const isLoggedIn = useUserStore(state => state.isLoggedIn);
-    const user = useUserStore(state => state.user);
+    const access_token = useUserStore(state => state.access_token)
+    const isLoggedIn = useUserStore(state => state.isLoggedIn)
+    const user = useUserStore(state => state.user)
 
-    const [pagina, setPagina] = useState(1);
-    const porPagina = 4;
-    const totalPaginas = useMemo(() => Math.ceil(comentarios.length / porPagina), [comentarios]);
-    const comentariosPagina = useMemo(() => comentarios.slice((pagina - 1) * porPagina, pagina * porPagina), [comentarios, pagina]);
+    const [pagina, setPagina] = useState(1)
+    const porPagina = 4
+    const totalPaginas = useMemo(() => Math.ceil(comentarios.length / porPagina), [comentarios])
+    const comentariosPagina = useMemo(() => comentarios.slice((pagina - 1) * porPagina, pagina * porPagina), [comentarios, pagina])
 
-    const yaComento = comentarios.some(c => c.user.id === user?.id);
+    const yaComento = comentarios.some(c => c.user.id === user?.id)
 
-    const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
-    const [nuevoComentario, setNuevoComentario] = useState("");
-    const [enviando, setEnviando] = useState(false);
+    const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0)
+    const [nuevoComentario, setNuevoComentario] = useState("")
+    const [enviando, setEnviando] = useState(false)
 
-    const [comentarioEditando, setComentarioEditando] = useState(null);
-    const [comentarioEditado, setComentarioEditado] = useState("");
-    const [calificacionEditada, setCalificacionEditada] = useState(0);
+    const [comentarioEditando, setComentarioEditando] = useState(null)
+    const [comentarioEditado, setComentarioEditado] = useState("")
+    const [calificacionEditada, setCalificacionEditada] = useState(0)
 
     const manejarEditar = (comentario) => {
-        setComentarioEditando(comentario.id);
-        setComentarioEditado(comentario.comentario);
-        setCalificacionEditada(comentario.calificacion / 2);
-    };
+        setComentarioEditando(comentario.id)
+        setComentarioEditado(comentario.comentario)
+        setCalificacionEditada(comentario.calificacion / 2)
+    }
 
     const manejarGuardarEdicion = (e, comentarioEdit) => {
-        e.preventDefault();
+        e.preventDefault()
 
         const datosEditados = {
             comentario: comentarioEditado,
             calificacion: calificacionEditada * 2,
-        };
+        }
 
         ComentariosService.putComentario({
             params: {id: comentarioEdit.id, access_token, ...datosEditados, user_id: user.id, producto_id: producto.id},
         }).then(res => {
             if (res) {
-                const index = comentarios.findIndex(c => c.id === comentarioEdit.id);
+                const index = comentarios.findIndex(c => c.id === comentarioEdit.id)
                 if (index !== -1) {
-                    comentarios[index].comentario = res.comentario;
-                    comentarios[index].calificacion = res.calificacion;
+                    comentarios[index].comentario = res.comentario
+                    comentarios[index].calificacion = res.calificacion
                 }
-                setComentarioEditando(null);
+                setComentarioEditando(null)
             } else {
-                console.error("Error al editar el comentario");
+                console.error("Error al editar el comentario")
             }
         }).catch(error => {
-            console.error("Error al editar el comentario:", error);
-        });
-    };
+            console.error("Error al editar el comentario:", error)
+        })
+    }
 
     const manejarEnvio = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        if (!validarComentario(nuevoComentario, calificacionSeleccionada)) return;
+        if (!validarComentario(nuevoComentario, calificacionSeleccionada)) return
 
         const comentario = {
             user_id: user.id,
             producto_id: producto.id,
             comentario: nuevoComentario,
             calificacion: calificacionSeleccionada * 2,
-        };
-        setEnviando(true);
+        }
+        setEnviando(true)
 
         ComentariosService.postComentario({params: {access_token, ...comentario}}).then(res => {
             if (res) {
-                setNuevoComentario("");
-                setPagina(1);
+                setNuevoComentario("")
+                setPagina(1)
                 const nuevoComentario = {
                     id: res.id,
                     user: {
@@ -88,23 +88,23 @@ export default function ComentariosPaginados({comentarios, producto}) {
                     calificacion: res.calificacion,
                     created_at: res.created_at,
                 }
-                comentarios.unshift(nuevoComentario);
+                comentarios.unshift(nuevoComentario)
             } else {
-                console.error("Error al agregar el comentario");
+                console.error("Error al agregar el comentario")
             }
         }).catch(error => {
-            console.error("Error al agregar el comentario:", error);
+            console.error("Error al agregar el comentario:", error)
         }).finally(() => {
-            setEnviando(false);
-            setCalificacionSeleccionada(0);
-            setNuevoComentario("");
+            setEnviando(false)
+            setCalificacionSeleccionada(0)
+            setNuevoComentario("")
         })
-    };
+    }
 
     useEffect(() => {
-        //window.scrollTo({top: 0, behavior: 'smooth'});
-        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }, [pagina]);
+        //window.scrollTo({top: 0, behavior: 'smooth'})
+        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})
+    }, [pagina])
 
     return (
         <section className="producto-comentarios">
@@ -162,5 +162,5 @@ export default function ComentariosPaginados({comentarios, producto}) {
                 </div>
             )}
         </section>
-    );
+    )
 }
