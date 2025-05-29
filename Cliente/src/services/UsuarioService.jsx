@@ -1,5 +1,5 @@
 import apiconfig from "../config/APIConfig.jsx"
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 
 /*
 {
@@ -155,7 +155,7 @@ export const logoutAuth = async (token) => {
             return
         }
         console.log('Logout successful:', data)
-        useUserStore.getState().logout()
+        usuarioStore.getState().logout()
     } catch (error) {
         console.error('Error during logout:', error.message)
     }
