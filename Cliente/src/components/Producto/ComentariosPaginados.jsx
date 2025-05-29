@@ -2,7 +2,7 @@ import {Link} from "react-router-dom"
 import {useEffect, useMemo, useState} from "react"
 
 import ComentariosService from "../../services/ComentariosService.jsx"
-import useUserStore from "../../context/AuthC.jsx"
+import usuarioStore from "../../context/UsuarioStore.jsx"
 import validarComentario from "../../hooks/validarComentario.jsx"
 import Estrellas from "./Estrellas.jsx"
 import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx"
@@ -10,9 +10,9 @@ import ComentarioItem from "./Comentarios/ComentarioItem.jsx"
 
 export default function ComentariosPaginados({comentarios, producto}) {
 
-    const access_token = useUserStore(state => state.access_token)
-    const isLoggedIn = useUserStore(state => state.isLoggedIn)
-    const user = useUserStore(state => state.user)
+    const access_token = usuarioStore(state => state.access_token)
+    const isLoggedIn = usuarioStore(state => state.logueado)
+    const user = usuarioStore(state => state.user)
 
     const [pagina, setPagina] = useState(1)
     const porPagina = 4
