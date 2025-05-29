@@ -25,5 +25,5 @@ export default function ProductoDetalles({producto}) {
                 </ul>
             </section>
         </>
-    );
+    )
 }
