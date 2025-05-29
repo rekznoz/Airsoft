@@ -1,72 +1,72 @@
-import {Link, useLoaderData} from "react-router-dom";
-import {useEffect, useState} from "react";
-import "../css/tienda.css";
-import useProductosStore from "../context/ProductosC.jsx";
-import Spinner from "../components/Spinner.jsx";
-import useUserStore from "../context/AuthC.jsx";
-import useCartStore from "../context/CarritoC.jsx";
+import {Link, useLoaderData} from "react-router-dom"
+import {useEffect, useState} from "react"
+import "../css/tienda.css"
+import useProductosStore from "../context/ProductosC.jsx"
+import Spinner from "../components/Spinner.jsx"
+import useUserStore from "../context/AuthC.jsx"
+import useCartStore from "../context/CarritoC.jsx"
 
-const PRODUCTOS_POR_PAGINA = 6;
+const PRODUCTOS_POR_PAGINA = 6
 
 export default function Tienda() {
 
     const addToCart = useCartStore(state => state.addToCart)
 
-    const [filtroTexto, setFiltroTexto] = useState("");
-    const [filtroPrecioMax, setFiltroPrecioMax] = useState("");
-    const [filtroCategoria, setFiltroCategoria] = useState("");
-    const [filtroStock, setFiltroStock] = useState(false);
+    const [filtroTexto, setFiltroTexto] = useState("")
+    const [filtroPrecioMax, setFiltroPrecioMax] = useState("")
+    const [filtroCategoria, setFiltroCategoria] = useState("")
+    const [filtroStock, setFiltroStock] = useState(false)
 
-    const {productos, cargarProductos, cargando} = useProductosStore();
-    const [paginaActual, setPaginaActual] = useState(1);
+    const {productos, cargarProductos, cargando} = useProductosStore()
+    const [paginaActual, setPaginaActual] = useState(1)
     const categorias = useLoaderData()
 
     const filtrarProductos = () => {
         return productos.filter(producto => {
             // Filtro texto (nombre o modelo)
-            const texto = filtroTexto.toLowerCase();
-            const coincideTexto = producto.nombre.toLowerCase().includes(texto) || producto.modelo.toLowerCase().includes(texto);
+            const texto = filtroTexto.toLowerCase()
+            const coincideTexto = producto.nombre.toLowerCase().includes(texto) || producto.modelo.toLowerCase().includes(texto)
 
             // Filtro precio máximo
-            const precioOk = filtroPrecioMax === "" || parseFloat(producto.precio_final) <= parseFloat(filtroPrecioMax);
+            const precioOk = filtroPrecioMax === "" || parseFloat(producto.precio_final) <= parseFloat(filtroPrecioMax)
 
             // Filtro categoría
-            const categoriaOk = filtroCategoria === "" || producto.categoria.nombre === filtroCategoria;
+            const categoriaOk = filtroCategoria === "" || producto.categoria.nombre === filtroCategoria
 
             // Filtro stock
-            const stockOk = !filtroStock || producto.stock > 0;
+            const stockOk = !filtroStock || producto.stock > 0
 
-            return coincideTexto && precioOk && categoriaOk && stockOk;
-        });
-    };
+            return coincideTexto && precioOk && categoriaOk && stockOk
+        })
+    }
 
     useEffect(() => {
-        setPaginaActual(1);
-    }, [filtroTexto, filtroPrecioMax, filtroCategoria, filtroStock]);
+        setPaginaActual(1)
+    }, [filtroTexto, filtroPrecioMax, filtroCategoria, filtroStock])
 
     useEffect(() => {
         cargarProductos().catch(
             (error) => {
-                console.error("Error al cargar los productos:", error);
+                console.error("Error al cargar los productos:", error)
             }
         )
-    }, []);
+    }, [])
 
     if (cargando) return (
         <Spinner/>
     )
-    if (productos.length === 0) return <p>No hay productos disponibles.</p>;
+    if (productos.length === 0) return <p>No hay productos disponibles.</p>
 
-    const productosFiltrados = filtrarProductos();
-    const totalPaginas = Math.ceil(productosFiltrados.length / PRODUCTOS_POR_PAGINA);
-    const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
-    const productosPagina = productosFiltrados.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
+    const productosFiltrados = filtrarProductos()
+    const totalPaginas = Math.ceil(productosFiltrados.length / PRODUCTOS_POR_PAGINA)
+    const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA
+    const productosPagina = productosFiltrados.slice(inicio, inicio + PRODUCTOS_POR_PAGINA)
 
     const cambiarPagina = (nuevaPagina) => {
         if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
-            setPaginaActual(nuevaPagina);
+            setPaginaActual(nuevaPagina)
         }
-    };
+    }
 
     return (
         <div className="tienda">
@@ -129,10 +129,10 @@ export default function Tienda() {
 
                     {/* Boton de Limpiar Filtros */}
                     <button className="btn-limpiar-filtros" onClick={() => {
-                        setFiltroTexto("");
-                        setFiltroPrecioMax("");
-                        setFiltroCategoria("");
-                        setFiltroStock(false);
+                        setFiltroTexto("")
+                        setFiltroPrecioMax("")
+                        setFiltroCategoria("")
+                        setFiltroStock(false)
                     }}>
                         Limpiar filtros
                     </button>
@@ -171,7 +171,7 @@ export default function Tienda() {
                 </div>
             )}
         </div>
-    );
+    )
 
 }
 
