@@ -1,12 +1,12 @@
 import "../css/Compra.css"
-import useCartStore from "../context/CarritoC.jsx"
+import carritoStore from "../context/CarritoStore.jsx"
 
 export default function Compra() {
 
-    const carrito = useCartStore(state => state.cart)
-    const totalItems = useCartStore(state => state.totalItems)
-    const removeFromCart = useCartStore(state => state.removeFromCart)
-    const clearCart = useCartStore(state => state.clearCart)
+    const carrito = carritoStore(state => state.informacionCarrito)
+    const totalItems = carritoStore(state => state.totalItems)
+    const removeFromCart = carritoStore(state => state.removeFromCart)
+    const clearCart = carritoStore(state => state.clearCart)
 
     const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0)
 
