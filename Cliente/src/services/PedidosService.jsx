@@ -87,6 +87,27 @@ import apiconfig from "../config/APIConfig.jsx"
 
 export default class PedidosService {
 
+    static async getPedidos() {
+        try {
+            const response = await fetch(apiconfig.pedidos)
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los pedidos: ' + response.statusText)
+            }
+
+            const data = await response.json()
+
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
     static async getPedidosUsuario({params}) {
         try {
 
