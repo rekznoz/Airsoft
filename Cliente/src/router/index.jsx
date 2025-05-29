@@ -1,28 +1,28 @@
-import {createBrowserRouter} from "react-router-dom";
-import {lazy, Suspense} from "react";
+import {createBrowserRouter} from "react-router-dom"
+import {lazy, Suspense} from "react"
 
-import Loading from "../components/Spinner.jsx";
-import ProductosService from "../services/ProductoService.jsx";
-import PedidosService from "../services/PedidosService.jsx";
-import ComentariosService from "../services/ComentariosService.jsx";
-import {getUsuario} from "../services/UsuarioService.jsx";
-import Pedido from "../pages/Pedido.jsx";
-import CategoriasService from "../services/CategoriasService.jsx";
-import Compra from "../pages/Compra.jsx";
-import Gestion from "../pages/Gestion.jsx";
+import Loading from "../components/Spinner.jsx"
+import ProductosService from "../services/ProductoService.jsx"
+import PedidosService from "../services/PedidosService.jsx"
+import ComentariosService from "../services/ComentariosService.jsx"
+import {getUsuario} from "../services/UsuarioService.jsx"
+import Pedido from "../pages/Pedido.jsx"
+import CategoriasService from "../services/CategoriasService.jsx"
+import Compra from "../pages/Compra.jsx"
+import Gestion from "../pages/Gestion.jsx"
 
-const Publico = lazy(() => import("../layouts/Publico.jsx"));
-const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"));
-const Privado = lazy(() => import("../layouts/Privado.jsx"));
-const PedidoLayout = lazy(() => import("../layouts/Pedido.jsx"));
+const Publico = lazy(() => import("../layouts/Publico.jsx"))
+const LoginRegistro = lazy(() => import("../layouts/LoginRegistro.jsx"))
+const Privado = lazy(() => import("../layouts/Privado.jsx"))
+const PedidoLayout = lazy(() => import("../layouts/Pedido.jsx"))
 
-const Inicio = lazy(() => import("../pages/Inicio.jsx"));
-const Tienda = lazy(() => import("../pages/Tienda.jsx"));
-const Producto = lazy(() => import("../pages/Producto.jsx"));
-const Login = lazy(() => import("../pages/Login.jsx"));
-const Registro = lazy(() => import("../pages/Registro.jsx"));
-const Perfil = lazy(() => import("../pages/Perfil.jsx"));
-const Error = lazy(() => import("../pages/Error.jsx"));
+const Inicio = lazy(() => import("../pages/Inicio.jsx"))
+const Tienda = lazy(() => import("../pages/Tienda.jsx"))
+const Producto = lazy(() => import("../pages/Producto.jsx"))
+const Login = lazy(() => import("../pages/Login.jsx"))
+const Registro = lazy(() => import("../pages/Registro.jsx"))
+const Perfil = lazy(() => import("../pages/Perfil.jsx"))
+const Error = lazy(() => import("../pages/Error.jsx"))
 
 /**
  * Router de la aplicación
@@ -158,9 +158,9 @@ export const router = createBrowserRouter([
                                 PedidosService.getPedidosUsuario({ params }),
                                 ComentariosService.getComentariosUsuario({ params }),
                                 getUsuario(params.id)
-                            ]);
+                            ])
 
-                            return {pedidos, comentarios, usuario};
+                            return {pedidos, comentarios, usuario}
                         }
                     }
                 ],
@@ -188,7 +188,7 @@ export const router = createBrowserRouter([
                 path: '/gestor',
                 element: (
                     <Suspense fallback={<Loading/>}>
-                        <Publico/>
+                        <Privado/>
                     </Suspense>
                 ),
                 children: [
@@ -205,4 +205,4 @@ export const router = createBrowserRouter([
 
         ],
     },
-]);
+])
