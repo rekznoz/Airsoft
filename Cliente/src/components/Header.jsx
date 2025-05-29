@@ -7,6 +7,7 @@ import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
 import useUserStore from "../context/AuthC.jsx"
 import CarritoIcon from "../assets/navbar/carrito.png"
+import useCartStore from "../context/CarritoC.jsx";
 
 function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
     return (
@@ -42,7 +43,7 @@ function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid}) {
 export default function Header() {
 
     const location = useLocation()
-    const removeFromCart = useUserStore(state => state.removeFromCart)
+    const removeFromCart = useCartStore(state => state.removeFromCart)
 
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
@@ -72,7 +73,7 @@ export default function Header() {
     const userid = useUserStore(state => state.user.id)
 
     //const totalItems = useUserStore(state => state.totalItems)
-    const carrito = useUserStore(state => state.cart)
+    const carrito = useCartStore(state => state.cart)
 
     const cambiarModo = () => {
         const nuevoModo = modo === 'claro' ? 'oscuro' : 'claro'
