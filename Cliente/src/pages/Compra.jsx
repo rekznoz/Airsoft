@@ -1,6 +1,5 @@
-import useUserStore from "../context/AuthC.jsx";
 import "../css/Compra.css"
-import useCartStore from "../context/CarritoC.jsx";
+import useCartStore from "../context/CarritoC.jsx"
 
 export default function Compra() {
 
@@ -9,15 +8,15 @@ export default function Compra() {
     const removeFromCart = useCartStore(state => state.removeFromCart)
     const clearCart = useCartStore(state => state.clearCart)
 
-    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0)
 
     const handleRemoveFromCart = (productId) => {
-        removeFromCart(productId);
-    };
+        removeFromCart(productId)
+    }
 
     const handleClearCart = () => {
-        clearCart();
-    };
+        clearCart()
+    }
 
     return (
         <div className="resumen-compra">
@@ -63,6 +62,6 @@ export default function Compra() {
         </div>
 
 
-    );
+    )
 
 }
