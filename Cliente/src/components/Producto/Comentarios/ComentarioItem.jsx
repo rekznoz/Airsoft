@@ -1,5 +1,5 @@
-import Estrellas from "../Estrellas.jsx";
-import {Link} from "react-router-dom";
+import Estrellas from "../Estrellas.jsx"
+import {Link} from "react-router-dom"
 
 export default function ComentarioItem({ comentario, esUsuarioActual, enEdicion, manejarEditar, manejarGuardarEdicion, cancelarEdicion, comentarioEditado, setComentarioEditado, calificacionEditada, setCalificacionEditada }) {
     return (
@@ -30,5 +30,5 @@ export default function ComentarioItem({ comentario, esUsuarioActual, enEdicion,
                 </>
             )}
         </li>
-    );
+    )
 }
