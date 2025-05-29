@@ -9,7 +9,7 @@ import {Link} from "react-router-dom"
 
 import "../css/registro.css"
 import {registerUsuarioAuth} from "../services/UsuarioService.jsx"
-import useUserStore from "../context/AuthC.jsx"
+import usuarioStore from "../context/UsuarioStore.jsx"
 
 /*
 {
@@ -52,7 +52,7 @@ export default function Registro() {
 
             console.log(res)
 
-            useUserStore.getState().login({
+            usuarioStore.getState().login({
                 user: res.user,
                 access_token: res.access_token
             })
