@@ -243,10 +243,44 @@ export default function Productos({productos}) {
     };
 
     const guardarCambios = (productoActualizado) => {
-        console.log(productoActualizado);
-        // Aquí podrías actualizar el estado padre o hacer una petición al backend
-        setProductoSeleccionado(null);
-        setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p));
+        Swal.fire(
+            {
+                title: '¿Estás seguro?',
+                text: "¡Los cambios se guardarán!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar'
+            }
+        ).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí podrías hacer una petición al backend para actualizar el producto
+                    ProductosService.updateProducto({
+                        params: {
+                            id: productoActualizado.id,
+                            access_token, ...productoActualizado
+                        }
+                    })
+                        .then(() => {
+                            Swal.fire(
+                                '¡Guardado!',
+                                'El producto ha sido actualizado.',
+                                'success'
+                            );
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p));
+                            setProductoSeleccionado(null);
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo actualizar el producto: ' + error.message,
+                                'error'
+                            );
+                        });
+                }
+            }
+        )
     };
 
     return (
