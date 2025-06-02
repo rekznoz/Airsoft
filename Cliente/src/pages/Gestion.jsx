@@ -8,7 +8,6 @@ export default function Gestion() {
 
     return (
         <div className="gestion-contenedor">
-            <h2>Gestión de Productos</h2>
             <Productos productos={productos} />
         </div>
     )
