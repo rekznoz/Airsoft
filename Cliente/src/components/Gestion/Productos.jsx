@@ -4,17 +4,49 @@ import Paginacion from "./Paginacion";
 
 export default function Productos({ productos }) {
     const [productosAMostrar, setProductosAMostrar] = useState([]);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [formulario, setFormulario] = useState({
+        nombre: "",
+        stock: 0,
+        estado_activo: true,
+    });
 
     const editarProducto = (producto) => {
-        console.log("Editar producto:", producto);
+        setProductoSeleccionado(producto);
+        setFormulario({
+            nombre: producto.nombre,
+            stock: producto.stock,
+            estado_activo: producto.estado_activo,
+        });
+    };
+
+    const cerrarModal = () => {
+        setProductoSeleccionado(null);
+    };
+
+    const guardarCambios = () => {
+        // Aquí deberías enviar los datos al backend o actualizar el estado padre
+        console.log("Producto actualizado:", {
+            ...productoSeleccionado,
+            ...formulario,
+        });
+        alert("Simulación: producto actualizado");
+        cerrarModal();
     };
 
     const eliminarProducto = (id) => {
         if (window.confirm("¿Eliminar este producto?")) {
             const nuevaLista = productos.filter(p => p.id !== id);
-            // Podrías actualizar productos aquí si viniera del padre
             alert("Simulación: producto eliminado");
         }
+    };
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormulario(prev => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
     };
 
     return (
@@ -45,6 +77,45 @@ export default function Productos({ productos }) {
                     setProductosAMostrar(productos.slice(start, end));
                 }}
             />
+
+            {productoSeleccionado && (
+                <div className="modal-fondo">
+                    <div className="modal">
+                        <h2>Editar Producto</h2>
+                        <label>
+                            Nombre:
+                            <input
+                                type="text"
+                                name="nombre"
+                                value={formulario.nombre}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label>
+                            Stock:
+                            <input
+                                type="number"
+                                name="stock"
+                                value={formulario.stock}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <label className="checkbox">
+                            <input
+                                type="checkbox"
+                                name="estado_activo"
+                                checked={formulario.estado_activo}
+                                onChange={handleChange}
+                            />
+                            Activo
+                        </label>
+                        <div className="modal-acciones">
+                            <button onClick={guardarCambios}>Guardar</button>
+                            <button onClick={cerrarModal} className="cancelar">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
