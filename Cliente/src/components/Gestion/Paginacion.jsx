@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "../../css/paginacion.css"
+
 export default function Paginacion({ totalItems, itemsPerPage = 8, onPageChange }) {
+
     const totalPaginas = Math.ceil(totalItems / itemsPerPage);
     const [paginaActual, setPaginaActual] = useState(1);
 
