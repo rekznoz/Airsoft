@@ -2,6 +2,10 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import Paginacion from "./Paginacion";
 import {Field, Form, Formik} from "formik";
+import Swal from "sweetalert2";
+import ProductosService from "../../services/ProductoService.jsx";
+import ProductoService from "../../services/ProductoService.jsx";
+import usuarioStore from "../../context/UsuarioStore.jsx";
 
 /*
 {
@@ -151,12 +155,14 @@ function ModalEditarProducto({producto, onClose, onSave}) {
 
                             <label>
                                 Imágenes (URLs):
-                                <Field type="text" name="imagenes" className="form-field" placeholder="https://ejemplo.com/imagen.jpg"/>
+                                <Field type="text" name="imagenes" className="form-field"
+                                       placeholder="https://ejemplo.com/imagen.jpg"/>
                             </label>
 
                             <label>
                                 Video de Demostración (URL):
-                                <Field type="text" name="video_demo" className="form-field" placeholder="https://ejemplo.com/video.mp4"/>
+                                <Field type="text" name="video_demo" className="form-field"
+                                       placeholder="https://ejemplo.com/video.mp4"/>
                             </label>
 
                             <label>
@@ -193,6 +199,7 @@ function ModalEditarProducto({producto, onClose, onSave}) {
 
 export default function Productos({productos}) {
 
+    const access_token = usuarioStore(state => state.access_token)
     const [productosAMostrar, setProductosAMostrar] = useState([]);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
@@ -201,16 +208,45 @@ export default function Productos({productos}) {
     };
 
     const eliminarProducto = (id) => {
-        if (window.confirm("¿Eliminar este producto?")) {
-            const nuevaLista = productos.filter(p => p.id !== id);
-            alert("Simulación: producto eliminado");
-        }
+        Swal.fire(
+            {
+                title: '¿Estás seguro?',
+                text: "¡No podrás deshacer esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+            }
+        ).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí podrías hacer una petición al backend para eliminar el producto
+                    ProductoService.deleteProducto({params: {id, access_token}}).then(
+                        () => {
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El producto ha sido eliminado.',
+                                'success'
+                            );
+                            setProductosAMostrar(prev => prev.filter(p => p.id !== id));
+                        }
+                    ).catch(error => {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar el producto: ' + error.message,
+                            'error'
+                        );
+                    });
+                }
+            }
+        )
     };
 
     const guardarCambios = (productoActualizado) => {
         console.log(productoActualizado);
-        alert("Simulación: producto actualizado");
         // Aquí podrías actualizar el estado padre o hacer una petición al backend
+        setProductoSeleccionado(null);
+        setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p));
     };
 
     return (
