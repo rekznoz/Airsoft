@@ -152,7 +152,48 @@ export default class ProductoService {
     }
 
     static async postProducto({params}) {
-        console.log(params)
+        console.log("Enviando datos del producto:", params)
+
+        try {
+            const response = await fetch(apiconfig.productos, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${params.access_token}`
+                },
+                body: JSON.stringify({
+                    nombre: params.nombre,
+                    descripcion: params.descripcion,
+                    precio: params.precio,
+                    descuento: params.descuento,
+                    precio_final: params.precio_final,
+                    stock: params.stock,
+                    categoria_id: params.categoria,
+                    marca: params.marca,
+                    modelo: params.modelo,
+                    fps: params.fps,
+                    calibre: params.calibre,
+                    capacidad_cargador: params.capacidad_cargador,
+                    peso: params.peso,
+                    imagenes: params.imagenes,
+                    video_demo: params.video_demo,
+                    tiempo_envio: params.tiempo_envio,
+                    estado_activo: params.estado_activo
+                })
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error("Errores de validación del backend:", data.errors || data);
+                throw new Error(`Error al crear el producto: ${data.message || 'Validación fallida'}`);
+            }
+
+            return data // o true si prefieres
+        } catch (error) {
+            console.error("Error en postProducto:", error)
+            throw error
+        }
     }
 
     static async updateProducto({params}) {
