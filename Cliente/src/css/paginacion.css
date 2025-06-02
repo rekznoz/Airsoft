@@ -1,0 +1,24 @@
+/* Paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.paginacion button {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.paginacion button:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.paginacion button.activo {
+    background-color: #007bff;
+    color: white;
+}
