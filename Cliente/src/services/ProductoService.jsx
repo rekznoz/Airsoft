@@ -129,4 +129,26 @@ export default class ProductoService {
         }
     }
 
+    static async deleteProducto({params}) {
+        console.log(params)
+        try {
+            const response = await fetch(apiconfig.productos + "/" + params.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto: ' + response.statusText)
+            }
+
+            return true
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
 }
