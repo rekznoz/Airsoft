@@ -36,42 +36,48 @@ import usuarioStore from "../../context/UsuarioStore.jsx";
 }
 */
 
-function ModalEditarProducto({producto, onClose, onSave}) {
-    if (!producto) return null;
+function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
 
     const valoresIniciales = {
-        nombre: producto.nombre || "",
-        descripcion: producto.descripcion || "",
-        precio: producto.precio || 1,
-        descuento: producto.descuento || 0,
-        precio_final: producto.precio_final || 1,
-        stock: producto.stock || 0,
-        categoria: producto.categoria ? producto.categoria.id : 1,
-        marca: producto.marca || "",
-        modelo: producto.modelo || "",
-        fps: producto.fps || 0,
-        calibre: producto.calibre || "",
-        capacidad_cargador: producto.capacidad_cargador || 0,
-        peso: producto.peso || 0,
-        imagenes: producto.imagenes || [],
-        video_demo: producto.video_demo || "",
-        tiempo_envio: producto.tiempo_envio || "24h",
-        estado_activo: producto.estado_activo || false,
+        nombre: producto?.nombre || "PRODUCTO DE PRUEBA",
+        descripcion: producto?.descripcion || "DESCRIPCION DE PRUEBA",
+        precio: producto?.precio || 1,
+        descuento: producto?.descuento || 0,
+        precio_final: producto?.precio_final || 1,
+        stock: producto?.stock || 0,
+        categoria: producto?.categoria?.id || 1,
+        marca: producto?.marca || "MARCA DE PRUIEBA",
+        modelo: producto?.modelo || "MODELO DE PRUEBA",
+        fps: producto?.fps || 0,
+        calibre: producto?.calibre || "12",
+        capacidad_cargador: producto?.capacidad_cargador || 0,
+        peso: producto?.peso || 0,
+        imagenes: (producto?.imagenes || []).join(', '),
+        video_demo: producto?.video_demo || "",
+        tiempo_envio: producto?.tiempo_envio || "24h",
+        estado_activo: producto?.estado_activo || false,
     };
 
     const handleSubmit = (valores) => {
-        const productoActualizado = {
+        const imagenesProcesadas = valores.imagenes
+            .split(',')
+            .map(url => url.trim())
+            .filter(Boolean);
+
+        const productoResultado = {
             ...producto,
             ...valores,
+            imagenes: imagenesProcesadas,
         };
-        onSave(productoActualizado);
+
+        onSave(productoResultado);
         onClose();
     };
 
     return (
         <div className="modal-fondo">
             <div className="modal">
-                <h2>Editar Producto</h2>
+                <h2>{modo === "crear" ? "Publicar Nuevo Producto" : "Editar Producto"}</h2>
 
                 <Formik
                     initialValues={valoresIniciales}
@@ -79,6 +85,7 @@ function ModalEditarProducto({producto, onClose, onSave}) {
                     onSubmit={handleSubmit}
                 >
                     {({values}) => (
+
                         <Form>
                             <label>
                                 Nombre:
@@ -178,12 +185,14 @@ function ModalEditarProducto({producto, onClose, onSave}) {
                             </label>
 
                             <label className="checkbox">
-                                <Field type="checkbox" name="estado_activo"/>
+                                <Field type="checkbox" name="estado_activo" checked={values.estado_activo}/>
                                 Activo
                             </label>
 
                             <div className="modal-acciones">
-                                <button type="submit">Guardar</button>
+                                <button type="submit">
+                                    {modo === "crear" ? "Publicar" : "Guardar"}
+                                </button>
                                 <button type="button" className="cancelar" onClick={onClose}>
                                     Cancelar
                                 </button>
@@ -200,8 +209,16 @@ function ModalEditarProducto({producto, onClose, onSave}) {
 export default function Productos({productos}) {
 
     const access_token = usuarioStore(state => state.access_token)
+
+    const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false);
     const [productosAMostrar, setProductosAMostrar] = useState([]);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
+    useEffect(() => {
+        if (productos.length) {
+            setProductosAMostrar(productos.slice(0, 8));
+        }
+    }, [productos]);
 
     const editarProducto = (producto) => {
         setProductoSeleccionado(producto);
@@ -285,6 +302,11 @@ export default function Productos({productos}) {
 
     return (
         <div>
+
+            <button onClick={() => setMostrarModalNuevo(true)} className="boton-nuevo-producto">
+                + Nuevo Producto
+            </button>
+
             <div className="grid-container">
                 {productosAMostrar.map(producto => (
                     <div key={producto.id} className="producto-card">
@@ -312,13 +334,33 @@ export default function Productos({productos}) {
                 }}
             />
 
+            {mostrarModalNuevo && (
+                <ModalProducto
+                    modo="crear"
+                    onClose={() => setMostrarModalNuevo(false)}
+                    onSave={(productoNuevo) => {
+                        ProductosService.postProducto({
+                            params: {access_token, ...productoNuevo}
+                        }).then(({data}) => {
+                            Swal.fire("¡Creado!", "El producto fue publicado.", "success");
+                            setProductosAMostrar(prev => [data, ...prev]);
+                            setMostrarModalNuevo(false);
+                        }).catch(error => {
+                            Swal.fire("Error", "No se pudo crear: " + error.message, "error");
+                        });
+                    }}
+                />
+            )}
+
             {productoSeleccionado && (
-                <ModalEditarProducto
+                <ModalProducto
+                    modo="editar"
                     producto={productoSeleccionado}
                     onClose={() => setProductoSeleccionado(null)}
                     onSave={guardarCambios}
                 />
             )}
+
         </div>
     );
 }
