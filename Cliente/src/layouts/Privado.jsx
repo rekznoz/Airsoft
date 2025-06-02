@@ -10,7 +10,6 @@ function Privado({ children }) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log(isLoggedIn)
         if (!isLoggedIn) {
             navigate('/no-perfil')
         }
