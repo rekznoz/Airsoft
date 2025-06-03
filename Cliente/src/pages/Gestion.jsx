@@ -3,9 +3,9 @@ import {useLoaderData} from "react-router-dom"
 import { useState } from "react"
 
 import Productos from "../components/Gestion/Productos.jsx"
-import Pedidos from "../components/Gestion/Pedidos.jsx";
-import Comentarios from "../components/Gestion/Comentarios.jsx";
-import Categorias from "../components/Gestion/Categorias.jsx";
+import Pedidos from "../components/Gestion/Pedidos.jsx"
+import Comentarios from "../components/Gestion/Comentarios.jsx"
+import Categorias from "../components/Gestion/Categorias.jsx"
 
 import "../css/gestion.css"
 
