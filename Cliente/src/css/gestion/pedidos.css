@@ -26,24 +26,24 @@
     color: var(--texto-alternativo);
 }
 
-.estado {
+.estado-pedidos {
     font-weight: bold;
     text-transform: capitalize;
 }
 
-.estado.cancelado {
+.estado-pedidos.cancelado {
     color: red;
 }
 
-.estado.entregado {
+.estado-pedidos.entregado {
     color: green;
 }
 
-.estado.pendiente {
+.estado-pedidos.pendiente {
     color: orange;
 }
 
-.estado.enviado {
+.estado-pedidos.enviado {
     color: blue;
 }
 
