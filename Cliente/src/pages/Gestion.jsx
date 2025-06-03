@@ -1,7 +1,12 @@
 // src/pages/Gestion.jsx
 import {useLoaderData} from "react-router-dom"
 import { useState } from "react"
+
 import Productos from "../components/Gestion/Productos.jsx"
+import Pedidos from "../components/Gestion/Pedidos.jsx";
+import Comentarios from "../components/Gestion/Comentarios.jsx";
+import Categorias from "../components/Gestion/Categorias.jsx";
+
 import "../css/gestion.css"
 
 const SECCIONES = {
@@ -20,11 +25,11 @@ export default function Gestion() {
             case "productos":
                 return <Productos productos={productos} />
             case "pedidos":
-                return <p>Aquí se mostrarán los pedidos. (Funcionalidad pendiente)</p>
+                return <Pedidos pedidos={pedidos} />
             case "comentarios":
-                return <p>Aquí se mostrarán los comentarios. (Funcionalidad pendiente)</p>
+                return <Comentarios comentarios={comentarios} />
             case "categorias":
-                return <p>Aquí se mostrarán las categorías. (Funcionalidad pendiente)</p>
+                return <Categorias categorias={categorias} />
             default:
                 return null
         }
