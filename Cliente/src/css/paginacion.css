@@ -8,17 +8,18 @@
 
 .paginacion button {
     padding: 0.4rem 0.8rem;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    border: 1px solid var(--varios);
+    background-color: var(--fondo-principal);
     border-radius: 4px;
+    color: var(--texto-principal);
 }
 
 .paginacion button:hover {
-    background-color: #e9ecef;
+    background-color: var(--fondo-principal);
     cursor: pointer;
 }
 
 .paginacion button.activo {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--texto-alternativo);
+    color: var(--fondo-principal);
 }
