@@ -17,20 +17,40 @@
 }
 */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Paginacion from "./Paginacion";
 import "../../css/gestion/pedidos.css"
+import {Link} from "react-router-dom";
+import PedidosService from "../../services/PedidosService.jsx";
+import usuarioStore from "../../context/UsuarioStore.jsx";
+import Swal from "sweetalert2";
 
-export default function Pedidos({ pedidos, onUpdatePedido }) {
+export default function Pedidos({pedidos: pedidosIniciales}) {
+
+    const [pedidos, setPedidos] = useState(pedidosIniciales || []);
     const [paginatedPedidos, setPaginatedPedidos] = useState([]);
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+    const access_token = usuarioStore(state => state.access_token)
 
-    const handlePageChange = ({ start, end }) => {
+    useEffect(() => {
+        setPedidos(pedidosIniciales);
+    }, [pedidosIniciales]);
+
+    useEffect(() => {
+        if (pedidoSeleccionado) {
+            setTimeout(() => {
+                document.querySelector(".modal input")?.focus();
+            }, 100);
+        }
+    }, [pedidoSeleccionado]);
+
+
+    const handlePageChange = ({start, end}) => {
         setPaginatedPedidos(pedidos.slice(start, end));
     };
 
     const abrirModal = (pedido) => {
-        setPedidoSeleccionado({ ...pedido }); // Copia del pedido
+        setPedidoSeleccionado({...pedido});
     };
 
     const cerrarModal = () => {
@@ -38,7 +58,7 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setPedidoSeleccionado((prev) => ({
             ...prev,
             [name]: name === "cantidad" ? parseInt(value) : value,
@@ -46,16 +66,42 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
     };
 
     const guardarCambios = () => {
-        if (onUpdatePedido) {
-            onUpdatePedido(pedidoSeleccionado);
-        }
-        cerrarModal();
+        Swal.fire({
+            title: '¿Guardar cambios?',
+            text: `¿Desea guardar los cambios en el pedido #${pedidoSeleccionado.id}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await PedidosService.updatePedido({
+                        params: {
+                            id: pedidoSeleccionado.id,
+                            access_token,
+                            ...pedidoSeleccionado
+                        }
+                    });
+
+                    if (response && response.data) {
+                        Swal.fire('¡Éxito!', 'Pedido actualizado correctamente.', 'success');
+                        setPaginatedPedidos((prev) => prev.map(p => p.id === pedidoSeleccionado.id ? response.data : p));
+                        cerrarModal();
+                    } else {
+                        Swal.fire('Error', 'No se pudo actualizar el pedido.', 'error');
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire('Error', 'Ocurrió un error al actualizar el pedido.', 'error');
+                }
+            }
+        })
     };
 
     return (
         <div className="pedidos-contenedor">
-            <h1>Pedidos</h1>
-
             {pedidos?.length === 0 ? (
                 <p>No hay pedidos aún.</p>
             ) : (
@@ -63,7 +109,11 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
                     <div className="grid-container">
                         {paginatedPedidos.map((pedido) => (
                             <div key={pedido.id} className={`pedido-card ${pedido.estado}`}>
-                                <h3>Pedido #{pedido.id}</h3>
+                                <h3>
+                                    <Link to={`/pedido/${pedido.id}`}>
+                                        Pedido #{pedido.id}
+                                    </Link>
+                                </h3>
                                 <p><strong>Cliente:</strong> {pedido.user?.nombre}</p>
                                 <p><strong>Producto:</strong> {pedido.producto?.nombre}</p>
                                 <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
@@ -89,26 +139,26 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
             )}
 
             {pedidoSeleccionado && (
-                <div className="modal-fondo-pedidos" onClick={cerrarModal}>
-                    <div className="modal-pedidos" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-fondo" onClick={cerrarModal}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <h2>Editar Pedido #{pedidoSeleccionado.id}</h2>
 
-                        <div className="form-group-pedidos">
+                        <div className="form-group-producto">
                             <label>Dirección de envío:</label>
                             <input
                                 type="text"
-                                className="form-field-pedidos"
+                                className="form-field"
                                 name="direccion_envio"
                                 value={pedidoSeleccionado.direccion_envio}
                                 onChange={handleInputChange}
                             />
                         </div>
 
-                        <div className="form-group-pedidos">
+                        <div className="form-group-producto">
                             <label>Cantidad:</label>
                             <input
                                 type="number"
-                                className="form-field-pedidos"
+                                className="form-field"
                                 name="cantidad"
                                 value={pedidoSeleccionado.cantidad}
                                 min={1}
@@ -116,10 +166,10 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
                             />
                         </div>
 
-                        <div className="form-group-pedidos">
+                        <div className="form-group-producto">
                             <label>Estado:</label>
                             <select
-                                className="form-field-pedidos"
+                                className="form-field"
                                 name="estado"
                                 value={pedidoSeleccionado.estado}
                                 onChange={handleInputChange}
@@ -132,7 +182,7 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
                             </select>
                         </div>
 
-                        <div className="modal-acciones-pedidos">
+                        <div className="modal-acciones">
                             <button type="submit" onClick={guardarCambios}>Guardar</button>
                             <button className="cancelar" onClick={cerrarModal}>Cancelar</button>
                         </div>
