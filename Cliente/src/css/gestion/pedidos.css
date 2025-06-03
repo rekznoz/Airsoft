@@ -18,6 +18,7 @@
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
     color: var(--texto-principal);
+    text-decoration: underline;
 }
 
 .pedido-card p {
@@ -26,9 +27,14 @@
     color: var(--texto-alternativo);
 }
 
+.pedido-card strong {
+    color: var(--texto-principal);
+    font-weight: bold;
+}
+
 .estado-pedidos {
     font-weight: bold;
-    text-transform: capitalize;
+    text-transform: uppercase;
 }
 
 .estado-pedidos.cancelado {
