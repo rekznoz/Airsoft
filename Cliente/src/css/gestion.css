@@ -1,191 +1,62 @@
-/* Grid */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
+.gestion-contenedor {
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.producto-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-}
-
-.producto-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.activo {
-    color: green;
-    font-weight: bold;
-}
-
-.inactivo {
-    color: red;
-    font-weight: bold;
-}
-
-.acciones {
-    margin-top: 0.8rem;
+.gestion-nav {
     display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--bordes-lineas);
+    padding-bottom: 10px;
     justify-content: center;
-    gap: 0.5rem;
-}
-
-.acciones button {
-    padding: 0.4rem 0.8rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.acciones .eliminar {
-    background-color: #dc3545;
-    color: white;
-}
-
-.acciones button:not(.eliminar) {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Fondo del modal */
-.modal-fondo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-
-/* Contenedor principal del modal */
-.modal {
-    background: #fff;
-    border-radius: 10px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-    animation: fadeInScale 0.3s ease;
-}
-
-/* Animación de entrada */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Título del modal */
-.modal h2 {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-/* Estilos de campos del formulario */
-.modal label {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.2rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-field {
-    margin-top: 0.4rem;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.95rem;
-}
-
-/* Campos de texto más grandes */
-.modal textarea.form-field {
-    resize: vertical;
-    min-height: 80px;
-}
-
-/* Select y checkbox */
-.modal select.form-field {
-    background-color: #fff;
-    cursor: pointer;
-}
-
-.modal .checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: normal;
-    margin-bottom: 1.5rem;
-}
-
-/* Botones */
-.modal-acciones {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.modal-acciones button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.modal-acciones button[type="submit"] {
-    background-color: #28a745;
-    color: white;
-}
-
-.modal-acciones .cancelar {
-    background-color: #6c757d;
-    color: white;
 }
 
 @media (max-width: 600px) {
-
-    .modal {
-        max-width: 80vw;
-        padding: 1rem;
-    }
-
-    .modal h2 {
-        font-size: 1.25rem;
-    }
-
-    .form-field {
-        font-size: 0.9rem;
-    }
-
-    .modal-acciones {
+    .gestion-nav {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
     }
+}
 
-    .modal-acciones button {
-        width: 100%;
-    }
+.nav-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--texto-principal);
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    color: var(--texto-principal);
+    border-color: var(--texto-principal);
+}
+
+.nav-btn.activo {
+    color: var(--texto-principal);
+    border-color: var(--texto-principal);
+}
+
+.gestion-seccion {
+    margin-top: 20px;
+}
+
+.producto-card {
+    background: var(--fondo-principal);
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    color: var(--texto-principal);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
