@@ -1,0 +1,216 @@
+.producto-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.producto-card h3 {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    color: var(--texto-principal);
+}
+
+.producto-card p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--texto-alternativo);
+}
+
+p.activo {
+    color: green;
+    font-weight: bold;
+}
+
+p.inactivo {
+    color: red;
+    font-weight: bold;
+}
+
+.acciones {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.acciones button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.acciones .eliminar {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+}
+
+.acciones button:not(.eliminar) {
+    background-color: var(--varios);
+    color: var(--fondo-principal);
+    font-weight: bold;
+}
+
+/* Fondo del modal */
+.modal-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* Contenedor principal del modal */
+.modal {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+    animation: fadeInScale 0.3s ease;
+}
+
+/* Animación de entrada */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Título del modal */
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--texto-principal);
+}
+
+/* Estilos de campos del formulario */
+.modal .form-group-producto {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+    font-weight: bold;
+    color: var(--texto-principal);
+}
+
+.modal .form-group-producto .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.form-field {
+    margin-top: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* Campos de texto más grandes */
+.modal textarea.form-field {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Select y checkbox */
+.modal select.form-field {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.modal .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+}
+
+/* Botones */
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-acciones button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-acciones button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal-acciones .cancelar {
+    background-color: #6c757d;
+    color: white;
+}
+
+@media (max-width: 600px) {
+
+    .modal {
+        max-width: 80vw;
+        padding: 1rem;
+    }
+
+    .modal h2 {
+        font-size: 1.25rem;
+    }
+
+    .form-field {
+        font-size: 0.9rem;
+    }
+
+    .modal-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-acciones button {
+        width: 100%;
+    }
+}
+
+.boton-nuevo-producto {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    padding: 12px 20px;
+    background-color: var(--varios);
+    color: var(--fondo-principal);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-nuevo-producto:hover {
+    background-color: var(--fondo-alternativo);
+}
