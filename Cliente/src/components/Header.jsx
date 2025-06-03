@@ -33,7 +33,7 @@ function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid, roles}) {
                         logout()
                         setMenuOpen(false)
                     }}>
-                        <Link to="/" className="nav-link">Cerrar sesión</Link>
+                        <Link to="/" className="nav-link">Logout</Link>
                     </li>
                 </>
             ) : (
