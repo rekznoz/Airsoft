@@ -1,85 +1,20 @@
+
 /*
 {
-  "data": {
-    "id": 10,
-    "nombre": "DDDDDDD",
-    "descripcion": "CCCCCCC",
-    "precio": "123.00",
-    "descuento": "3.32",
-    "precio_final": 119.68,
-    "stock": 1,
-    "categoria": {
-      "id": 3,
-      "nombre": "Munición"
+    "id": 1,
+    "user": {
+      "id": 2,
+      "nombre": "D. Gerard Solorzano"
     },
-    "marca": "BBBBBBB",
-    "modelo": "AAAAAAA",
-    "fps": 369,
-    "calibre": "5.5 mm",
-    "capacidad_cargador": 48,
-    "peso": 1.62,
-    "imagenes": [
-      "https://via.placeholder.com/640x480.png/003355?text=voluptas",
-      "https://via.placeholder.com/640x480.png/00ddcc?text=et"
-    ],
-    "video_demo": "https://www.elizondo.es/voluptatem-ut-nostrum-amet-quo-eveniet",
-    "tiempo_envio": "24h",
-    "estado_activo": true,
-    "array_comentarios": [
-      {
-        "id": 11,
-        "user": {
-          "id": 6,
-          "name": "Unai Carvajal"
-        },
-        "comentario": "Dolor illum aperiam quidem velit quo eos fugiat exercitationem.",
-        "calificacion": 9,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 19,
-        "user": {
-          "id": 5,
-          "name": "Ing. Carlos Brito Segundo"
-        },
-        "comentario": "Consequatur consequatur dolores quibusdam voluptatem exercitationem quam occaecati eligendi.",
-        "calificacion": 2,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 28,
-        "user": {
-          "id": 8,
-          "name": "Marc Aguilera Tercero"
-        },
-        "comentario": "Excepturi quae occaecati laudantium deleniti nesciunt nobis in.",
-        "calificacion": 9,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 46,
-        "user": {
-          "id": 7,
-          "name": "Luis Valadez"
-        },
-        "comentario": "Laborum quam eum earum voluptatem et.",
-        "calificacion": 1,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 50,
-        "user": {
-          "id": 9,
-          "name": "Srta. Francisca Colunga"
-        },
-        "comentario": "Ratione aut quam voluptatem asperiores.",
-        "calificacion": 4,
-        "created_at": "2025-05-06 13:43:11"
-      }
-    ],
-    "created_at": "2025-05-06 13:43:10",
-    "updated_at": "2025-05-06 15:56:15"
-  }
+    "producto": {
+      "id": 12,
+      "nombre": "error atque fugiat"
+    },
+    "direccion_envio": "Ruela Giménez, 311, 23º F, 07987, Ruíz de San Pedro",
+    "cantidad": 2,
+    "estado": "cancelado",
+    "created_at": "2025-05-23T14:25:57.000000Z",
+    "updated_at": "2025-05-23T14:25:57.000000Z"
 }
 */
 
@@ -148,6 +83,40 @@ export default class PedidosService {
             return data["data"]
         } catch (error) {
             console.error(error)
+            throw error
+        }
+    }
+
+    static async updatePedido({params}) {
+        console.log(params)
+        try {
+            const response = await fetch(`${apiconfig.pedidos}/${params.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${params.access_token}`
+                },
+                body: JSON.stringify(
+                    {
+                        user_id: params.user.id,
+                        producto_id: params.producto.id,
+                        direccion_envio: params.direccion_envio,
+                        cantidad: params.cantidad,
+                        estado: params.estado
+                    }
+                )
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error("Errores de validación del backend:", data.errors || data);
+                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`);
+            }
+
+            return data
+        } catch (error) {
+            console.error("Error en updatePedido:", error)
             throw error
         }
     }
