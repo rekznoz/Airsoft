@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import Paginacion from "./Paginacion";
-import {Field, Form, Formik} from "formik";
-import Swal from "sweetalert2";
-import ProductosService from "../../services/ProductoService.jsx";
-import ProductoService from "../../services/ProductoService.jsx";
-import usuarioStore from "../../context/UsuarioStore.jsx";
-import {object, string} from "yup";
-import "../../css/gestion/producto.css";
+import {useEffect, useState} from "react"
+import {Link} from "react-router-dom"
+import Paginacion from "./Paginacion"
+import {Field, Form, Formik} from "formik"
+import Swal from "sweetalert2"
+import ProductosService from "../../services/ProductoService.jsx"
+import ProductoService from "../../services/ProductoService.jsx"
+import usuarioStore from "../../context/UsuarioStore.jsx"
+import {object, string} from "yup"
+import "../../css/gestion/producto.css"
 
 
 /*
@@ -79,26 +79,26 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
         video_demo: producto?.video_demo || "",
         tiempo_envio: producto?.tiempo_envio || "24h",
         estado_activo: producto?.estado_activo || false,
-    };
+    }
 
     const handleSubmit = (valores) => {
         const imagenesProcesadas = valores.imagenes
             .split(',')
             .map(url => url.trim())
-            .filter(Boolean);
+            .filter(Boolean)
 
         // Asegurarse de que el estado_activo sea un booleano
-        valores.estado_activo = valores.estado_activo === 'true';
+        valores.estado_activo = valores.estado_activo === 'true'
 
         const productoResultado = {
             ...producto,
             ...valores,
             imagenes: imagenesProcesadas,
-        };
+        }
 
-        onSave(productoResultado);
-        onClose();
-    };
+        onSave(productoResultado)
+        onClose()
+    }
 
     return (
         <div className="modal-fondo">
@@ -285,26 +285,26 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                 </Formik>
             </div>
         </div>
-    );
+    )
 }
 
 export default function Productos({productos}) {
 
     const access_token = usuarioStore(state => state.access_token)
 
-    const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false);
-    const [productosAMostrar, setProductosAMostrar] = useState([]);
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false)
+    const [productosAMostrar, setProductosAMostrar] = useState([])
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null)
 
     useEffect(() => {
         if (productos.length) {
-            setProductosAMostrar(productos.slice(0, 6));
+            setProductosAMostrar(productos.slice(0, 6))
         }
-    }, [productos]);
+    }, [productos])
 
     const editarProducto = (producto) => {
-        setProductoSeleccionado(producto);
-    };
+        setProductoSeleccionado(producto)
+    }
 
     const eliminarProducto = (id) => {
         Swal.fire(
@@ -326,20 +326,20 @@ export default function Productos({productos}) {
                                 '¡Eliminado!',
                                 'El producto ha sido eliminado.',
                                 'success'
-                            );
-                            setProductosAMostrar(prev => prev.filter(p => p.id !== id));
+                            )
+                            setProductosAMostrar(prev => prev.filter(p => p.id !== id))
                         }
                     ).catch(error => {
                         Swal.fire(
                             'Error',
                             'No se pudo eliminar el producto: ' + error.message,
                             'error'
-                        );
-                    });
+                        )
+                    })
                 }
             }
         )
-    };
+    }
 
     const guardarCambios = (productoActualizado) => {
         Swal.fire(
@@ -366,21 +366,21 @@ export default function Productos({productos}) {
                                 '¡Guardado!',
                                 'El producto ha sido actualizado.',
                                 'success'
-                            );
-                            setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p));
-                            setProductoSeleccionado(null);
+                            )
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p))
+                            setProductoSeleccionado(null)
                         })
                         .catch(error => {
                             Swal.fire(
                                 'Error',
                                 'No se pudo actualizar el producto: ' + error.message,
                                 'error'
-                            );
-                        });
+                            )
+                        })
                 }
             }
         )
-    };
+    }
 
     return (
         <div className="producto-card-contenedor">
@@ -412,7 +412,7 @@ export default function Productos({productos}) {
                 totalItems={productos.length}
                 itemsPerPage={6}
                 onPageChange={({start, end}) => {
-                    setProductosAMostrar(productos.slice(start, end));
+                    setProductosAMostrar(productos.slice(start, end))
                 }}
             />
 
@@ -424,12 +424,12 @@ export default function Productos({productos}) {
                         ProductosService.postProducto({
                             params: {access_token, ...productoNuevo}
                         }).then(({data}) => {
-                            Swal.fire("¡Creado!", "El producto fue publicado.", "success");
-                            setProductosAMostrar(prev => [data, ...prev]);
-                            setMostrarModalNuevo(false);
+                            Swal.fire("¡Creado!", "El producto fue publicado.", "success")
+                            setProductosAMostrar(prev => [data, ...prev])
+                            setMostrarModalNuevo(false)
                         }).catch(error => {
-                            Swal.fire("Error", "No se pudo crear: " + error.message, "error");
-                        });
+                            Swal.fire("Error", "No se pudo crear: " + error.message, "error")
+                        })
                     }}
                 />
             )}
@@ -444,5 +444,5 @@ export default function Productos({productos}) {
             )}
 
         </div>
-    );
+    )
 }
