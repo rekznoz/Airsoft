@@ -86,7 +86,7 @@ p.inactivo {
 
 /* Contenedor principal del modal */
 .modal {
-    background: #fff;
+    background: var(--fondo-principal);
     border-radius: 10px;
     padding: 2rem;
     max-width: 600px;
@@ -136,7 +136,7 @@ p.inactivo {
 .form-field {
     margin-top: 0.4rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--bordes-lineas);
     border-radius: 4px;
     font-size: 0.95rem;
 }
@@ -149,7 +149,7 @@ p.inactivo {
 
 /* Select y checkbox */
 .modal select.form-field {
-    background-color: #fff;
+    background-color: var();
     cursor: pointer;
 }
 
@@ -178,7 +178,7 @@ p.inactivo {
 }
 
 .modal-acciones button[type="submit"] {
-    background-color: #28a745;
+    background-color: var(--fondo-alternativo);
     color: white;
 }
 
