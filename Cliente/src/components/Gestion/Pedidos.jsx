@@ -68,7 +68,7 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
                                 <p><strong>Producto:</strong> {pedido.producto?.nombre}</p>
                                 <p><strong>Cantidad:</strong> {pedido.cantidad}</p>
                                 <p><strong>Estado:</strong>
-                                    <span className={`estado ${pedido.estado}`}> {pedido.estado}</span>
+                                    <span className={`estado-pedidos ${pedido.estado}`}> {pedido.estado}</span>
                                 </p>
                                 <p><strong>Dirección:</strong> {pedido.direccion_envio}</p>
                                 <p><strong>Fecha:</strong> {new Date(pedido.created_at).toLocaleDateString()}</p>
@@ -82,7 +82,7 @@ export default function Pedidos({ pedidos, onUpdatePedido }) {
 
                     <Paginacion
                         totalItems={pedidos.length}
-                        itemsPerPage={6}
+                        itemsPerPage={10}
                         onPageChange={handlePageChange}
                     />
                 </>
