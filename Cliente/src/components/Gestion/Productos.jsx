@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import ProductosService from "../../services/ProductoService.jsx";
 import ProductoService from "../../services/ProductoService.jsx";
 import usuarioStore from "../../context/UsuarioStore.jsx";
+import {string} from "yup";
 
 /*
 {
@@ -35,6 +36,26 @@ import usuarioStore from "../../context/UsuarioStore.jsx";
     "estado_activo": false,
 }
 */
+
+const validationSchema = {
+    nombre: string().required('El nombre es obligatorio'),
+    descripcion: string().required('La descripción es obligatoria'),
+    precio: string().required('El precio es obligatorio').matches(/^\d+(\.\d{1,2})?$/, 'El precio debe ser un número válido'),
+    descuento: string().matches(/^\d+(\.\d{1,2})?$/, 'El descuento debe ser un número válido'),
+    precio_final: string().matches(/^\d+(\.\d{1,2})?$/, 'El precio final debe ser un número válido'),
+    stock: string().matches(/^\d+$/, 'El stock debe ser un número entero'),
+    categoria: string().required('La categoría es obligatoria'),
+    marca: string().required('La marca es obligatoria'),
+    modelo: string().required('El modelo es obligatorio'),
+    fps: string().matches(/^\d+$/, 'Los FPS deben ser un número entero'),
+    calibre: string().required('El calibre es obligatorio'),
+    capacidad_cargador: string().matches(/^\d+$/, 'La capacidad del cargador debe ser un número entero'),
+    peso: string().matches(/^\d+(\.\d{1,2})?$/, 'El peso debe ser un número válido'),
+    imagenes: string().matches(/^(https?:\/\/[^\s]+(,[^\s]+)*)?$/, 'Las imágenes deben ser URLs válidas separadas por comas'),
+    video_demo: string().matches(/^(https?:\/\/[^\s]+)?$/, 'El video de demostración debe ser una URL válida'),
+    tiempo_envio: string().required('El tiempo de envío es obligatorio'),
+    estado_activo: string().oneOf(['true', 'false'], 'El estado activo debe ser verdadero o falso'),
+}
 
 function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
 
@@ -83,6 +104,16 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                     initialValues={valoresIniciales}
                     enableReinitialize
                     onSubmit={handleSubmit}
+                    validate={values => {
+                        const errors = {};
+                        Object.keys(validationSchema).forEach(key => {
+                            const error = validationSchema[key].validate(values[key]);
+                            if (error instanceof Error) {
+                                errors[key] = error.message;
+                            }
+                        });
+                        return errors;
+                    }}
                 >
                     {({values}) => (
 
