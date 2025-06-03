@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react"
 import "../../css/paginacion.css"
 
-export default function Paginacion({ totalItems, itemsPerPage = 6, onPageChange }) {
+export default function Paginacion({totalItems, itemsPerPage = 6, onPageChange}) {
 
-    const totalPaginas = Math.ceil(totalItems / itemsPerPage);
-    const [paginaActual, setPaginaActual] = useState(1);
+    const totalPaginas = Math.ceil(totalItems / itemsPerPage)
+    const [paginaActual, setPaginaActual] = useState(1)
 
     useEffect(() => {
-        const start = (paginaActual - 1) * itemsPerPage;
-        const end = paginaActual * itemsPerPage;
-        onPageChange({ start, end, pagina: paginaActual });
-    }, [paginaActual, totalItems]);
+        const start = (paginaActual - 1) * itemsPerPage
+        const end = paginaActual * itemsPerPage
+        onPageChange({start, end, pagina: paginaActual})
+    }, [paginaActual, totalItems])
 
     const cambiarPagina = (nuevaPagina) => {
         if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
-            setPaginaActual(nuevaPagina);
+            setPaginaActual(nuevaPagina)
         }
-    };
+    }
 
     return (
         <div className="paginacion">
@@ -38,5 +38,5 @@ export default function Paginacion({ totalItems, itemsPerPage = 6, onPageChange 
                 Siguiente
             </button>
         </div>
-    );
+    )
 }
