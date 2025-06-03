@@ -1,0 +1,167 @@
+.pedido-card {
+    background: var(--fondo-principal);
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    color: var(--texto-principal);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.2s ease;
+}
+
+.pedido-card:hover {
+    transform: scale(1.02);
+}
+
+.pedido-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--texto-principal);
+}
+
+.pedido-card p {
+    margin: 0.4rem 0;
+    font-size: 1rem;
+    color: var(--texto-alternativo);
+}
+
+.estado {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.estado.cancelado {
+    color: red;
+}
+
+.estado.entregado {
+    color: green;
+}
+
+.estado.pendiente {
+    color: orange;
+}
+
+.estado.enviado {
+    color: blue;
+}
+
+.modal-fondo-pedidos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-pedidos {
+    background: var(--fondo-principal);
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+    animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-pedidos h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--texto-principal);
+}
+
+.form-group-pedidos {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+    font-weight: bold;
+    color: var(--texto-principal);
+}
+
+.form-group-pedidos .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.form-field-pedidos {
+    margin-top: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.modal-pedidos select.form-field-pedidos {
+    cursor: pointer;
+}
+
+.modal-acciones-pedidos {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-acciones-pedidos button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-acciones-pedidos button[type="submit"] {
+    background-color: var(--fondo-alternativo);
+    color: white;
+}
+
+.modal-acciones-pedidos .cancelar {
+    background-color: #6c757d;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .modal-pedidos {
+        max-width: 80vw;
+        padding: 1rem;
+    }
+
+    .modal-pedidos h2 {
+        font-size: 1.25rem;
+    }
+
+    .form-field-pedidos {
+        font-size: 0.9rem;
+    }
+
+    .modal-acciones-pedidos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-acciones-pedidos button {
+        width: 100%;
+    }
+}
