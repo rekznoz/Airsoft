@@ -96,7 +96,6 @@ export default class ComentariosService {
         }
     }
 
-    // Metodo para editar un comentario
     static async putComentario({params}) {
         try {
             const response = await fetch(apiconfig.comentarios + "/" + params.id, {
@@ -123,6 +122,27 @@ export default class ComentariosService {
             }
 
             return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
+    static async deleteComentario({params}) {
+        try {
+            const response = await fetch(apiconfig.comentarios + "/" + params.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el comentario: ' + response.statusText)
+            }
+
+            return true
         } catch (error) {
             console.error(error)
             throw error
