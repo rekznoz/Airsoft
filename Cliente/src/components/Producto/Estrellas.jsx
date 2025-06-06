@@ -3,8 +3,10 @@ export default function Estrellas({
                                       max = 5,
                                       interactivas = false,
                                       valorSeleccionado = 0,
-                                      setValor = () => {}
-                                  }) {
+                                      setValor = () => {
+                                      }
+                                  }
+) {
     const estrellasLlenas = Math.round((calificacion / 10) * max)
 
     const renderEstrella = (i) => {
