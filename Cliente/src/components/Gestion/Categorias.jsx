@@ -54,7 +54,7 @@ export default function Categorias({categorias}) {
         if (result.isConfirmed) {
             try {
                 console.log(categoria)
-                await CategoriasService.deleteCategoria({params: {id: categoria.id, access_token}})
+                await CategoriasService.deleteCategoria({params: {id: categoria.id, access_token: access_token}})
                 setListaCategorias(prev => prev.filter(cat => cat.id !== categoria.id))
                 Swal.fire('Eliminado', 'La categoría ha sido eliminada.', 'success')
             } catch (error) {
