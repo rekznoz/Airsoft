@@ -88,3 +88,100 @@
     font-style: italic;
     margin-top: 20px;
 }
+
+.boton-nueva-categoria {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    padding: 12px 20px;
+    background-color: var(--varios);
+    color: var(--fondo-principal);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-nueva-categoria:hover {
+    background-color: var(--fondo-alternativo);
+}
+
+/*  Modal Agregar */
+
+.modal-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-contenido {
+    background: var(--fondo-principal);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-contenido h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: var(--texto-principal);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-contenido label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.modal-contenido input,
+.modal-contenido textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--bordes-lineas);
+    box-sizing: border-box;
+}
+
+.modal-contenido textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.modal-botones {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-botones button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-botones button[type="submit"] {
+    background-color: #3085d6;
+    color: white;
+}
+
+.modal-botones button[type="button"] {
+    background-color: #ccc;
+}
+
