@@ -50,7 +50,32 @@ export default class CategoriasService {
             console.error(error)
             throw error
         }
+    }
 
+    static async deleteCategoria({params}) {
+        try {
+            const response = await fetch(apiconfig.categorias + "/" + params.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar la categoria: ' + response.statusText)
+            }
+
+            const data = await response.json()
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+            return data["data"]
+
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
     }
 
 }
