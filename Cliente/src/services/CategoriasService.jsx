@@ -63,15 +63,10 @@ export default class CategoriasService {
             })
 
             if (!response.ok) {
-                throw new Error('Error al eliminar la categoria: ' + response.statusText)
+                throw new Error('Error al eliminar el comentario: ' + response.statusText)
             }
 
-            const data = await response.json()
-            if (!data || !data["data"]) {
-                throw new Error('Error: Datos no encontrados o mal formateados')
-            }
-            return data["data"]
-
+            return true
         } catch (error) {
             console.error(error)
             throw error
