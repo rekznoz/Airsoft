@@ -159,19 +159,19 @@ export default class ProductoService {
                     'Authorization': `Bearer ${token}`
                 },
                 body: formData
-            });
+            })
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (!response.ok) {
-                console.error("Errores de validación del backend:", data.errors || data);
-                throw new Error(`Error al crear el producto: ${data.message || 'Validación fallida'}`);
+                console.error("Errores de validación del backend:", data.errors || data)
+                throw new Error(`Error al crear el producto: ${data.message || 'Validación fallida'}`)
             }
 
-            return data;
+            return data
         } catch (error) {
-            console.error("Error en postProducto:", error);
-            throw error;
+            console.error("Error en postProducto:", error)
+            throw error
         }
     }
 
