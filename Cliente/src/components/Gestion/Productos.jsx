@@ -34,6 +34,22 @@ const validationSchema = object({
 
 function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
 
+    const [imagenesExistentes, setImagenesExistentes] = useState([])
+    const [imagenesNuevas, setImagenesNuevas] = useState([])
+
+    useEffect(() => {
+        if (producto?.imagenes && producto.imagenes.length > 0) {
+            const existentes = producto.imagenes.map((url, index) => ({
+                id: `existente-${index}`,
+                src: corregirUrlImagen(url),
+            }))
+            setImagenesExistentes(existentes)
+        } else {
+            setImagenesExistentes([])
+        }
+        setImagenesNuevas([])
+    }, [producto])
+
     const valoresIniciales = {
         nombre: producto?.nombre || "PRODUCTO DE PRUEBA",
         descripcion: producto?.descripcion || "DESCRIPCION DE PRUEBA",
@@ -48,7 +64,7 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
         calibre: producto?.calibre || "12",
         capacidad_cargador: producto?.capacidad_cargador || 0,
         peso: producto?.peso || 0,
-        imagenes: (producto?.imagenes || []).join(', '),
+        imagenes: [],
         video_demo: producto?.video_demo || "",
         tiempo_envio: producto?.tiempo_envio || "24h",
         estado_activo: producto?.estado_activo || false,
@@ -57,24 +73,25 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
     const handleSubmit = async (valores) => {
         const formData = new FormData()
 
-        // Añadir campos normales
+        // Campos normales
         for (const clave in valores) {
             if (clave !== "imagenes" && clave !== "estado_activo") {
                 formData.append(clave, valores[clave])
             }
         }
-
         formData.append('estado_activo', valores.estado_activo ? '1' : '0')
 
-        // Añadir imágenes como archivos
-        valores.imagenes.forEach((imagen, index) => {
-            formData.append(`imagenes[]`, imagen) // backend debe aceptar "imagenes[]"
+        previewImages.forEach(img => {
+            if (img.file) {
+                formData.append('imagenes[]', img.file)
+            }
         })
 
         onSave(formData)
         onClose()
     }
 
+    const previewImages = [...imagenesExistentes, ...imagenesNuevas]
 
     return (
         <div className="modal-fondo">
@@ -210,17 +227,29 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                                 <label>Imágenes (sube una o más):</label>
                                 <input
                                     type="file"
-                                    name="imagenes"
-                                    className="form-field"
-                                    accept="image/*"
                                     multiple
-                                    onChange={(event) => {
-                                        const files = event.currentTarget.files
-                                        setFieldValue("imagenes", Array.from(files))
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const files = Array.from(e.target.files)
+                                        const nuevasPreviews = files.map(file => ({
+                                            id: `nuevo-${file.name}-${file.lastModified}`,
+                                            src: URL.createObjectURL(file),
+                                            file,
+                                        }))
+                                        setImagenesNuevas(prev => [...prev, ...nuevasPreviews])
+                                        setFieldValue("imagenes", [...imagenesNuevas.map(img => img.file), ...files])
                                     }}
                                 />
                                 {errors.imagenes && touched.imagenes && <div className="error">{errors.imagenes}</div>}
                             </div>
+
+                            {previewImages.length > 0 && (
+                                <div className="preview-imagenes">
+                                    {previewImages.map(({ id, src }) => (
+                                        <img key={id} src={src} alt="Vista previa" className="preview-img" />
+                                    ))}
+                                </div>
+                            )}
 
                             <div className="form-group-producto">
                                 <label>Video de Demostración (URL):</label>
@@ -384,12 +413,12 @@ export default function Productos({productos}) {
                             id: productoSeleccionado.id,
                             formData: formData
                         }).then((productoActualizado) => {
-                            Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success");
-                            console.log(productoActualizado);
-                            setProductosAMostrar(prev => prev.map(p => p.id === productoSeleccionado.id ? productoActualizado : p));
+                            Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success")
+                            console.log(productoActualizado)
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoSeleccionado.id ? productoActualizado : p))
                         }).catch((error) => {
-                            Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error");
-                        });
+                            Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error")
+                        })
                     }}
 
                 />
