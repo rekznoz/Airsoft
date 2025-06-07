@@ -20,7 +20,17 @@ export default function Producto() {
             <div className="producto-breadcrumb">
                 <h1>{producto.nombre}</h1>
                 <p className="producto-descripcion">{producto.descripcion}</p>
-                <p className="producto-precio">{producto.precio.toLocaleString()}€</p>
+                <p className="producto-precio">{producto.precio_final.toLocaleString()}€</p>
+                <>
+                    {producto.descuento > 0 && (
+                        <p className="producto-descuento">
+                            <span className="descuento-porcentaje">{producto.descuento}%</span>
+                            <span className="descuento-precio">
+                                {producto.precio.toLocaleString()}€
+                            </span>
+                        </p>
+                    )}
+                </>
                 <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}
                      className="producto-imagen-principal"
                      onClick={() => setImagenGrande("https://i.imgur.com/yMVfJZD.jpeg")}/>
