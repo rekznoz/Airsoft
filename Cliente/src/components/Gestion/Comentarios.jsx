@@ -42,25 +42,24 @@ export default function Comentarios({comentarios}) {
     }, [comentarios])
 
 
-    const onEditar = (id) => {
+    const onEditar = (comentario) => {
         Swal.fire({
             title: 'Verificar Comentario',
-            text: "¿Deseas verificar este comentario?",
-            icon: 'info',
+            text: `¿Deseas verificar el comentario de ${comentario.user.nombre} sobre ${comentario.producto.nombre}?`,
+            icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, verificar'
+            confirmButtonText: 'Sí, verificar',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                ComentariosService.verificarComentario({params: {id: id, access_token: access_token}})
-                    .then(() => {
-                        Swal.fire('Verificado', 'El comentario ha sido verificado.', 'success')
-                        setListaComentarios(prev => prev.map(c => c.id === id ? {...c, verificado: true} : c))
-                    })
-                    .catch(error => {
-                        Swal.fire('Error', 'No se pudo verificar el comentario.', 'error')
-                    })
+                ComentariosService.putComentario(
+                    {params: { ...comentario, access_token, verificado: true} }
+                ).then(() => {
+                    Swal.fire('Verificado', 'El comentario ha sido verificado.', 'success')
+                    setListaComentarios(prev => prev.map(c => c.id === comentario.id ? {...c, verificado: true} : c))
+                }).catch(error => {
+                    Swal.fire('Error', 'No se pudo verificar el comentario.', 'error')
+                })
             }
         })
     }
@@ -121,7 +120,7 @@ export default function Comentarios({comentarios}) {
                             </div>
 
                             <div className="comentario-acciones">
-                                <button className="btn-editar" onClick={() => onEditar(comentario.id)}>
+                                <button className="btn-editar" onClick={() => onEditar(comentario)}>
                                     Verificar
                                 </button>
                                 <button className="btn-eliminar" onClick={() => onEliminar(comentario.id)}>
