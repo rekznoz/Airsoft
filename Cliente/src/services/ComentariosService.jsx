@@ -117,6 +117,7 @@ export default class ComentariosService {
     }
 
     static async putComentario({params}) {
+        console.log(params)
         try {
             const response = await fetch(apiconfig.comentarios + "/" + params.id, {
                 method: 'PUT',
@@ -125,19 +126,21 @@ export default class ComentariosService {
                     'Authorization': 'Bearer ' + params.access_token
                 },
                 body: JSON.stringify({
-                    user_id: params.user_id,
-                    producto_id: params.producto_id,
+                    user_id: params.user.id,
+                    producto_id: params.producto.id,
                     comentario: params.comentario,
                     calificacion: params.calificacion,
                     verificado: params.verificado
                 })
             })
 
+            const data = await response.json()
+
             if (!response.ok) {
-                throw new Error('Error al editar el comentario: ' + response.statusText)
+                console.error("Errores de validación del backend:", data.errors || data);
+                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`);
             }
 
-            const data = await response.json()
             if (!data || !data["data"]) {
                 throw new Error('Error: Datos no encontrados o mal formateados')
             }
@@ -164,35 +167,6 @@ export default class ComentariosService {
             }
 
             return true
-        } catch (error) {
-            console.error(error)
-            throw error
-        }
-    }
-
-    static async verificarComentario({params}) {
-        try {
-            const response = await fetch(apiconfig.comentarios + "/" + params.id, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + params.access_token
-                },
-                body: JSON.stringify({
-                    verificado: true
-                })
-            })
-
-            if (!response.ok) {
-                throw new Error('Error al verificar el comentario: ' + response.statusText)
-            }
-
-            const data = await response.json()
-            if (!data || !data["data"]) {
-                throw new Error('Error: Datos no encontrados o mal formateados')
-            }
-
-            return data["data"]
         } catch (error) {
             console.error(error)
             throw error
