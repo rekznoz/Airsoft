@@ -127,25 +127,26 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
             {comentarios.length > 0 && (
                 <ul className="lista-comentarios">
-                    {comentariosPagina.map(comentario =>
-                            comentario.verificado && (
-                                <ComentarioItem
-                                    key={comentario.id}
-                                    comentario={comentario}
-                                    esUsuarioActual={comentario.user.id === user?.id}
-                                    enEdicion={comentarioEditando === comentario.id}
-                                    manejarEditar={manejarEditar}
-                                    manejarGuardarEdicion={manejarGuardarEdicion}
-                                    cancelarEdicion={() => setComentarioEditando(null)}
-                                    comentarioEditado={comentarioEditado}
-                                    setComentarioEditado={setComentarioEditado}
-                                    calificacionEditada={calificacionEditada}
-                                    setCalificacionEditada={setCalificacionEditada}
-                                />
-                            )
-                    )}
+                    {comentariosPagina
+                        .filter(comentario => comentario.verificado === 1)
+                        .map(comentario => (
+                            <ComentarioItem
+                                key={comentario.id}
+                                comentario={comentario}
+                                esUsuarioActual={comentario.user.id === user?.id}
+                                enEdicion={comentarioEditando === comentario.id}
+                                manejarEditar={manejarEditar}
+                                manejarGuardarEdicion={manejarGuardarEdicion}
+                                cancelarEdicion={() => setComentarioEditando(null)}
+                                comentarioEditado={comentarioEditado}
+                                setComentarioEditado={setComentarioEditado}
+                                calificacionEditada={calificacionEditada}
+                                setCalificacionEditada={setCalificacionEditada}
+                            />
+                        ))}
                 </ul>
             )}
+
 
             {comentarios.length > porPagina && (
                 <div className="paginacion-comentarios">
