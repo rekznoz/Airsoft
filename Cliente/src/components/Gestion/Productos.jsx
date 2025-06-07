@@ -8,7 +8,7 @@ import ProductoService from "../../services/ProductoService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
 import {mixed, object, string} from "yup"
 import "../../css/gestion/producto.css"
-import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx";
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx"
 
 const validationSchema = object({
     nombre: string().required('El nombre es obligatorio'),
@@ -64,7 +64,7 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
             }
         }
 
-        formData.append('estado_activo', valores.estado_activo ? '1' : '0');
+        formData.append('estado_activo', valores.estado_activo ? '1' : '0')
 
         // Añadir imágenes como archivos
         valores.imagenes.forEach((imagen, index) => {
@@ -368,7 +368,7 @@ export default function Productos({productos}) {
                         ProductosService.postProducto({
                             token: access_token,
                             formData: productoNuevo // este ya contiene los campos convertidos
-                        });
+                        })
                     }}
                 />
             )}
