@@ -46,7 +46,7 @@ class ProductoRequest extends FormRequest
             'capacidad_cargador' => 'nullable|integer|min:0',
             'peso' => 'nullable|numeric|min:0',
             'imagenes' => 'nullable|array',
-            'imagenes.*' => 'url',
+            'imagenes.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'video_demo' => 'nullable|url',
             'tiempo_envio' => 'nullable|string|max:255',
             'estado_activo' => 'boolean',
