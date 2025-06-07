@@ -22,7 +22,7 @@ export default class ComentariosService {
 
     static async getComentariosVerificados() {
         try {
-            const response = await fetch(apiconfig.comentarios)
+            const response = await fetch(apiconfig.comentarios + "?verificado=true")
 
             if (!response.ok) {
                 throw new Error('Error al obtener los comentarios: ' + response.statusText)
@@ -43,7 +43,7 @@ export default class ComentariosService {
 
     static async getComentariosNoVerificados() {
         try {
-            const response = await fetch(apiconfig.comentarios)
+            const response = await fetch(apiconfig.comentarios + "?verificado=false")
 
             if (!response.ok) {
                 throw new Error('Error al obtener los comentarios: ' + response.statusText)
@@ -164,6 +164,35 @@ export default class ComentariosService {
             }
 
             return true
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
+    static async verificarComentario({params}) {
+        try {
+            const response = await fetch(apiconfig.comentarios + "/" + params.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + params.access_token
+                },
+                body: JSON.stringify({
+                    verificado: true
+                })
+            })
+
+            if (!response.ok) {
+                throw new Error('Error al verificar el comentario: ' + response.statusText)
+            }
+
+            const data = await response.json()
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
         } catch (error) {
             console.error(error)
             throw error
