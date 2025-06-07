@@ -43,7 +43,26 @@ export default function Comentarios({comentarios}) {
 
 
     const onEditar = (id) => {
-        
+        Swal.fire({
+            title: 'Verificar Comentario',
+            text: "¿Deseas verificar este comentario?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, verificar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                ComentariosService.verificarComentario({params: {id: id, access_token: access_token}})
+                    .then(() => {
+                        Swal.fire('Verificado', 'El comentario ha sido verificado.', 'success')
+                        setListaComentarios(prev => prev.map(c => c.id === id ? {...c, verificado: true} : c))
+                    })
+                    .catch(error => {
+                        Swal.fire('Error', 'No se pudo verificar el comentario.', 'error')
+                    })
+            }
+        })
     }
 
     const onEliminar = (id) => {
@@ -103,7 +122,7 @@ export default function Comentarios({comentarios}) {
 
                             <div className="comentario-acciones">
                                 <button className="btn-editar" onClick={() => onEditar(comentario.id)}>
-                                    Editar
+                                    Verificar
                                 </button>
                                 <button className="btn-eliminar" onClick={() => onEliminar(comentario.id)}>
                                     Eliminar
