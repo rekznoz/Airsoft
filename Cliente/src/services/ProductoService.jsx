@@ -151,7 +151,7 @@ export default class ProductoService {
         }
     }
 
-    static async postProducto({params}) {
+    static async postProducto2({params}) {
         console.log("Enviando datos del producto:", params)
 
         try {
@@ -195,6 +195,59 @@ export default class ProductoService {
             throw error
         }
     }
+
+    static async postProducto({ params }) {
+        console.log("Enviando datos del producto (FormData):", params);
+
+        try {
+            const formData = new FormData();
+
+            formData.append('nombre', params.nombre);
+            formData.append('descripcion', params.descripcion);
+            formData.append('precio', params.precio);
+            formData.append('descuento', params.descuento);
+            formData.append('stock', params.stock);
+            formData.append('categoria_id', params.categoria);
+            formData.append('marca', params.marca);
+            formData.append('modelo', params.modelo);
+            formData.append('fps', params.fps);
+            formData.append('calibre', params.calibre);
+            formData.append('capacidad_cargador', params.capacidad_cargador);
+            formData.append('peso', params.peso);
+            formData.append('video_demo', params.video_demo);
+            formData.append('tiempo_envio', params.tiempo_envio);
+            formData.append('estado_activo', params.estado_activo ? 1 : 0);
+
+            // Adjuntar imágenes (suponiendo que params.imagenes es un array de File)
+            if (params.imagenes && params.imagenes.length > 0) {
+                params.imagenes.forEach((file, index) => {
+                    formData.append(`imagenes[]`, file);
+                });
+            }
+
+            const response = await fetch(apiconfig.productos, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${params.access_token}`
+                    // NO poner 'Content-Type': el navegador lo maneja automáticamente al usar FormData
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Errores de validación del backend:", data.errors || data);
+                throw new Error(`Error al crear el producto: ${data.message || 'Validación fallida'}`);
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Error en postProducto:", error);
+            throw error;
+        }
+    }
+
 
     static async updateProducto({params}) {
         console.log("Enviando datos del producto para actualizar:", params)
