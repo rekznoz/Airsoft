@@ -151,17 +151,12 @@ export default class ProductoService {
         }
     }
 
-    static async postProducto({ formData, token }) {
-
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
+    static async postProducto({formData, token}) {
         try {
             const response = await fetch(apiconfig.productos, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}` // NO pongas Content-Type, fetch lo pone solo
+                    'Authorization': `Bearer ${token}`
                 },
                 body: formData
             });
@@ -180,49 +175,30 @@ export default class ProductoService {
         }
     }
 
-
-
-    static async updateProducto({params}) {
-        console.log("Enviando datos del producto para actualizar:", params)
+    static async putProducto({ id, formData, token }) {
+        formData.append('_method', 'PUT') // Esto es clave para Laravel
 
         try {
-            const response = await fetch(`${apiconfig.productos}/${params.id}`, {
-                method: 'PUT',
+            const response = await fetch(apiconfig.productos + "/" + id, {
+                method: 'POST', // ¡OJO! Aunque es PUT, aquí usamos POST
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${params.access_token}`
+                    'Authorization': `Bearer ${token}`
+                    // No pongas 'Content-Type', fetch lo establece automáticamente con boundary al usar FormData
                 },
-                body: JSON.stringify({
-                    nombre: params.nombre,
-                    descripcion: params.descripcion,
-                    precio: params.precio,
-                    descuento: params.descuento,
-                    precio_final: params.precio_final,
-                    stock: params.stock,
-                    categoria_id: params.categoria,
-                    marca: params.marca,
-                    modelo: params.modelo,
-                    fps: params.fps,
-                    calibre: params.calibre,
-                    capacidad_cargador: params.capacidad_cargador,
-                    peso: params.peso,
-                    imagenes: params.imagenes,
-                    video_demo: params.video_demo,
-                    tiempo_envio: params.tiempo_envio,
-                    estado_activo: params.estado_activo
-                })
+                body: formData
             })
 
             const data = await response.json()
 
             if (!response.ok) {
-                console.error("Errores de validación del backend:", data.errors || data);
-                throw new Error(`Error al actualizar el producto: ${data.message || 'Validación fallida'}`);
+                console.error("Errores de validación del backend:", data.errors || data)
+                throw new Error(`Error al actualizar el producto: ${data.message || 'Validación fallida'}`)
             }
 
-            return data // o true si prefieres
+            return data["data"]
+
         } catch (error) {
-            console.error("Error en updateProducto:", error)
+            console.error("Error en putProducto:", error)
             throw error
         }
     }
