@@ -43,8 +43,7 @@ export default function Comentarios({comentarios}) {
 
 
     const onEditar = (id) => {
-        // Aquí puedes implementar la lógica para editar el comentario
-        console.log("Editar comentario:", id)
+        
     }
 
     const onEliminar = (id) => {
