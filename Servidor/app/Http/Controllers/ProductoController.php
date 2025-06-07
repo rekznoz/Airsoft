@@ -31,7 +31,7 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductoRequest $request)
+    public function store2(ProductoRequest $request)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(function () {
@@ -49,6 +49,38 @@ class ProductoController extends Controller
         return new ProductoResource($producto);
     }
 
+    public function store(ProductoRequest $request)
+    {
+        if (config('telescope.enabled')) {
+            Telescope::tag(function () {
+                return ['api_request', 'action:store'];
+            });
+        }
+
+        if (!auth()->user()->can('agregar producto')) {
+            return response()->json(['error' =>
+                'No tienes permisos para crear productos'], 403);
+        }
+
+        $data = $request->validated();
+
+        if ($request->hasFile('imagenes')) {
+            $imagenes = [];
+
+            foreach ($request->file('imagenes') as $imagen) {
+                $ruta = $imagen->store('productos', 'public');
+                $imagenes[] = asset('storage/' . $ruta);
+            }
+
+            $data['imagenes'] = $imagenes;
+        }
+
+        $producto = Producto::create($data);
+
+        return new ProductoResource($producto);
+    }
+
+
     /**
      * Display the specified resource.
      */
@@ -64,7 +96,7 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductoRequest $request, Producto $producto)
+    public function update2(ProductoRequest $request, Producto $producto)
     {
         if (config('telescope.enabled')) {
             Telescope::tag(fn() => ['api_request', 'action:update']);
@@ -76,6 +108,36 @@ class ProductoController extends Controller
         }
 
         $producto->update($request->validated());
+
+        return new ProductoResource($producto);
+    }
+
+    public function update(ProductoRequest $request, Producto $producto)
+    {
+        
+        if (config('telescope.enabled')) {
+            Telescope::tag(fn() => ['api_request', 'action:update']);
+        }
+
+        if (!auth()->user()->can('editar producto')) {
+            return response()->json(['error' =>
+                'No tienes permisos para actualizar productos'], 403);
+        }
+
+        $data = $request->validated();
+
+        if ($request->hasFile('imagenes')) {
+            $imagenes = [];
+
+            foreach ($request->file('imagenes') as $imagen) {
+                $ruta = $imagen->store('productos', 'public');
+                $imagenes[] = asset('storage/' . $ruta);
+            }
+
+            $data['imagenes'] = $imagenes;
+        }
+
+        $producto->update($data);
 
         return new ProductoResource($producto);
     }
