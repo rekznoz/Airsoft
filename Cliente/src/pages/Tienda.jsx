@@ -4,6 +4,7 @@ import "../css/tienda.css"
 import productosStore from "../context/ProductosStore.jsx"
 import Spinner from "../components/Spinner.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx";
 
 const PRODUCTOS_POR_PAGINA = 6
 
@@ -142,7 +143,7 @@ export default function Tienda() {
                     {productosPagina.map((producto) => (
                         <div key={producto.id} className="producto">
                             <Link to={`/tienda/${producto.id}`}>
-                                <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}/>
+                                <img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
                             </Link>
                             <h2>{producto.nombre}</h2>
                             <p>{producto.descripcion.length > 80 ? producto.descripcion.slice(0, 80) + '…' : producto.descripcion}</p>
