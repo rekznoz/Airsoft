@@ -231,3 +231,19 @@ p.inactivo {
 .boton-nuevo-producto:hover {
     background-color: var(--fondo-alternativo);
 }
+
+.preview-imagenes {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.preview-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
