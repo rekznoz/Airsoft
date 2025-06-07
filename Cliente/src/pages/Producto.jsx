@@ -6,7 +6,7 @@ import ProductoDetalles from '../components/Producto/ProductoDetalles'
 import GaleriaImagenes from '../components/Producto/GaleriaImagenes'
 import ModalImagen from '../components/Producto/ModalImagen'
 import ComentariosPaginados from '../components/Producto/ComentariosPaginados'
-import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx";
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
 
 export default function Producto() {
 
