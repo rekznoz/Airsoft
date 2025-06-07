@@ -252,17 +252,6 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                                     <div className="error">{errors.estado_activo}</div>}
                             </div>
 
-                            {/*}
-                            <div className="modal-acciones">
-                                <button type="submit">
-                                    {modo === "crear" ? "Publicar" : "Guardar"}
-                                </button>
-                                <button type="button" className="cancelar" onClick={onClose}>
-                                    Cancelar
-                                </button>
-                            </div>
-                            */}
-
                             <div className="modal-acciones">
                                 <button type="submit" disabled={isSubmitting}>
                                     {modo === "crear" ? "Publicar" : "Guardar"}
@@ -333,47 +322,6 @@ export default function Productos({productos}) {
         )
     }
 
-    const guardarCambios = (productoActualizado) => {
-        Swal.fire(
-            {
-                title: '¿Estás seguro?',
-                text: "¡Los cambios se guardarán!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, guardar'
-            }
-        ).then((result) => {
-                if (result.isConfirmed) {
-                    // Aquí podrías hacer una petición al backend para actualizar el producto
-                    ProductosService.updateProducto({
-                        params: {
-                            id: productoActualizado.id,
-                            access_token, ...productoActualizado
-                        }
-                    })
-                        .then(() => {
-                            Swal.fire(
-                                '¡Guardado!',
-                                'El producto ha sido actualizado.',
-                                'success'
-                            )
-                            setProductosAMostrar(prev => prev.map(p => p.id === productoActualizado.id ? productoActualizado : p))
-                            setProductoSeleccionado(null)
-                        })
-                        .catch(error => {
-                            Swal.fire(
-                                'Error',
-                                'No se pudo actualizar el producto: ' + error.message,
-                                'error'
-                            )
-                        })
-                }
-            }
-        )
-    }
-
     return (
         <div className="producto-card-contenedor">
 
@@ -430,7 +378,20 @@ export default function Productos({productos}) {
                     modo="editar"
                     producto={productoSeleccionado}
                     onClose={() => setProductoSeleccionado(null)}
-                    onSave={guardarCambios}
+                    onSave={(formData) => {
+                        ProductosService.putProducto({
+                            token: access_token,
+                            id: productoSeleccionado.id,
+                            formData: formData
+                        }).then((productoActualizado) => {
+                            Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success");
+                            console.log(productoActualizado);
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoSeleccionado.id ? productoActualizado : p));
+                        }).catch((error) => {
+                            Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error");
+                        });
+                    }}
+
                 />
             )}
 
