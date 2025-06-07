@@ -103,7 +103,7 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
     useEffect(() => {
         //window.scrollTo({top: 0, behavior: 'smooth'})
-        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})
+        //window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})
     }, [pagina])
 
     return (
@@ -121,24 +121,25 @@ export default function ComentariosPaginados({comentarios, producto}) {
                 />
             )}
 
-
-            <ul className="lista-comentarios">
-                {comentariosPagina.map(comentario => (
-                    <ComentarioItem
-                        key={comentario.id}
-                        comentario={comentario}
-                        esUsuarioActual={comentario.user.id === user?.id}
-                        enEdicion={comentarioEditando === comentario.id}
-                        manejarEditar={manejarEditar}
-                        manejarGuardarEdicion={manejarGuardarEdicion}
-                        cancelarEdicion={() => setComentarioEditando(null)}
-                        comentarioEditado={comentarioEditado}
-                        setComentarioEditado={setComentarioEditado}
-                        calificacionEditada={calificacionEditada}
-                        setCalificacionEditada={setCalificacionEditada}
-                    />
-                ))}
-            </ul>
+            {comentarios.length > 0 && (
+                <ul className="lista-comentarios">
+                    {comentariosPagina.map(comentario => (
+                        <ComentarioItem
+                            key={comentario.id}
+                            comentario={comentario}
+                            esUsuarioActual={comentario.user.id === user?.id}
+                            enEdicion={comentarioEditando === comentario.id}
+                            manejarEditar={manejarEditar}
+                            manejarGuardarEdicion={manejarGuardarEdicion}
+                            cancelarEdicion={() => setComentarioEditando(null)}
+                            comentarioEditado={comentarioEditado}
+                            setComentarioEditado={setComentarioEditado}
+                            calificacionEditada={calificacionEditada}
+                            setCalificacionEditada={setCalificacionEditada}
+                        />
+                    ))}
+                </ul>
+            )}
 
             {comentarios.length > porPagina && (
                 <div className="paginacion-comentarios">
