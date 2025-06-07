@@ -20,7 +20,28 @@ import apiconfig from "../config/APIConfig.jsx"
 
 export default class ComentariosService {
 
-    static async getComentarios() {
+    static async getComentariosVerificados() {
+        try {
+            const response = await fetch(apiconfig.comentarios)
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los comentarios: ' + response.statusText)
+            }
+
+            const data = await response.json()
+
+            if (!data || !data["data"]) {
+                throw new Error('Error: Datos no encontrados o mal formateados')
+            }
+
+            return data["data"]
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
+    static async getComentariosNoVerificados() {
         try {
             const response = await fetch(apiconfig.comentarios)
 
@@ -62,7 +83,6 @@ export default class ComentariosService {
         }
     }
 
-    // Metodo para agregar un comentario
     static async postComentario({params}) {
         try {
 
@@ -108,7 +128,8 @@ export default class ComentariosService {
                     user_id: params.user_id,
                     producto_id: params.producto_id,
                     comentario: params.comentario,
-                    calificacion: params.calificacion
+                    calificacion: params.calificacion,
+                    verificado: params.verificado
                 })
             })
 
