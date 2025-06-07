@@ -48,6 +48,10 @@ class Comentario extends Model
             $query->where('user_id', request('user_id'));
         }
 
+        if ($filters['verificado'] ?? false) {
+            $query->where('verificado', request('verificado'));
+        }
+
     }
 
 
