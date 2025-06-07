@@ -26,6 +26,7 @@ class ComentarioResource extends JsonResource
             ],
             "comentario" => $this->comentario,
             "calificacion" => $this->calificacion,
+            "verificado" => $this->verificado,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];
