@@ -106,9 +106,13 @@ export default function ComentariosPaginados({comentarios, producto}) {
         //window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})
     }, [pagina])
 
+    console.log(comentarios)
+    console.log(producto)
+
     return (
         <section className="producto-comentarios">
-            <h2>Comentarios ({comentarios.length})</h2>
+
+            <h2>Comentarios ({comentarios.filter(c => c.verificado).length})</h2>
 
             {isLoggedIn && !yaComento && (
                 <FormularioNuevoComentario
@@ -123,21 +127,23 @@ export default function ComentariosPaginados({comentarios, producto}) {
 
             {comentarios.length > 0 && (
                 <ul className="lista-comentarios">
-                    {comentariosPagina.map(comentario => (
-                        <ComentarioItem
-                            key={comentario.id}
-                            comentario={comentario}
-                            esUsuarioActual={comentario.user.id === user?.id}
-                            enEdicion={comentarioEditando === comentario.id}
-                            manejarEditar={manejarEditar}
-                            manejarGuardarEdicion={manejarGuardarEdicion}
-                            cancelarEdicion={() => setComentarioEditando(null)}
-                            comentarioEditado={comentarioEditado}
-                            setComentarioEditado={setComentarioEditado}
-                            calificacionEditada={calificacionEditada}
-                            setCalificacionEditada={setCalificacionEditada}
-                        />
-                    ))}
+                    {comentariosPagina.map(comentario =>
+                            comentario.verificado && (
+                                <ComentarioItem
+                                    key={comentario.id}
+                                    comentario={comentario}
+                                    esUsuarioActual={comentario.user.id === user?.id}
+                                    enEdicion={comentarioEditando === comentario.id}
+                                    manejarEditar={manejarEditar}
+                                    manejarGuardarEdicion={manejarGuardarEdicion}
+                                    cancelarEdicion={() => setComentarioEditando(null)}
+                                    comentarioEditado={comentarioEditado}
+                                    setComentarioEditado={setComentarioEditado}
+                                    calificacionEditada={calificacionEditada}
+                                    setCalificacionEditada={setCalificacionEditada}
+                                />
+                            )
+                    )}
                 </ul>
             )}
 
