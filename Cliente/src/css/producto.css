@@ -43,6 +43,27 @@
     text-decoration: underline;
 }
 
+.producto-descuento {
+    font-size: 1.2rem;
+    color: var(--texto-alternativo);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.descuento-porcentaje {
+    background-color: var(--varios);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.descuento-precio {
+    text-decoration: line-through;
+    color: var(--texto-alternativo);
+}
+
 .producto-imagen-principal {
     width: 100%;
     max-width: 600px;
