@@ -27,6 +27,7 @@ class ComentarioRequest extends FormRequest
             'producto_id' => 'required|integer|exists:productos,id',
             'comentario' => 'required|string|max:255',
             'calificacion' => 'required|integer|min:1|max:10',
+            'verificado' => 'boolean',
         ];
     }
 
@@ -46,6 +47,7 @@ class ComentarioRequest extends FormRequest
             'calificacion.integer' => 'La calificación debe ser un número entero.',
             'calificacion.min' => 'La calificación debe ser al menos 1.',
             'calificacion.max' => 'La calificación no puede ser mayor a 5.',
+            'verificado.boolean' => 'El campo verificado debe ser verdadero o falso.',
         ];
     }
 }
