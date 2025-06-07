@@ -1,3 +1,5 @@
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx";
+
 export default function GaleriaImagenes({imagenes, setImagenGrande}) {
     return (
         <section className="producto-imagenes">
@@ -6,9 +8,9 @@ export default function GaleriaImagenes({imagenes, setImagenGrande}) {
                 {imagenes.map((url, idx) => (
                     <img
                         key={idx}
-                        src="https://i.imgur.com/yMVfJZD.jpeg"
+                        src={corregirUrlImagen(url)}
                         alt={`Producto imagen ${idx + 1}`}
-                        onClick={() => setImagenGrande("https://i.imgur.com/yMVfJZD.jpeg")}
+                        onClick={() => setImagenGrande(corregirUrlImagen(url))}
                     />
                 ))}
             </div>
