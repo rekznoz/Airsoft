@@ -6,38 +6,9 @@ import Swal from "sweetalert2"
 import ProductosService from "../../services/ProductoService.jsx"
 import ProductoService from "../../services/ProductoService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
-import {object, string} from "yup"
+import {mixed, object, string} from "yup"
 import "../../css/gestion/producto.css"
-
-
-/*
-{
-    "id": 1,
-    "nombre": "enim placeat quia",
-    "descripcion": "Iste illo nihil excepturi voluptate est velit sit sint iusto rerum.",
-    "precio": "201.07",
-    "descuento": "6.82",
-    "precio_final": 194.25,
-    "stock": 78,
-    "categoria": {
-      "id": 3,
-      "nombre": "Munición"
-    },
-    "marca": "Laureano de Monroy y Flia.",
-    "modelo": "MODEL-20ZI",
-    "fps": 151,
-    "calibre": "6 mm",
-    "capacidad_cargador": 116,
-    "peso": 4.74,
-    "imagenes": [
-      "https://via.placeholder.com/640x480.png/00bb99?text=animi",
-      "https://via.placeholder.com/640x480.png/00ccbb?text=ipsam"
-    ],
-    "video_demo": "http://arenas.es/quos-nisi-sequi-velit-at-quis-quam.html",
-    "tiempo_envio": "24h",
-    "estado_activo": false,
-}
-*/
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx";
 
 const validationSchema = object({
     nombre: string().required('El nombre es obligatorio'),
@@ -46,14 +17,16 @@ const validationSchema = object({
     descuento: string().matches(/^\d+(\.\d{1,2})?$/, 'El descuento debe ser un número válido'),
     precio_final: string().matches(/^\d+(\.\d{1,2})?$/, 'El precio final debe ser un número válido'),
     stock: string().matches(/^\d+$/, 'El stock debe ser un número entero'),
-    categoria: string().required('La categoría es obligatoria'),
+    categoria_id: string().required('La categoría es obligatoria'),
     marca: string().required('La marca es obligatoria'),
     modelo: string().required('El modelo es obligatorio'),
     fps: string().matches(/^\d+$/, 'Los FPS deben ser un número entero'),
     calibre: string().required('El calibre es obligatorio'),
     capacidad_cargador: string().matches(/^\d+$/, 'La capacidad del cargador debe ser un número entero'),
     peso: string().matches(/^\d+(\.\d{1,2})?$/, 'El peso debe ser un número válido'),
-    imagenes: string().matches(/^(https?:\/\/[^\s]+(,[^\s]+)*)?$/, 'Las imágenes deben ser URLs válidas separadas por comas'),
+    imagenes: mixed().test('fileSize', 'Debes subir al menos una imagen', value => {
+        return value && value.length > 0
+    }),
     video_demo: string().matches(/^(https?:\/\/[^\s]+)?$/, 'El video de demostración debe ser una URL válida'),
     tiempo_envio: string().required('El tiempo de envío es obligatorio'),
     estado_activo: string().oneOf(['true', 'false'], 'El estado activo debe ser verdadero o falso'),
@@ -68,7 +41,7 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
         descuento: producto?.descuento || 0,
         precio_final: producto?.precio_final || 1,
         stock: producto?.stock || 0,
-        categoria: producto?.categoria?.id || 1,
+        categoria_id: producto?.categoria?.id || 1,
         marca: producto?.marca || "MARCA DE PRUIEBA",
         modelo: producto?.modelo || "MODELO DE PRUEBA",
         fps: producto?.fps || 0,
@@ -81,24 +54,27 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
         estado_activo: producto?.estado_activo || false,
     }
 
-    const handleSubmit = (valores) => {
-        const imagenesProcesadas = valores.imagenes
-            .split(',')
-            .map(url => url.trim())
-            .filter(Boolean)
+    const handleSubmit = async (valores) => {
+        const formData = new FormData()
 
-        // Asegurarse de que el estado_activo sea un booleano
-        valores.estado_activo = valores.estado_activo === 'true'
-
-        const productoResultado = {
-            ...producto,
-            ...valores,
-            imagenes: imagenesProcesadas,
+        // Añadir campos normales
+        for (const clave in valores) {
+            if (clave !== "imagenes" && clave !== "estado_activo") {
+                formData.append(clave, valores[clave])
+            }
         }
 
-        onSave(productoResultado)
+        formData.append('estado_activo', valores.estado_activo ? '1' : '0');
+
+        // Añadir imágenes como archivos
+        valores.imagenes.forEach((imagen, index) => {
+            formData.append(`imagenes[]`, imagen) // backend debe aceptar "imagenes[]"
+        })
+
+        onSave(formData)
         onClose()
     }
+
 
     return (
         <div className="modal-fondo">
@@ -111,61 +87,64 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
-                    {({handleChange, handleBlur, values, errors, touched, isSubmitting}) => (
+                    {({handleChange, handleBlur, values, errors, touched, isSubmitting, setFieldValue}) => (
                         <Form>
                             <div className="form-group-producto">
                                 <label>Nombre:</label>
                                 <Field type="text" name="nombre" className="form-field"
                                        onChange={handleChange}
-                                       onBlur={handleBlur} value={values.nombre} />
+                                       onBlur={handleBlur} value={values.nombre}/>
                                 {errors.nombre && touched.nombre && <div className="error">{errors.nombre}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Descripción:</label>
                                 <Field as="textarea" name="descripcion" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.descripcion} />
-                                {errors.descripcion && touched.descripcion && <div className="error">{errors.descripcion}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.descripcion}/>
+                                {errors.descripcion && touched.descripcion &&
+                                    <div className="error">{errors.descripcion}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Precio:</label>
                                 <Field type="text" name="precio" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.precio} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.precio}/>
                                 {errors.precio && touched.precio && <div className="error">{errors.precio}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Descuento:</label>
                                 <Field type="text" name="descuento" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.descuento} />
-                                {errors.descuento && touched.descuento && <div className="error">{errors.descuento}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.descuento}/>
+                                {errors.descuento && touched.descuento &&
+                                    <div className="error">{errors.descuento}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Precio Final:</label>
                                 <Field type="text" name="precio_final" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.precio_final} />
-                                {errors.precio_final && touched.precio_final && <div className="error">{errors.precio_final}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.precio_final}/>
+                                {errors.precio_final && touched.precio_final &&
+                                    <div className="error">{errors.precio_final}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Stock:</label>
                                 <Field type="text" name="stock" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.stock} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.stock}/>
                                 {errors.stock && touched.stock && <div className="error">{errors.stock}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Categoría:</label>
-                                <Field as="select" name="categoria" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.categoria}>
+                                <Field as="select" name="categoria_id" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.categoria_id}>
                                     <option value="">Selecciona una categoría</option>
                                     <option value="1">Munición</option>
                                     <option value="2">Accesorios</option>
@@ -174,90 +153,103 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                                     <option value="5">Equipamiento</option>
                                     <option value="6">Otros</option>
                                 </Field>
-                                {errors.categoria && touched.categoria && <div className="error">{errors.categoria}</div>}
+                                {errors.categoria_id && touched.categoria_id &&
+                                    <div className="error">{errors.categoria_id}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Marca:</label>
                                 <Field type="text" name="marca" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.marca} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.marca}/>
                                 {errors.marca && touched.marca && <div className="error">{errors.marca}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Modelo:</label>
                                 <Field type="text" name="modelo" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.modelo} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.modelo}/>
                                 {errors.modelo && touched.modelo && <div className="error">{errors.modelo}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>FPS:</label>
                                 <Field type="text" name="fps" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.fps} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.fps}/>
                                 {errors.fps && touched.fps && <div className="error">{errors.fps}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Calibre:</label>
                                 <Field type="text" name="calibre" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.calibre} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.calibre}/>
                                 {errors.calibre && touched.calibre && <div className="error">{errors.calibre}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Capacidad del Cargador:</label>
                                 <Field type="text" name="capacidad_cargador" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.capacidad_cargador} />
-                                {errors.capacidad_cargador && touched.capacidad_cargador && <div className="error">{errors.capacidad_cargador}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.capacidad_cargador}/>
+                                {errors.capacidad_cargador && touched.capacidad_cargador &&
+                                    <div className="error">{errors.capacidad_cargador}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Peso:</label>
                                 <Field type="text" name="peso" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.peso} />
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.peso}/>
                                 {errors.peso && touched.peso && <div className="error">{errors.peso}</div>}
                             </div>
 
                             <div className="form-group-producto">
-                                <label>Imágenes (URLs separadas por comas):</label>
-                                <Field type="text" name="imagenes" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.imagenes} />
+                                <label>Imágenes (sube una o más):</label>
+                                <input
+                                    type="file"
+                                    name="imagenes"
+                                    className="form-field"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={(event) => {
+                                        const files = event.currentTarget.files
+                                        setFieldValue("imagenes", Array.from(files))
+                                    }}
+                                />
                                 {errors.imagenes && touched.imagenes && <div className="error">{errors.imagenes}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Video de Demostración (URL):</label>
                                 <Field type="text" name="video_demo" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.video_demo} />
-                                {errors.video_demo && touched.video_demo && <div className="error">{errors.video_demo}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.video_demo}/>
+                                {errors.video_demo && touched.video_demo &&
+                                    <div className="error">{errors.video_demo}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Tiempo de Envío:</label>
                                 <Field type="text" name="tiempo_envio" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.tiempo_envio} />
-                                {errors.tiempo_envio && touched.tiempo_envio && <div className="error">{errors.tiempo_envio}</div>}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.tiempo_envio}/>
+                                {errors.tiempo_envio && touched.tiempo_envio &&
+                                    <div className="error">{errors.tiempo_envio}</div>}
                             </div>
 
                             <div className="form-group-producto">
                                 <label>Estado Activo:</label>
                                 <Field as="select" name="estado_activo" className="form-field"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur} value={values.estado_activo}>
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.estado_activo}>
                                     <option value="true">Activo</option>
                                     <option value="false">Inactivo</option>
                                 </Field>
-                                {errors.estado_activo && touched.estado_activo && <div className="error">{errors.estado_activo}</div>}
+                                {errors.estado_activo && touched.estado_activo &&
+                                    <div className="error">{errors.estado_activo}</div>}
                             </div>
 
                             {/*}
@@ -393,7 +385,11 @@ export default function Productos({productos}) {
                 {productosAMostrar.map(producto => (
                     <div key={producto.id} className="producto-card">
                         <Link to={`/tienda/${producto.id}`}>
-                            <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}/>
+                            {producto.imagenes.length > 0 ?
+                                <img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
+                                :
+                                <img src="https://placehold.co/600x400/EEE/31343C" alt={producto.nombre}/>
+                            }
                         </Link>
                         <h3>{producto.nombre}</h3>
                         <p><strong>Stock:</strong> {producto.stock}</p>
@@ -422,14 +418,9 @@ export default function Productos({productos}) {
                     onClose={() => setMostrarModalNuevo(false)}
                     onSave={(productoNuevo) => {
                         ProductosService.postProducto({
-                            params: {access_token, ...productoNuevo}
-                        }).then(({data}) => {
-                            Swal.fire("¡Creado!", "El producto fue publicado.", "success")
-                            setProductosAMostrar(prev => [data, ...prev])
-                            setMostrarModalNuevo(false)
-                        }).catch(error => {
-                            Swal.fire("Error", "No se pudo crear: " + error.message, "error")
-                        })
+                            token: access_token,
+                            formData: productoNuevo // este ya contiene los campos convertidos
+                        });
                     }}
                 />
             )}
