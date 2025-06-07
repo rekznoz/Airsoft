@@ -60,7 +60,7 @@ export default function Perfil() {
                     <p><strong>Email:</strong> {usuario.email}</p>
                 </div>
                 {
-                    user.id === usuario.id ? (
+                    user === usuario.id ? (
                         <div className="perfil-acciones">
                             <button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil</button>
                         </div>
