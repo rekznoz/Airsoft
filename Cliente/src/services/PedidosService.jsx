@@ -46,7 +46,6 @@ export default class PedidosService {
     static async getPedidosUsuario({params}) {
         try {
 
-            console.log(params.id)
             const response = await fetch(apiconfig.pedidos + "?user_id=" + params.id)
 
             if (!response.ok) {
@@ -88,7 +87,6 @@ export default class PedidosService {
     }
 
     static async updatePedido({params}) {
-        console.log(params)
         try {
             const response = await fetch(`${apiconfig.pedidos}/${params.id}`, {
                 method: 'PUT',
