@@ -45,6 +45,7 @@ class ProductoResource extends JsonResource
                     ],
                     'comentario' => $comentario->comentario,
                     'calificacion' => $comentario->calificacion,
+                    'verificado' => $comentario->verificado,
                     'created_at' => $comentario->created_at?->toDateTimeString(),
                 ];
             }),
