@@ -203,7 +203,7 @@ export const router = createBrowserRouter([
                             const [productos, pedidos, comentarios, categorias] = await Promise.all([
                                 ProductosService.getProductos(),
                                 PedidosService.getPedidos(),
-                                ComentariosService.getComentarios(),
+                                ComentariosService.getComentariosVerificados(),
                                 CategoriasService.getCategorias()
                             ])
 
