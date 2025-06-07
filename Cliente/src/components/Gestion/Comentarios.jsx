@@ -38,11 +38,21 @@ export default function Comentarios({comentarios}) {
     }, [listaComentarios, rangoVisible])
 
     useEffect(() => {
-        setListaComentarios(comentarios)
+        if (comentarios.length !== listaComentarios.length) {
+            setListaComentarios(comentarios)
+        }
     }, [comentarios])
 
+    useEffect(() => {
+        if (rangoVisible.start >= listaComentarios.length && listaComentarios.length > 0) {
+            const nuevaPagina = Math.max(1, Math.ceil(listaComentarios.length / cantidadPorPagina))
+            const nuevoStart = (nuevaPagina - 1) * cantidadPorPagina
+            setRangoVisible({ start: nuevoStart, end: nuevoStart + cantidadPorPagina, pagina: nuevaPagina })
+        }
+    }, [listaComentarios])
 
-    const onEditar = (comentario) => {
+
+    const onVerificar = (comentario) => {
         Swal.fire({
             title: 'Verificar Comentario',
             text: `¿Deseas verificar el comentario de ${comentario.user.nombre} sobre ${comentario.producto.nombre}?`,
@@ -56,7 +66,7 @@ export default function Comentarios({comentarios}) {
                     {params: { ...comentario, access_token, verificado: true} }
                 ).then(() => {
                     Swal.fire('Verificado', 'El comentario ha sido verificado.', 'success')
-                    setListaComentarios(prev => prev.map(c => c.id === comentario.id ? {...c, verificado: true} : c))
+                    setListaComentarios(prev => prev.filter(c => c.id !== comentario.id))
                 }).catch(error => {
                     Swal.fire('Error', 'No se pudo verificar el comentario.', 'error')
                 })
@@ -120,10 +130,10 @@ export default function Comentarios({comentarios}) {
                             </div>
 
                             <div className="comentario-acciones">
-                                <button className="btn-editar" onClick={() => onEditar(comentario)}>
+                                <button type="button" className="btn-editar" onClick={() => onVerificar(comentario)}>
                                     Verificar
                                 </button>
-                                <button className="btn-eliminar" onClick={() => onEliminar(comentario.id)}>
+                                <button type="button" className="btn-eliminar" onClick={() => onEliminar(comentario.id)}>
                                     Eliminar
                                 </button>
                             </div>
@@ -133,7 +143,7 @@ export default function Comentarios({comentarios}) {
                     {/* Paginación */}
                     {comentarios.length > cantidadPorPagina && (
                         <Paginacion
-                            totalItems={comentarios.length}
+                            totalItems={listaComentarios.length}
                             itemsPerPage={cantidadPorPagina}
                             onPageChange={(rango) => setRangoVisible(rango)}
                         />
