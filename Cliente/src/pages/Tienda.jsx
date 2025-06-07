@@ -4,7 +4,7 @@ import "../css/tienda.css"
 import productosStore from "../context/ProductosStore.jsx"
 import Spinner from "../components/Spinner.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
-import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx";
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
 
 const PRODUCTOS_POR_PAGINA = 6
 
