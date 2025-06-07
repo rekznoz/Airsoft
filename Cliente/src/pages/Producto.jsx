@@ -6,6 +6,7 @@ import ProductoDetalles from '../components/Producto/ProductoDetalles'
 import GaleriaImagenes from '../components/Producto/GaleriaImagenes'
 import ModalImagen from '../components/Producto/ModalImagen'
 import ComentariosPaginados from '../components/Producto/ComentariosPaginados'
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx";
 
 export default function Producto() {
 
@@ -31,9 +32,9 @@ export default function Producto() {
                         </p>
                     )}
                 </>
-                <img src={"https://i.imgur.com/yMVfJZD.jpeg"} alt={producto.nombre}
+                <img src={corregirUrlImagen(producto.imagenes[0])}
                      className="producto-imagen-principal"
-                     onClick={() => setImagenGrande("https://i.imgur.com/yMVfJZD.jpeg")}/>
+                     onClick={() => setImagenGrande(corregirUrlImagen(producto.imagenes[0]))}/>
             </div>
 
             <ProductoDetalles producto={producto}/>
