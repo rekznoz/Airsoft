@@ -117,7 +117,6 @@ export default class ComentariosService {
     }
 
     static async putComentario({params}) {
-        console.log(params)
         try {
             const response = await fetch(apiconfig.comentarios + "/" + params.id, {
                 method: 'PUT',
