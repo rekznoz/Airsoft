@@ -14,6 +14,7 @@ class Comentario extends Model
         'producto_id',
         'comentario',
         'calificacion',
+        'verificado',
     ];
 
     /**
