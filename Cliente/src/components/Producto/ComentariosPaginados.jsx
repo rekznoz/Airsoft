@@ -106,9 +106,6 @@ export default function ComentariosPaginados({comentarios, producto}) {
         //window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})
     }, [pagina])
 
-    console.log(comentarios)
-    console.log(producto)
-
     return (
         <section className="producto-comentarios">
 
