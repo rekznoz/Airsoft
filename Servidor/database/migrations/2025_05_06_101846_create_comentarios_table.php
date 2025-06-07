@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
             $table->text('comentario');
             $table->integer('calificacion')->default(0);
+            $table->boolean('verificado')->default(false);
             $table->timestamps();
         });
     }
