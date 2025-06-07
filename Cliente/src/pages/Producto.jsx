@@ -44,9 +44,8 @@ export default function Producto() {
                 </section>
             )}
 
-            {producto.array_comentarios.length > 0 && (
-                <ComentariosPaginados comentarios={producto.array_comentarios} producto={producto}/>
-            )}
+
+            <ComentariosPaginados comentarios={producto.array_comentarios} producto={producto}/>
 
         </div>
     )
