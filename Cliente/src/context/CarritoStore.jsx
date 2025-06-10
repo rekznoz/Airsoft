@@ -23,6 +23,26 @@ const carritoStore = create(persist(
             }
         },
 
+        restarFromCart: (producto) => {
+            const cart = get().informacionCarrito
+            const existingItem = cart.find(item => item.id === producto.id)
+
+            if (existingItem) {
+                if (existingItem.cantidad > 1) {
+                    const updatedCart = cart.map(item =>
+                        item.id === producto.id
+                            ? { ...item, cantidad: item.cantidad - 1 }
+                            : item
+                    )
+                    set({ informacionCarrito: updatedCart })
+                } else {
+                    // Si la cantidad es 1, lo eliminamos del carrito
+                    const updatedCart = cart.filter(item => item.id !== producto.id)
+                    set({ informacionCarrito: updatedCart })
+                }
+            }
+        },
+
         removeFromCart: (productId) => {
             const updatedCart = get().informacionCarrito.filter(item => item.id !== productId)
             set({ informacionCarrito: updatedCart })
