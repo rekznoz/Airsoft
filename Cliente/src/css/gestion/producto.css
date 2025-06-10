@@ -232,6 +232,25 @@ p.inactivo {
     background-color: var(--fondo-alternativo);
 }
 
+.form-group-producto input[type="file"] {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--bordes-lineas);
+    border-radius: 4px;
+    background-color: var(--fondo-principal);
+    color: var(--texto-principal);
+    font-size: 0.95rem;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.form-group-producto input[type="file"]:focus {
+    border-color: var(--varios);
+    outline: none;
+}
+
 .preview-imagenes {
     display: flex;
     gap: 10px;
