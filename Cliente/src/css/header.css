@@ -212,6 +212,27 @@
     padding: 10px;
 }
 
+.mini-carrito-contador {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+.mini-carrito-contador button {
+    background-color: var(--boton-fondo, #eee);
+    border: none;
+    padding: 4px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.mini-carrito-contador button:hover {
+    background-color: var(--varios, #ccc);
+}
+
 .mini-carrito .mini-carrito-ver {
     display: block;
     justify-content: center;
@@ -228,6 +249,25 @@
     background: var(--varios);
     color: var(--texto-principal);
 }
+
+.mini-carrito-vaciar {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.mini-carrito-vaciar:hover {
+    background-color: #e60000;
+}
+
 
 /* Estilos para el modo oscuro */
 
