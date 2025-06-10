@@ -12,7 +12,7 @@ import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx"
 
 const validationSchema = object({
     nombre: string().required('El nombre es obligatorio'),
-    descripcion: string().required('La descripción es obligatoria'),
+    descripcion: string().required('La descripción es obligatoria').max(255, 'La descripción no puede exceder los 500 caracteres'),
     precio: string().required('El precio es obligatorio').matches(/^\d+(\.\d{1,2})?$/, 'El precio debe ser un número válido'),
     descuento: string().matches(/^\d+(\.\d{1,2})?$/, 'El descuento debe ser un número válido'),
     precio_final: string().matches(/^\d+(\.\d{1,2})?$/, 'El precio final debe ser un número válido'),
@@ -24,9 +24,7 @@ const validationSchema = object({
     calibre: string().required('El calibre es obligatorio'),
     capacidad_cargador: string().matches(/^\d+$/, 'La capacidad del cargador debe ser un número entero'),
     peso: string().matches(/^\d+(\.\d{1,2})?$/, 'El peso debe ser un número válido'),
-    imagenes: mixed().test('fileSize', 'Debes subir al menos una imagen', value => {
-        return value && value.length > 0
-    }),
+    imagenes: mixed(),
     video_demo: string().matches(/^(https?:\/\/[^\s]+)?$/, 'El video de demostración debe ser una URL válida'),
     tiempo_envio: string().required('El tiempo de envío es obligatorio'),
     estado_activo: string().oneOf(['true', 'false'], 'El estado activo debe ser verdadero o falso'),
