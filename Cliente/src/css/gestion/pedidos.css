@@ -1,3 +1,19 @@
+.pedidos-contenedor {
+    padding: 20px;
+    background-color: var(--fondo-principal);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pedidos-contenedor p {
+    font-size: 1.2rem;
+    color: var(--texto-principal);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
 .pedido-card {
     background: var(--fondo-principal);
     border: 1px solid var(--bordes-lineas);
