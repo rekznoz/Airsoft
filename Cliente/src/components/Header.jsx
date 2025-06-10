@@ -110,11 +110,14 @@ export default function Header() {
                 <div className="navbar-izquierda">
                     <span>Horario: Lunes a Viernes - 10:30 a 18:50 | Sábados - 11 a 15:00</span>
                 </div>
+                {/*
                 <div className="navbar-derecha">
                     <Link to="/newsletter">NEWSLETTER</Link>
                     <Link to="/contacto">CONTACTO</Link>
                     <Link to="/faqs">FAQS</Link>
                 </div>
+                */}
+
             </nav>
 
             <nav className="navbar-medio">
@@ -183,7 +186,7 @@ export default function Header() {
             </nav>
 
             {/* MINI CARRITO */}
-            {location.pathname !== '/carrito' && (
+            {mostrarCarrito && (
                 <div className={`mini-carrito ${mostrarMiniCarrito ? 'visible' : ''}`}>
                     {carrito.length === 0 ? (
                         <p className="mini-carrito-vacio">El carrito está vacío</p>
