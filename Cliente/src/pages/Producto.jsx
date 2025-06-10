@@ -32,9 +32,14 @@ export default function Producto() {
                         </p>
                     )}
                 </>
-                <img src={corregirUrlImagen(producto.imagenes[0])}
-                     className="producto-imagen-principal"
-                     onClick={() => setImagenGrande(corregirUrlImagen(producto.imagenes[0]))}/>
+                {producto.imagenes.length > 0 ?
+                    <img src={corregirUrlImagen(producto.imagenes[0])}
+                            className="producto-imagen-principal"
+                            alt={producto.nombre}
+                            onClick={() => setImagenGrande(corregirUrlImagen(producto.imagenes[0]))}/>
+                    :
+                    <p className="producto-sin-imagen">No hay imagen disponible</p>
+                }
             </div>
 
             <ProductoDetalles producto={producto}/>
