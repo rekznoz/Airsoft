@@ -5,8 +5,10 @@ import {Link, useLocation} from "react-router-dom"
 import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
-import usuarioStore from "../context/UsuarioStore.jsx"
 import CarritoIcon from "../assets/navbar/carrito.png"
+import carritoLleno from "../assets/navbar/carritolleno.png"
+
+import usuarioStore from "../context/UsuarioStore.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
 
 function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid, roles}) {
@@ -49,7 +51,10 @@ export default function Header() {
 
     const location = useLocation()
     const removeFromCart = carritoStore(state => state.removeFromCart)
-
+    const addToCart = carritoStore(state => state.addToCart)
+    const restarFromCart = carritoStore(state => state.restarFromCart)
+    const clearCart = carritoStore(state => state.clearCart)
+    
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
     const [mostrarMiniCarrito, setMostrarMiniCarrito] = useState(false)
@@ -72,6 +77,14 @@ export default function Header() {
             setMenuOpen(false)
         }
     }
+
+    const aumentarCantidad = (id) => {
+
+    };
+
+    const disminuirCantidad = (id) => {
+
+    };
 
     const isLoggedIn = usuarioStore(state => state.logueado)
     const logout = usuarioStore(state => state.logout)
@@ -131,7 +144,13 @@ export default function Header() {
                     {isLoggedIn && mostrarCarrito && (
                         <div className="carrito" onClick={abrirMiniCarrito}>
                             <span className="carrito-boton" aria-label="Ver carrito">
-                                <img src={CarritoIcon} alt="Carrito"/>
+                                {
+                                    carrito.length > 0 ? (
+                                        <img src={carritoLleno} alt="Carrito lleno"/>
+                                    ) : (
+                                        <img src={CarritoIcon} alt="Carrito vacío"/>
+                                    )
+                                }
                             </span>
                         </div>
                     )}
@@ -174,12 +193,21 @@ export default function Header() {
                                 <li key={index} className="mini-carrito-item">
                                     <span><Link to={`/tienda/${producto.id}`}>{producto.nombre}</Link></span>
                                     <span>{producto.precio.toFixed(2)}€</span>
-                                    <span>{producto.cantidad || 1}</span>
+                                    <div className="mini-carrito-contador">
+                                        <button onClick={() => restarFromCart(producto)}>-</button>
+                                        <span>{producto.cantidad}</span>
+                                        <button onClick={() => addToCart(producto)}>+</button>
+                                    </div>
                                     <span className="mini-carrito-eliminar"
                                           onClick={() => removeFromCart(producto.id)}>Eliminar</span>
                                 </li>
                             ))}
                         </ul>
+                    )}
+                    {carrito.length > 0 && (
+                        <button className="mini-carrito-vaciar" onClick={clearCart}>
+                            Vaciar carrito
+                        </button>
                     )}
                     <p className="mini-carrito-total">Total: {carrito.reduce((total, producto) => total + producto.precio, 0).toFixed(2)}€</p>
                     <Link to="/carrito" className="mini-carrito-ver">Ver carrito</Link>
