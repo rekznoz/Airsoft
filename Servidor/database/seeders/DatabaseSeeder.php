@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         //});
 
         // Crear productos
-        //Producto::factory()->count(20)->create();
+        Producto::factory()->count(20)->create();
 
         // Crear pedidos
         //Pedido::factory()->count(50)->create();
