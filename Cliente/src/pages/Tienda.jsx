@@ -143,7 +143,11 @@ export default function Tienda() {
                     {productosPagina.map((producto) => (
                         <div key={producto.id} className="producto">
                             <Link to={`/tienda/${producto.id}`}>
-                                <img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
+                                {producto.imagenes.length > 0 ?
+                                    <img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
+                                    :
+                                    <img src="https://placehold.co/600x400/EEE/31343C" alt={producto.nombre}/>
+                                }
                             </Link>
                             <h2>{producto.nombre}</h2>
                             <p>{producto.descripcion.length > 80 ? producto.descripcion.slice(0, 80) + '…' : producto.descripcion}</p>
