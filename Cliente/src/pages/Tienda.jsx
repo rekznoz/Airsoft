@@ -36,7 +36,10 @@ export default function Tienda() {
             // Filtro stock
             const stockOk = !filtroStock || producto.stock > 0
 
-            return coincideTexto && precioOk && categoriaOk && stockOk
+            // Filtrar por estado_activo
+            const estadoActivo = producto.estado_activo === true
+
+            return coincideTexto && precioOk && categoriaOk && stockOk && estadoActivo
         })
     }
 
@@ -153,9 +156,15 @@ export default function Tienda() {
                             <p>{producto.descripcion.length > 80 ? producto.descripcion.slice(0, 80) + '…' : producto.descripcion}</p>
                             <p>Precio: ${producto.precio_final?.toFixed(2)}</p>
                             <p>Stock: {producto.stock}</p>
-                            <button className="btn-comprar" onClick={() => addToCart(producto)}>
-                                Añadir al carrito
-                            </button>
+                            {producto.stock > 0 ?
+                                <button className="btn-comprar" onClick={() => addToCart(producto)}>
+                                    Añadir al carrito
+                                </button>
+                                :
+                                <button className="btn-comprar" disabled>
+                                    Sin stock
+                                </button>
+                            }
                         </div>
                     ))}
                 </div>
