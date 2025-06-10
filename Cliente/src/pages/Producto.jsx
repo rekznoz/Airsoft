@@ -61,7 +61,6 @@ export default function Producto() {
                 </section>
             )}
 
-
             <ComentariosPaginados comentarios={producto.array_comentarios} producto={producto}/>
 
         </div>
