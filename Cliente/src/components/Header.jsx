@@ -54,7 +54,7 @@ export default function Header() {
     const addToCart = carritoStore(state => state.addToCart)
     const restarFromCart = carritoStore(state => state.restarFromCart)
     const clearCart = carritoStore(state => state.clearCart)
-    
+
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
     const [mostrarMiniCarrito, setMostrarMiniCarrito] = useState(false)
