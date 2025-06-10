@@ -1,3 +1,12 @@
+.producto-card-contenedor {
+    padding: 20px;
+    background-color: var(--fondo-principal);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .producto-card {
     background: var(--fondo-principal);
     border: 1px solid var(--bordes-lineas);
