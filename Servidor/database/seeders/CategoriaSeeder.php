@@ -11,11 +11,10 @@ class CategoriaSeeder extends Seeder
     public function run(): void
     {
         $categorias = [
-            'Airsoft',
-            'Réplica de armas',
-            'Munición',
-            'Accesorios',
-            'Ropa táctica',
+            'Replicas de Inicio',
+            'Replicas de Aire Comprimido',
+            'Replicas de Gas',
+            'Replicas Electricas',
         ];
 
         foreach ($categorias as $nombre) {
