@@ -32,7 +32,7 @@ const validationSchema = object({
     estado_activo: string().oneOf(['true', 'false'], 'El estado activo debe ser verdadero o falso'),
 })
 
-function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
+function ModalProducto({producto = null, onClose, onSave, modo = "editar", categorias}) {
 
     const [imagenesExistentes, setImagenesExistentes] = useState([])
     const [imagenesNuevas, setImagenesNuevas] = useState([])
@@ -51,22 +51,22 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
     }, [producto])
 
     const valoresIniciales = {
-        nombre: producto?.nombre || "PRODUCTO DE PRUEBA",
-        descripcion: producto?.descripcion || "DESCRIPCION DE PRUEBA",
-        precio: producto?.precio || 1,
+        nombre: producto?.nombre || "",
+        descripcion: producto?.descripcion || "",
+        precio: producto?.precio || 0,
         descuento: producto?.descuento || 0,
-        precio_final: producto?.precio_final || 1,
+        precio_final: producto?.precio_final || 0,
         stock: producto?.stock || 0,
-        categoria_id: producto?.categoria?.id || 1,
-        marca: producto?.marca || "MARCA DE PRUIEBA",
-        modelo: producto?.modelo || "MODELO DE PRUEBA",
+        categoria_id: producto?.categoria?.id || 0,
+        marca: producto?.marca || "",
+        modelo: producto?.modelo || "",
         fps: producto?.fps || 0,
-        calibre: producto?.calibre || "12",
+        calibre: producto?.calibre || "",
         capacidad_cargador: producto?.capacidad_cargador || 0,
         peso: producto?.peso || 0,
         imagenes: [],
         video_demo: producto?.video_demo || "",
-        tiempo_envio: producto?.tiempo_envio || "24h",
+        tiempo_envio: producto?.tiempo_envio || "",
         estado_activo: producto?.estado_activo || false,
     }
 
@@ -157,22 +157,27 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
                                 {errors.stock && touched.stock && <div className="error">{errors.stock}</div>}
                             </div>
 
-                            <div className="form-group-producto">
-                                <label>Categoría:</label>
-                                <Field as="select" name="categoria_id" className="form-field"
-                                       onChange={handleChange}
-                                       onBlur={handleBlur} value={values.categoria_id}>
-                                    <option value="">Selecciona una categoría</option>
-                                    <option value="1">Munición</option>
-                                    <option value="2">Accesorios</option>
-                                    <option value="3">Armas</option>
-                                    <option value="4">Ropa</option>
-                                    <option value="5">Equipamiento</option>
-                                    <option value="6">Otros</option>
-                                </Field>
-                                {errors.categoria_id && touched.categoria_id &&
-                                    <div className="error">{errors.categoria_id}</div>}
-                            </div>
+                            {
+                                categorias && categorias.length > 0 ? (
+                                    <div className="form-group-producto">
+                                        <label>Categoría:</label>
+                                        <Field as="select" name="categoria_id" className="form-field"
+                                               onChange={handleChange}
+                                               onBlur={handleBlur} value={values.categoria_id}>
+                                            <option value="">Selecciona una categoría</option>
+                                            {categorias.map(categoria => (
+                                                <option key={categoria.id} value={categoria.id}>
+                                                    {categoria.nombre}
+                                                </option>
+                                            ))}
+                                        </Field>
+                                        {errors.categoria_id && touched.categoria_id &&
+                                            <div className="error">{errors.categoria_id}</div>}
+                                    </div>
+                                ) : (
+                                    <p>No hay categorías disponibles</p>
+                                )
+                            }
 
                             <div className="form-group-producto">
                                 <label>Marca:</label>
@@ -298,7 +303,7 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar"}) {
     )
 }
 
-export default function Productos({productos}) {
+export default function Productos({productos, categorias}) {
 
     const access_token = usuarioStore(state => state.access_token)
 
@@ -399,6 +404,7 @@ export default function Productos({productos}) {
                             formData: productoNuevo // este ya contiene los campos convertidos
                         })
                     }}
+                    categorias={categorias}
                 />
             )}
 
@@ -420,7 +426,7 @@ export default function Productos({productos}) {
                             Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error")
                         })
                     }}
-
+                    categorias={categorias}
                 />
             )}
 
