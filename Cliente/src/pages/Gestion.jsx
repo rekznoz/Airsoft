@@ -23,7 +23,7 @@ export default function Gestion() {
     const renderSeccion = () => {
         switch (seccionActiva) {
             case "productos":
-                return <Productos productos={productos} />
+                return <Productos productos={productos} categorias={categorias} />
             case "pedidos":
                 return <Pedidos pedidos={pedidos} />
             case "comentarios":
