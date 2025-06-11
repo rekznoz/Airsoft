@@ -157,11 +157,11 @@ export default function Tienda() {
                             <p>Precio: ${producto.precio_final?.toFixed(2)}</p>
                             <p>Stock: {producto.stock}</p>
                             {producto.stock > 0 ?
-                                <button className="btn-comprar" onClick={() => addToCart(producto)}>
+                                <button className="btn-comprar constock" onClick={() => addToCart(producto)}>
                                     Añadir al carrito
                                 </button>
                                 :
-                                <button className="btn-comprar" disabled>
+                                <button className="btn-comprar nostock" disabled>
                                     Sin stock
                                 </button>
                             }
