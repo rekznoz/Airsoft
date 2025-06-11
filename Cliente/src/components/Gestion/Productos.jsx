@@ -80,7 +80,7 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
             }
         }
 
-        formData.append('estado_activo', !!valores.estado_activo)
+        formData.append('estado_activo', valores.estado_activo === "true");
 
         previewImages.forEach(img => {
             if (img.file) {
