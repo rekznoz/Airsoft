@@ -6,7 +6,7 @@ import Swal from "sweetalert2"
 import ProductosService from "../../services/ProductoService.jsx"
 import ProductoService from "../../services/ProductoService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
-import {mixed, object, string} from "yup"
+import {boolean, mixed, object, string} from "yup"
 import "../../css/gestion/producto.css"
 import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx"
 
@@ -27,7 +27,7 @@ const validationSchema = object({
     imagenes: mixed(),
     video_demo: string().matches(/^(https?:\/\/[^\s]+)?$/, 'El video de demostración debe ser una URL válida'),
     tiempo_envio: string().required('El tiempo de envío es obligatorio'),
-    estado_activo: string().oneOf(['true', 'false'], 'El estado activo debe ser verdadero o falso'),
+    estado_activo: boolean().required('El estado activo es obligatorio').oneOf([true, false], 'El estado activo debe ser verdadero o falso'),
 })
 
 function ModalProducto({producto = null, onClose, onSave, modo = "editar", categorias}) {
@@ -80,13 +80,14 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
             }
         }
 
-        formData.append('estado_activo', valores.estado_activo === "true");
+        formData.append('estado_activo', valores.estado_activo === "true" ? 1 : 0)
 
         previewImages.forEach(img => {
             if (img.file) {
                 formData.append('imagenes[]', img.file)
             }
         })
+
 
         onSave(formData)
         onClose()
