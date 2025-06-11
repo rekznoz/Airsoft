@@ -63,6 +63,8 @@ class PedidoController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    use App\Models\Producto;
+
     public function update(PedidoRequest $request, Pedido $pedido)
     {
         if (config('telescope.enabled')) {
@@ -74,9 +76,47 @@ class PedidoController extends Controller
                 'No tienes permisos para editar pedidos'], 403);
         }
 
-        $pedido->update($request->validated());
+        $datos = $request->validated();
 
-        return new PedidoResource($pedido);
+        $estadoAnterior = $pedido->estado;
+        $estadoNuevo = $datos['estado'] ?? $pedido->estado;
+
+        // Asegúrate de cargar el producto relacionado
+        $pedido->load('producto');
+
+        if ($estadoAnterior !== $estadoNuevo) {
+            $producto = $pedido->producto;
+
+            if (!$producto) {
+                return response()->json(['error' => 'Producto no encontrado para el pedido'], 400);
+            }
+
+            // Si pasa de pendiente/procesando → enviado → RESTAR STOCK
+            if (
+                in_array($estadoAnterior, ['pendiente', 'procesando']) &&
+                $estadoNuevo === 'enviado'
+            ) {
+                if ($producto->stock < $pedido->cantidad) {
+                    return response()->json(['error' => 'Stock insuficiente'], 400);
+                }
+
+                $producto->stock -= $pedido->cantidad;
+                $producto->save();
+            }
+
+            // Si pasa de enviado → pendiente/procesando → SUMAR STOCK
+            if (
+                $estadoAnterior === 'enviado' &&
+                in_array($estadoNuevo, ['pendiente', 'procesando'])
+            ) {
+                $producto->stock += $pedido->cantidad;
+                $producto->save();
+            }
+        }
+
+        $pedido->update($datos);
+
+        return new PedidoResource($pedido->fresh());
     }
 
     /**
