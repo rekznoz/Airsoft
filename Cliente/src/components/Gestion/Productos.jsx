@@ -71,9 +71,6 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
     const handleSubmit = async (valores) => {
         const formData = new FormData()
 
-        console.log(valores)
-
-        // Campos normales
         for (const clave in valores) {
             if (clave !== "imagenes" && clave !== "estado_activo") {
                 formData.append(clave, valores[clave])
@@ -87,7 +84,6 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
                 formData.append('imagenes[]', img.file)
             }
         })
-
 
         onSave(formData)
         onClose()
