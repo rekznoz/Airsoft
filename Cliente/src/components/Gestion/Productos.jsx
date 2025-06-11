@@ -51,9 +51,9 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
     const valoresIniciales = {
         nombre: producto?.nombre || "",
         descripcion: producto?.descripcion || "",
-        precio: producto?.precio || 0,
-        descuento: producto?.descuento || 0,
-        precio_final: producto?.precio_final || 0,
+        precio: parseFloat(producto?.precio || 0).toFixed(2),
+        descuento: parseFloat(producto?.descuento || 0).toFixed(2),
+        precio_final: parseFloat(producto?.precio_final || 0).toFixed(2),
         stock: producto?.stock || 0,
         categoria_id: producto?.categoria?.id || 0,
         marca: producto?.marca || "",
