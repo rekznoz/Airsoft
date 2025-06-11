@@ -167,6 +167,17 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
                         </div>
 
                         <div className="form-group-producto">
+                            <label>Código de envío:</label>
+                            <input
+                                type="text"
+                                className="form-field"
+                                name="codigo_envio"
+                                value={pedidoSeleccionado.codigo_envio || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+
+                        <div className="form-group-producto">
                             <label>Estado:</label>
                             <select
                                 className="form-field"
