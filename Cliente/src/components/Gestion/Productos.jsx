@@ -71,13 +71,16 @@ function ModalProducto({producto = null, onClose, onSave, modo = "editar", categ
     const handleSubmit = async (valores) => {
         const formData = new FormData()
 
+        console.log(valores)
+
         // Campos normales
         for (const clave in valores) {
             if (clave !== "imagenes" && clave !== "estado_activo") {
                 formData.append(clave, valores[clave])
             }
         }
-        formData.append('estado_activo', valores.estado_activo ? '1' : '0')
+
+        formData.append('estado_activo', !!valores.estado_activo)
 
         previewImages.forEach(img => {
             if (img.file) {
@@ -305,15 +308,16 @@ export default function Productos({productos, categorias}) {
 
     const access_token = usuarioStore(state => state.access_token)
 
+    const [todosProductos, setTodosProductos] = useState(productos)
     const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false)
     const [productosAMostrar, setProductosAMostrar] = useState([])
     const [productoSeleccionado, setProductoSeleccionado] = useState(null)
 
     useEffect(() => {
-        if (productos.length) {
-            setProductosAMostrar(productos.slice(0, 6))
+        if (todosProductos.length) {
+            setProductosAMostrar(todosProductos.slice(0, 6))
         }
-    }, [productos])
+    }, [todosProductos])
 
     const editarProducto = (producto) => {
         setProductoSeleccionado(producto)
@@ -385,10 +389,10 @@ export default function Productos({productos, categorias}) {
             </div>
 
             <Paginacion
-                totalItems={productos.length}
+                totalItems={todosProductos.length}
                 itemsPerPage={6}
                 onPageChange={({start, end}) => {
-                    setProductosAMostrar(productos.slice(start, end))
+                    setProductosAMostrar(todosProductos.slice(start, end))
                 }}
             />
 
@@ -419,7 +423,9 @@ export default function Productos({productos, categorias}) {
                         }).then((productoActualizado) => {
                             Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success")
                             console.log(productoActualizado)
-                            setProductosAMostrar(prev => prev.map(p => p.id === productoSeleccionado.id ? productoActualizado : p))
+                            const productoViejo = productosAMostrar.find(p => p.id === productoSeleccionado.id)
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
+                            setTodosProductos (prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
                         }).catch((error) => {
                             Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error")
                         })
