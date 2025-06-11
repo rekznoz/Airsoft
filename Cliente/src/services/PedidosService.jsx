@@ -119,4 +119,37 @@ export default class PedidosService {
         }
     }
 
+    static async createPedido({params}) {
+        try {
+            const response = await fetch(apiconfig.pedidos, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${params.access_token}`
+                },
+                body: JSON.stringify(
+                    {
+                        user_id: params.user.id,
+                        producto_id: params.producto.id,
+                        direccion_envio: params.direccion_envio,
+                        cantidad: params.cantidad,
+                        estado: params.estado
+                    }
+                )
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error("Errores de validación del backend:", data.errors || data);
+                throw new Error(`Error al crear el pedido: ${data.message || 'Validación fallida'}`);
+            }
+
+            return data
+        } catch (error) {
+            console.error("Error en createPedido:", error)
+            throw error
+        }
+    }
+
 }
