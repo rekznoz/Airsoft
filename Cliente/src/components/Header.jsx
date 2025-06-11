@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import "../css/header.css"
 import {Link, useLocation} from "react-router-dom"
 
@@ -11,6 +11,7 @@ import carritoLleno from "../assets/navbar/carritolleno.png"
 import usuarioStore from "../context/UsuarioStore.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
 import {ListaNavbar} from "./ListaNavbar.jsx";
+import PedidosService from "../services/PedidosService.jsx";
 
 export default function Header() {
 
@@ -23,6 +24,23 @@ export default function Header() {
     const [modo, setModo] = useState('claro')
     const [menuOpen, setMenuOpen] = useState(false)
     const [mostrarMiniCarrito, setMostrarMiniCarrito] = useState(false)
+
+    const [tienePedidosPendientes, setTienePedidosPendientes] = useState(false)
+
+    useEffect(() => {
+        const comprobarPedidosPendientes = async () => {
+            if (!isLoggedIn || !userid) return
+            try {
+                const pedidos = await PedidosService.getPedidos()
+                const pendientes = pedidos.some(p => p.estado === 'pendiente')
+                setTienePedidosPendientes(pendientes)
+            } catch (error) {
+                console.error("Error al verificar pedidos pendientes:", error)
+            }
+        }
+
+        comprobarPedidosPendientes()
+    }, [isLoggedIn, userid])
 
     const abrirMenuMovil = () => {
         if (menuOpen) {
