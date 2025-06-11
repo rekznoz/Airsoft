@@ -77,15 +77,7 @@ export default function Header() {
             setMenuOpen(false)
         }
     }
-
-    const aumentarCantidad = (id) => {
-
-    };
-
-    const disminuirCantidad = (id) => {
-
-    };
-
+    
     const isLoggedIn = usuarioStore(state => state.logueado)
     const logout = usuarioStore(state => state.logout)
     const userid = usuarioStore(state => state.user.id)
