@@ -26,6 +26,14 @@ import Swal from "sweetalert2"
 import ComentariosService from "../../services/ComentariosService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
 
+/**
+ * Componente para gestionar comentarios de productos.
+ * @param comentarios
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite visualizar, verificar y eliminar comentarios de productos.
+ * @param {Array} comentarios - Lista de comentarios a gestionar.
+ */
 export default function Comentarios({comentarios}) {
 
     const cantidadPorPagina = 5
