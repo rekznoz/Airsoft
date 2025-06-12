@@ -41,7 +41,6 @@ function usePaginacion(items, porPagina) {
  * @param anterior
  * @param siguiente
  * @returns {JSX.Element}
- * @constructor
  */
 function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
     return (
