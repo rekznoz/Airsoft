@@ -3,6 +3,14 @@ import { Outlet, useNavigate, useParams } from "react-router-dom"
 import usuarioStore from "../context/UsuarioStore.jsx"
 import PedidosService from "../services/PedidosService.jsx"
 
+/**
+ * Componente de diseño para pedidos.
+ * @returns {Element}
+ * @constructor
+ * @description Este componente se encarga de cargar un pedido específico basado en su ID y verificar los permisos del usuario.
+ * Si el usuario no es administrador ni el dueño del pedido, se redirige a una página de no autorizado.
+ * Si el pedido no se encuentra, se redirige a una página de no encontrado.
+ */
 function PedidoLayout() {
     const { id } = useParams()
     const navigate = useNavigate()
