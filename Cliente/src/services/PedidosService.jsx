@@ -1,27 +1,17 @@
-
-/*
-{
-    "id": 1,
-    "user": {
-      "id": 2,
-      "nombre": "D. Gerard Solorzano"
-    },
-    "producto": {
-      "id": 12,
-      "nombre": "error atque fugiat"
-    },
-    "direccion_envio": "Ruela Giménez, 311, 23º F, 07987, Ruíz de San Pedro",
-    "cantidad": 2,
-    "estado": "cancelado",
-    "created_at": "2025-05-23T14:25:57.000000Z",
-    "updated_at": "2025-05-23T14:25:57.000000Z"
-}
-*/
-
 import apiconfig from "../config/APIConfig.jsx"
 
+/**
+ * Servicio para interactuar con la API de pedidos.
+ * Incluye métodos para obtener, crear, actualizar y consultar pedidos.
+ */
 export default class PedidosService {
 
+    /**
+     * Obtiene todos los pedidos desde la API.
+     *
+     * @returns {Promise<Array>} Array con todos los pedidos.
+     * @throws {Error} Si la respuesta no es correcta o los datos están mal formateados.
+     */
     static async getPedidos() {
         try {
             const response = await fetch(apiconfig.pedidos)
@@ -43,9 +33,16 @@ export default class PedidosService {
         }
     }
 
+    /**
+     * Obtiene todos los pedidos asociados a un usuario específico.
+     *
+     * @param {Object} params - Parámetros de la consulta.
+     * @param {number|string} params.id - ID del usuario.
+     * @returns {Promise<Array>} Array con los pedidos del usuario.
+     * @throws {Error} Si la respuesta no es correcta o los datos están mal formateados.
+     */
     static async getPedidosUsuario({params}) {
         try {
-
             const response = await fetch(apiconfig.pedidos + "?user_id=" + params.id)
 
             if (!response.ok) {
@@ -65,6 +62,14 @@ export default class PedidosService {
         }
     }
 
+    /**
+     * Obtiene un pedido específico por su ID.
+     *
+     * @param {Object} params - Parámetros de la consulta.
+     * @param {number|string} params.id - ID del pedido.
+     * @returns {Promise<Object>} Datos del pedido solicitado.
+     * @throws {Error} Si la respuesta no es correcta o los datos están mal formateados.
+     */
     static async getPedido({params}) {
         try {
             const response = await fetch(apiconfig.pedidos + "/" + params.id)
@@ -86,6 +91,23 @@ export default class PedidosService {
         }
     }
 
+    /**
+     * Actualiza un pedido existente.
+     *
+     * @param {Object} params - Parámetros para la actualización.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {number|string} params.id - ID del pedido a actualizar.
+     * @param {Object} params.user - Usuario asociado al pedido.
+     * @param {number|string} params.user.id - ID del usuario.
+     * @param {Object} params.producto - Producto asociado al pedido.
+     * @param {number|string} params.producto.id - ID del producto.
+     * @param {string} params.direccion_envio - Dirección de envío.
+     * @param {number} params.cantidad - Cantidad solicitada.
+     * @param {string} params.estado - Estado del pedido.
+     *
+     * @returns {Promise<Object>} Respuesta del servidor con el pedido actualizado.
+     * @throws {Error} Si la actualización falla o hay errores de validación.
+     */
     static async updatePedido({params}) {
         try {
             const response = await fetch(`${apiconfig.pedidos}/${params.id}`, {
@@ -94,15 +116,13 @@ export default class PedidosService {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${params.access_token}`
                 },
-                body: JSON.stringify(
-                    {
-                        user_id: params.user.id,
-                        producto_id: params.producto.id,
-                        direccion_envio: params.direccion_envio,
-                        cantidad: params.cantidad,
-                        estado: params.estado
-                    }
-                )
+                body: JSON.stringify({
+                    user_id: params.user.id,
+                    producto_id: params.producto.id,
+                    direccion_envio: params.direccion_envio,
+                    cantidad: params.cantidad,
+                    estado: params.estado
+                })
             })
 
             const data = await response.json()
@@ -119,6 +139,22 @@ export default class PedidosService {
         }
     }
 
+    /**
+     * Crea un nuevo pedido.
+     *
+     * @param {Object} params - Parámetros para la creación.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {Object} params.user - Usuario que realiza el pedido.
+     * @param {number|string} params.user.id - ID del usuario.
+     * @param {Object} params.producto - Producto solicitado.
+     * @param {number|string} params.producto.id - ID del producto.
+     * @param {string} params.direccion_envio - Dirección de envío.
+     * @param {number} params.cantidad - Cantidad solicitada.
+     * @param {string} params.estado - Estado inicial del pedido.
+     *
+     * @returns {Promise<Object>} Respuesta del servidor con el pedido creado.
+     * @throws {Error} Si la creación falla o hay errores de validación.
+     */
     static async createPedido({params}) {
         try {
             const response = await fetch(apiconfig.pedidos, {
@@ -127,15 +163,13 @@ export default class PedidosService {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${params.access_token}`
                 },
-                body: JSON.stringify(
-                    {
-                        user_id: params.user.id,
-                        producto_id: params.producto.id,
-                        direccion_envio: params.direccion_envio,
-                        cantidad: params.cantidad,
-                        estado: params.estado
-                    }
-                )
+                body: JSON.stringify({
+                    user_id: params.user.id,
+                    producto_id: params.producto.id,
+                    direccion_envio: params.direccion_envio,
+                    cantidad: params.cantidad,
+                    estado: params.estado
+                })
             })
 
             const data = await response.json()
