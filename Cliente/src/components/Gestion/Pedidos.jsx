@@ -17,53 +17,53 @@
 }
 */
 
-import {useEffect, useState} from "react";
-import Paginacion from "./Paginacion";
+import {useEffect, useState} from "react"
+import Paginacion from "./Paginacion"
 import "../../css/gestion/pedidos.css"
-import {Link} from "react-router-dom";
-import PedidosService from "../../services/PedidosService.jsx";
-import usuarioStore from "../../context/UsuarioStore.jsx";
-import Swal from "sweetalert2";
+import {Link} from "react-router-dom"
+import PedidosService from "../../services/PedidosService.jsx"
+import usuarioStore from "../../context/UsuarioStore.jsx"
+import Swal from "sweetalert2"
 
 export default function Pedidos({pedidos: pedidosIniciales}) {
 
-    const [pedidos, setPedidos] = useState(pedidosIniciales || []);
-    const [paginatedPedidos, setPaginatedPedidos] = useState([]);
-    const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+    const [pedidos, setPedidos] = useState(pedidosIniciales || [])
+    const [paginatedPedidos, setPaginatedPedidos] = useState([])
+    const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null)
     const access_token = usuarioStore(state => state.access_token)
 
     useEffect(() => {
-        setPedidos(pedidosIniciales);
-    }, [pedidosIniciales]);
+        setPedidos(pedidosIniciales)
+    }, [pedidosIniciales])
 
     useEffect(() => {
         if (pedidoSeleccionado) {
             setTimeout(() => {
-                document.querySelector(".modal input");
-            }, 100);
+                document.querySelector(".modal input")
+            }, 100)
         }
-    }, [pedidoSeleccionado]);
+    }, [pedidoSeleccionado])
 
 
     const handlePageChange = ({start, end}) => {
-        setPaginatedPedidos(pedidos.slice(start, end));
-    };
+        setPaginatedPedidos(pedidos.slice(start, end))
+    }
 
     const abrirModal = (pedido) => {
-        setPedidoSeleccionado({...pedido});
-    };
+        setPedidoSeleccionado({...pedido})
+    }
 
     const cerrarModal = () => {
-        setPedidoSeleccionado(null);
-    };
+        setPedidoSeleccionado(null)
+    }
 
     const handleInputChange = (e) => {
-        const {name, value} = e.target;
+        const {name, value} = e.target
         setPedidoSeleccionado((prev) => ({
             ...prev,
             [name]: name === "cantidad" ? parseInt(value) : value,
-        }));
-    };
+        }))
+    }
 
     const guardarCambios = () => {
         Swal.fire({
@@ -82,23 +82,23 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
                             access_token,
                             ...pedidoSeleccionado
                         }
-                    });
+                    })
 
                     if (response && response.data) {
-                        Swal.fire('¡Éxito!', 'Pedido actualizado correctamente.', 'success');
-                        setPaginatedPedidos((prev) => prev.map(p => p.id === pedidoSeleccionado.id ? response.data : p));
-                        cerrarModal();
+                        Swal.fire('¡Éxito!', 'Pedido actualizado correctamente.', 'success')
+                        setPaginatedPedidos((prev) => prev.map(p => p.id === pedidoSeleccionado.id ? response.data : p))
+                        cerrarModal()
                     } else {
-                        Swal.fire('Error', 'No se pudo actualizar el pedido.', 'error');
+                        Swal.fire('Error', 'No se pudo actualizar el pedido.', 'error')
                     }
 
                 } catch (error) {
-                    console.error(error);
-                    Swal.fire('Error', 'Ocurrió un error al actualizar el pedido, stock insuficiente', 'error');
+                    console.error(error)
+                    Swal.fire('Error', 'Ocurrió un error al actualizar el pedido, stock insuficiente', 'error')
                 }
             }
         })
-    };
+    }
 
     return (
         <div className="pedidos-contenedor">
@@ -201,5 +201,5 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
                 </div>
             )}
         </div>
-    );
+    )
 }
