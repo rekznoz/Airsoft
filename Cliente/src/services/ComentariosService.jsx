@@ -136,8 +136,8 @@ export default class ComentariosService {
             const data = await response.json()
 
             if (!response.ok) {
-                console.error("Errores de validación del backend:", data.errors || data);
-                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`);
+                console.error("Errores de validación del backend:", data.errors || data)
+                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`)
             }
 
             if (!data || !data["data"]) {
