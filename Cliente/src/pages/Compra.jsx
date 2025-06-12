@@ -31,14 +31,19 @@ const validationSchema = object({
         .matches(/^\d{5}$/, 'El código postal debe tener 5 dígitos'),
 })
 
+/**
+ * Componente para gestionar la compra de productos en el carrito.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra un resumen de los productos en el carrito, permite eliminar productos, vaciar el carrito y finalizar la compra.
+ * Muestra un modal para ingresar la dirección de envío y procesa el pedido al confirmar la compra.
+ */
 export default function Compra() {
 
     const [mostrarModal, setMostrarModal] = useState(false)
-    const [direccion, setDireccion] = useState("")
     const [enviando, setEnviando] = useState(false)
 
     const carrito = carritoStore(state => state.informacionCarrito)
-    const totalItems = carritoStore(state => state.totalItems)
     const removeFromCart = carritoStore(state => state.removeFromCart)
     const clearCart = carritoStore(state => state.clearCart)
     const access_token = UsuarioStore(state => state.access_token)
