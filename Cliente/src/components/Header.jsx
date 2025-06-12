@@ -10,7 +10,7 @@ import carritoLleno from "../assets/navbar/carritolleno.png"
 
 import usuarioStore from "../context/UsuarioStore.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
-import {ListaNavbar} from "./ListaNavbar.jsx";
+import {ListaNavbar} from "./ListaNavbar.jsx"
 
 export default function Header() {
 
