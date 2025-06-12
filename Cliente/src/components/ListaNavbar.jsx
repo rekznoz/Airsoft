@@ -4,13 +4,7 @@ import PedidosService from "../services/PedidosService.jsx"
 
 /**
  * Componente de navegación para la lista de productos.
- * @param setMenuOpen
- * @param isLoggedIn
- * @param logout
- * @param userid
- * @param roles
  * @returns {JSX.Element}
- * @constructor
  * @description Este componente muestra una lista de navegación con enlaces a diferentes secciones de la aplicación.
  * @param {function} setMenuOpen - Función para abrir o cerrar el menú de navegación.
  * @param {boolean} isLoggedIn - Indica si el usuario está autenticado.
