@@ -1,11 +1,7 @@
 /**
- * @file ProductoDetalles.jsx
- * @param producto
- * @returns {JSX.Element}
- * @constructor
- * @description Componente para mostrar los detalles de un producto.
- * Este componente muestra las especificaciones del producto, como marca, modelo, categoría, FPS, calibre, capacidad del cargador, peso, tiempo de envío y stock disponible.
+ * Componente para mostrar los detalles de un producto.
  * @param {Object} producto - Objeto que contiene los detalles del producto.
+ * @returns {JSX.Element} - Renderiza una sección con las especificaciones del producto.
  */
 export default function ProductoDetalles({producto}) {
     return (
