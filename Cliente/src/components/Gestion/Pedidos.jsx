@@ -25,6 +25,14 @@ import PedidosService from "../../services/PedidosService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
 import Swal from "sweetalert2"
 
+/**
+ * Componente para gestionar pedidos de productos.
+ * @param pedidosIniciales
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite visualizar, editar y actualizar pedidos de productos.
+ * @param {Array} pedidosIniciales - Lista de pedidos a gestionar.
+ */
 export default function Pedidos({pedidos: pedidosIniciales}) {
 
     const [pedidos, setPedidos] = useState(pedidosIniciales || [])
