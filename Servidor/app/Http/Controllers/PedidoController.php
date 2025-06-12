@@ -63,8 +63,6 @@ class PedidoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    use App\Models\Producto;
-
     public function update(PedidoRequest $request, Pedido $pedido)
     {
         if (config('telescope.enabled')) {
