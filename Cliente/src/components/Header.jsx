@@ -1,10 +1,12 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import "../css/header.css"
 import {Link, useLocation} from "react-router-dom"
 
 import Logo from "../assets/logo.png"
 import claro from '../assets/navbar/claro.png'
 import oscuro from '../assets/navbar/oscuro.png'
+import nieve from '../assets/navbar/nieve.png'
+import bosque from '../assets/navbar/bosque.png'
 import CarritoIcon from "../assets/navbar/carrito.png"
 import carritoLleno from "../assets/navbar/carritolleno.png"
 
@@ -20,7 +22,11 @@ export default function Header() {
     const restarFromCart = carritoStore(state => state.restarFromCart)
     const clearCart = carritoStore(state => state.clearCart)
 
-    const [modo, setModo] = useState('claro')
+    const modos = ['claro', 'oscuro', 'bosque', 'nieve']
+    const iconosModo = {claro, oscuro, bosque, nieve}
+    const [modoIndex, setModoIndex] = useState(0)
+    const modo = modos[modoIndex]
+
     const [menuOpen, setMenuOpen] = useState(false)
     const [mostrarMiniCarrito, setMostrarMiniCarrito] = useState(false)
 
@@ -52,9 +58,10 @@ export default function Header() {
     const carrito = carritoStore(state => state.informacionCarrito)
 
     const cambiarModo = () => {
-        const nuevoModo = modo === 'claro' ? 'oscuro' : 'claro'
-        setModo(nuevoModo)
-        document.body.classList.toggle('modo-oscuro')
+        const siguienteIndex = (modoIndex + 1) % modos.length
+        setModoIndex(siguienteIndex)
+        modos.forEach(m => document.body.classList.remove(`modo-${m}`))
+        document.body.classList.add(`modo-${modos[siguienteIndex]}`)
     }
 
     const mostrarCarrito = location.pathname === '/tienda' || location.pathname.startsWith('/tienda/')
@@ -117,8 +124,8 @@ export default function Header() {
 
                     {/* ICONO MODO CLARO OSCURO */}
                     <div className="modo">
-                        <button className="modo-boton" onClick={cambiarModo} aria-label="Cambiar modo claro/oscuro">
-                            <img src={modo === 'claro' ? claro : oscuro} alt="Modo claro/oscuro"/>
+                        <button className="modo-boton" onClick={cambiarModo} aria-label={`Cambiar a modo ${modos[(modoIndex + 1) % modos.length]}`}>
+                            <img src={iconosModo[modo]} alt={`Modo ${modo}`}/>
                         </button>
                     </div>
 
