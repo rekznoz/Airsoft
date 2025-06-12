@@ -8,9 +8,9 @@ import usuarioStore from "../context/UsuarioStore.jsx"
 
 /**
  * Componente que define el layout público de la aplicación
- * @param children
- * @returns {Element}
- * @constructor
+ * @description Este componente se encarga de renderizar el encabezado, el pie de página y el contenido principal de la aplicación.
+ * Además, verifica la validez del token del usuario al cargar.
+ * @param {Object} props - Props del componente.
  */
 function Publico({children}) {
     usuarioStore.getState().checkTokenValidity()
