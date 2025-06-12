@@ -1,7 +1,7 @@
-import {Link} from "react-router-dom";
-import carritoStore from "../context/CarritoStore.jsx";
-import {useEffect, useState} from "react";
-import PedidosService from "../services/PedidosService.jsx";
+import {Link} from "react-router-dom"
+import carritoStore from "../context/CarritoStore.jsx"
+import {useEffect, useState} from "react"
+import PedidosService from "../services/PedidosService.jsx"
 
 export function ListaNavbar({setMenuOpen, isLoggedIn, logout, userid, roles}) {
 
