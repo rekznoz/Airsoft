@@ -27,9 +27,6 @@
 
 3. ⚙️ [Instalación y uso](./Documentacion/instalación-y-uso.md)
 
-    * 📋 [Requisitos](requisitos)
-    * 🚀 [Instalación](instalación)
-
 4. 🛠️ [Desarrollo](./Documentacion/desarrollo.md)
 
     * 🏗️ [Estructura del proyecto](estructura-del-proyecto)
