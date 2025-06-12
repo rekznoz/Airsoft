@@ -21,38 +21,34 @@
 
 ### Índice
 
-1. 📝 [Introducción](#introducción)
+1. 📝 [Introducción](./Documentacion/introducción.md)
 
-    * 🏁 [Origen del proyecto](#origen-del-proyecto)
-    * 🎯 [Expectativas](#expectativas)
-    * ⚖️ [Comparativa](#comparativa)
+2. 📦 [Descripción del proyecto](./Documentacion/descripción-del-proyecto.md)
 
-2. 📦 [Descripción del proyecto](#descripción-del-proyecto)
+    * 🔧 [Funcionalidades](funcionalidades)
+    * 🖥️ [Interfaz de usuario](interfaz-de-usuario)
 
-    * 🔧 [Funcionalidades](#funcionalidades)
-    * 🖥️ [Interfaz de usuario](#interfaz-de-usuario)
+3. ⚙️ [Instalación y uso](./Documentacion/instalación-y-uso.md)
 
-3. ⚙️ [Instalación y uso](#instalación-y-uso)
+    * 📋 [Requisitos](requisitos)
+    * 🚀 [Instalación](instalación)
 
-    * 📋 [Requisitos](#requisitos)
-    * 🚀 [Instalación](#instalación)
+4. 🛠️ [Desarrollo](./Documentacion/desarrollo.md)
 
-4. 🛠️ [Desarrollo](#desarrollo)
+    * 🏗️ [Estructura del proyecto](estructura-del-proyecto)
+    * 💻 [Tecnologías utilizadas](tecnologías-utilizadas)
+    * 🧩 [Desarrollo del proyecto](desarrollo-del-proyecto)
 
-    * 🏗️ [Estructura del proyecto](#estructura-del-proyecto)
-    * 💻 [Tecnologías utilizadas](#tecnologías-utilizadas)
-    * 🧩 [Desarrollo del proyecto](#desarrollo-del-proyecto)
+5. 🌐 [Despliegue](./Documentacion/despliegue.md)
 
-5. 🌐 [Despliegue](#despliegue)
+    * 🏠 [Hosting](hosting)
+    * 🌍 [Dominio](dominio)
 
-    * 🏠 [Hosting](#hosting)
-    * 🌍 [Dominio](#dominio)
+6. 📖 [Manual de Uso](./Documentacion/manual-de-uso.md)
 
-6. 📖 [Manual de Uso](#manual-de-uso)
+    * 👤 [Guía de usuario](guía-de-usuario)
+    * 🛡️ [Guía de administrador](guía-de-administrador)
 
-    * 👤 [Guía de usuario](#guía-de-usuario)
-    * 🛡️ [Guía de administrador](#guía-de-administrador)
-
-7. 📚 [Bibliografía](#bibliografía)
+7. 📚 [Bibliografía](./Documentacion/bibliografía.md)
 
 ---
