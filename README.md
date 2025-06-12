@@ -31,13 +31,7 @@
 
 5. 🌐 [Despliegue](./Documentacion/despliegue.md)
 
-    * 🏠 [Hosting](hosting)
-    * 🌍 [Dominio](dominio)
-
 6. 📖 [Manual de Uso](./Documentacion/manual-de-uso.md)
-
-    * 👤 [Guía de usuario](guía-de-usuario)
-    * 🛡️ [Guía de administrador](guía-de-administrador)
 
 7. 📚 [Bibliografía](./Documentacion/bibliografía.md)
 
