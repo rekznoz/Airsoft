@@ -1,92 +1,17 @@
-/*
-{
-  "data": {
-    "id": 10,
-    "nombre": "DDDDDDD",
-    "descripcion": "CCCCCCC",
-    "precio": "123.00",
-    "descuento": "3.32",
-    "precio_final": 119.68,
-    "stock": 1,
-    "categoria": {
-      "id": 3,
-      "nombre": "Munición"
-    },
-    "marca": "BBBBBBB",
-    "modelo": "AAAAAAA",
-    "fps": 369,
-    "calibre": "5.5 mm",
-    "capacidad_cargador": 48,
-    "peso": 1.62,
-    "imagenes": [
-      "https://via.placeholder.com/640x480.png/003355?text=voluptas",
-      "https://via.placeholder.com/640x480.png/00ddcc?text=et"
-    ],
-    "video_demo": "https://www.elizondo.es/voluptatem-ut-nostrum-amet-quo-eveniet",
-    "tiempo_envio": "24h",
-    "estado_activo": true,
-    "array_comentarios": [
-      {
-        "id": 11,
-        "user": {
-          "id": 6,
-          "name": "Unai Carvajal"
-        },
-        "comentario": "Dolor illum aperiam quidem velit quo eos fugiat exercitationem.",
-        "calificacion": 9,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 19,
-        "user": {
-          "id": 5,
-          "name": "Ing. Carlos Brito Segundo"
-        },
-        "comentario": "Consequatur consequatur dolores quibusdam voluptatem exercitationem quam occaecati eligendi.",
-        "calificacion": 2,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 28,
-        "user": {
-          "id": 8,
-          "name": "Marc Aguilera Tercero"
-        },
-        "comentario": "Excepturi quae occaecati laudantium deleniti nesciunt nobis in.",
-        "calificacion": 9,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 46,
-        "user": {
-          "id": 7,
-          "name": "Luis Valadez"
-        },
-        "comentario": "Laborum quam eum earum voluptatem et.",
-        "calificacion": 1,
-        "created_at": "2025-05-06 13:43:11"
-      },
-      {
-        "id": 50,
-        "user": {
-          "id": 9,
-          "name": "Srta. Francisca Colunga"
-        },
-        "comentario": "Ratione aut quam voluptatem asperiores.",
-        "calificacion": 4,
-        "created_at": "2025-05-06 13:43:11"
-      }
-    ],
-    "created_at": "2025-05-06 13:43:10",
-    "updated_at": "2025-05-06 15:56:15"
-  }
-}
-*/
-
 import apiconfig from "../config/APIConfig.jsx"
 
+/**
+ * Servicio para interactuar con la API de productos.
+ * Contiene métodos estáticos para obtener, crear, actualizar y eliminar productos.
+ */
 export default class ProductoService {
 
+    /**
+     * Obtiene la lista completa de productos desde la API.
+     *
+     * @returns {Promise<Array>} Array con los productos obtenidos.
+     * @throws {Error} Lanza error si la respuesta no es correcta o los datos están mal formateados.
+     */
     static async getProductos() {
         try {
             const response = await fetch(apiconfig.productos)
@@ -108,6 +33,15 @@ export default class ProductoService {
         }
     }
 
+    /**
+     * Obtiene un producto específico por su ID.
+     *
+     * @param {Object} params - Parámetros para la consulta.
+     * @param {number|string} params.id - ID del producto a obtener.
+     *
+     * @returns {Promise<Object>} Objeto con los datos del producto.
+     * @throws {Error} Lanza error si la respuesta no es correcta o los datos están mal formateados.
+     */
     static async getProducto({params}) {
         try {
             const response = await fetch(apiconfig.productos + "/" + params.id)
@@ -129,6 +63,16 @@ export default class ProductoService {
         }
     }
 
+    /**
+     * Elimina un producto específico por su ID.
+     *
+     * @param {Object} params - Parámetros para la eliminación.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {number|string} params.id - ID del producto a eliminar.
+     *
+     * @returns {Promise<boolean>} `true` si la eliminación fue exitosa.
+     * @throws {Error} Lanza error si la respuesta no es correcta.
+     */
     static async deleteProducto({params}) {
         console.log(params)
         try {
@@ -151,6 +95,16 @@ export default class ProductoService {
         }
     }
 
+    /**
+     * Crea un nuevo producto enviando un formulario con datos y archivos.
+     *
+     * @param {Object} params - Parámetros para la creación.
+     * @param {FormData} params.formData - Datos del producto en formato FormData.
+     * @param {string} params.token - Token de autorización Bearer.
+     *
+     * @returns {Promise<Object>} Respuesta con los datos del producto creado.
+     * @throws {Error} Lanza error si la validación o la creación fallan.
+     */
     static async postProducto({formData, token}) {
         try {
             const response = await fetch(apiconfig.productos, {
@@ -175,15 +129,26 @@ export default class ProductoService {
         }
     }
 
-    static async putProducto({ id, formData, token }) {
-        formData.append('_method', 'PUT') // Esto es clave para Laravel
+    /**
+     * Actualiza un producto existente enviando un formulario con datos y archivos.
+     * Utiliza la técnica de _method=PUT para compatibilidad con Laravel.
+     *
+     * @param {Object} params - Parámetros para la actualización.
+     * @param {number|string} params.id - ID del producto a actualizar.
+     * @param {FormData} params.formData - Datos del producto en formato FormData.
+     * @param {string} params.token - Token de autorización Bearer.
+     *
+     * @returns {Promise<Object>} Datos del producto actualizado.
+     * @throws {Error} Lanza error si la validación o la actualización fallan.
+     */
+    static async putProducto({id, formData, token}) {
+        formData.append('_method', 'PUT') // Clave para Laravel
 
         try {
             const response = await fetch(apiconfig.productos + "/" + id, {
-                method: 'POST', // ¡OJO! Aunque es PUT, aquí usamos POST
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
-                    // No pongas 'Content-Type', fetch lo establece automáticamente con boundary al usar FormData
                 },
                 body: formData
             })
@@ -196,12 +161,9 @@ export default class ProductoService {
             }
 
             return data["data"]
-
         } catch (error) {
             console.error("Error en putProducto:", error)
             throw error
         }
     }
-
-
 }
