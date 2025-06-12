@@ -1,5 +1,5 @@
 
-# **Desarrollo del Proyecto**
+# 🧱 **Desarrollo del Proyecto**
 
 [🔙 Volver al índice principal](../README.md)
 
@@ -9,32 +9,32 @@
 
 ### 🧭 Índice
 
-* 🏗️ [Estructura del proyecto](estructura-del-proyecto)
-* 💻 [Tecnologías utilizadas](tecnologías-utilizadas)
-* 🧩 [Desarrollo del proyecto](desarrollo-del-proyecto)
+* 🏗️ [Estructura del proyecto](#🏗️-estructura-del-proyecto)
+* 💻 [Tecnologías utilizadas](#💻-tecnologías-utilizadas)
+* 🛠️ [Desarrollo del proyecto](#🛠️-desarrollo-del-proyecto)
 
 ---
 
-## 🏗️ **Estructura del proyecto**
+## 🏗️ **Estructura del Proyecto**
 
-´´´´´´Claro, aquí tienes la estructura del proyecto `rekznoz-airsoft` en formato Markdown:
-
-# 📁 Estructura del Proyecto: rekznoz-airsoft
+La siguiente es la estructura del proyecto `Airsoft`, organizada en tres bloques principales:
 
 ```plaintext
-rekznoz-airsoft/
+Airsoft/
+│ 
 ├── README.md
-├── Cliente/
+│ 
+├── Cliente/                  ← Aplicación web React
+│   │ 
 │   ├── README.md
 │   ├── eslint.config.js
 │   ├── index.html
 │   ├── netlify.toml
-│   ├── package-lock.json
 │   ├── package.json
 │   ├── vite.config.js
-│   ├── .gitignore
 │   ├── public/
 │   └── src/
+│       │ 
 │       ├── main.jsx
 │       ├── assets/
 │       ├── components/
@@ -46,115 +46,118 @@ rekznoz-airsoft/
 │       ├── pages/
 │       ├── router/
 │       └── services/
-├── Documentacion/
-│   ├── *config.yaml
-│   ├── bibliografía.md
-│   ├── desarrollo.md
-│   ├── descripción-del-proyecto.md
-│   ├── despliegue.md
-│   ├── instalación-y-uso.md
-│   ├── introducción.md
-│   ├── manual-de-uso.md
+│ 
+├── Documentacion/            ← Documentación técnica y visual
+│   │ 
+│   ├── config.yaml
+│   ├── *.md
 │   └── ClienteWeb/
-│       ├── components**.html
-│       ├── context\_*.html
+│       │ 
+│       ├── *.html
 │       ├── fonts/
 │       ├── scripts/
 │       └── styles/
-└── Servidor/
-├── README.md
-├── artisan
-├── composer.json
-├── package.json
-├── phpunit.xml
-├── vite.config.js
-├── .env.example
-├── app/
-│   ├── Console/
-│   ├── Exceptions/
-│   ├── Http/
-│   ├── Models/
-│   ├── Observers/
-│   └── Providers/
-├── bootstrap/
-├── config/
-├── database/
-│   ├── factories/
-│   ├── migrations/
-│   └── seeders/
-├── public/
-├── resources/
-├── routes/
-└── tests/
-
+│ 
+└── Servidor/                 ← API RESTful Laravel 10
+    │ 
+    ├── artisan
+    ├── composer.json
+    ├── .env.example
+    ├── app/
+    │   │ 
+    │   ├── Console/
+    │   ├── Exceptions/
+    │   ├── Http/
+    │   ├── Models/
+    │   ├── Observers/
+    │   └── Providers/
+    ├── database/
+    │   │ 
+    │   ├── factories/
+    │   ├── migrations/
+    │   └── seeders/
+    │ 
+    ├── routes/
+    └── tests/
 ```
 
-```
-
-> Esta estructura contiene tres grandes bloques:
-> - `Cliente/`: Aplicación web en React con Vite.
-> - `Servidor/`: Backend en Laravel con controladores, modelos y rutas API.
-> - `Documentacion/`: Archivos Markdown, documentación técnica y JSDoc generado.
-
-¿Deseas que lo convierta también en un diagrama visual o lo exporte a PDF/Word?
-```
-
-
-## 💻 **Tecnologías utilizadas**
+> 🧩 **Resumen**:
+>
+> * `Cliente/`: Código del frontend con React + Vite.
+> * `Servidor/`: Backend Laravel 10, autenticación, modelos y API REST.
+> * `Documentacion/`: Archivos de apoyo, vistas previas y JSDoc generado.
 
 ---
 
-### 🧩 **Tecnologías utilizadas**
+## 💻 **Tecnologías Utilizadas**
 
-#### 🔹 Frontend
+### 🔹 **Frontend**
 
-* **HTML, CSS, JavaScript**
-* **React** (v19) – Biblioteca principal para construir la interfaz de usuario
-* **Vite** – Herramienta de desarrollo y bundler
-* **React Router DOM** – Enrutamiento dinámico en el cliente
-* **Zustand** – Gestión de estado global
-* **Formik + Yup** – Manejo y validación de formularios
-* **SweetAlert2** – Alertas y diálogos personalizados
+* **React 19** – UI principal
+* **Vite** – Bundler de alto rendimiento
+* **React Router DOM** – Navegación dinámica
+* **Zustand** – Gestión global de estado
+* **Formik + Yup** – Formularios y validación
+* **SweetAlert2** – Diálogos personalizables
 
-#### 🔹 Backend
+### 🔹 **Backend**
 
-* **Laravel** (PHP) – Framework principal del servidor backend
-* **JWT (JSON Web Tokens)** – Autenticación
-* **Sanctum** – Alternativa de autenticación en Laravel
-* **Eloquent ORM** – Manejo de base de datos
+* **Laravel 10 (PHP)** – Framework del servidor
+* **JWT (tymon/jwt-auth)** – Autenticación
+* **Sanctum** (opcional/configurable)
+* **Eloquent ORM** – Abstracción de base de datos
 
-#### 🔹 Base de Datos
+### 🔹 **Base de Datos**
 
-* **MySQL** (asumido por uso típico en Laravel, aunque no se indica explícitamente)
+* **MySQL**
 
-#### 🔹 Herramientas de desarrollo y control de calidad
-
-* **ESLint + eslint-plugin-react-hooks** – Linter para mantener calidad del código
-* **Docdash** – Generación de documentación estilo JSDoc
-
-#### 🔹 Despliegue
+### 🔹 **Despliegue y documentación**
 
 * **Netlify** – Hosting del frontend
-* **Figma** – Diseño de interfaz de usuario (enlace incluido en el README)
+* **Figma** – Diseño de interfaz y prototipado
+* **JSDoc + Docdash** – Generación de documentación visual
 
 ---
 
-### 🛠️ Desarrollo del Proyecto
+## 🛠️ **Desarrollo del Proyecto**
 
-El desarrollo de la plataforma web *La Web de Airsoft* surgió como una evolución natural de una experiencia previa de ventas a través de Telegram, con el objetivo de profesionalizar dicha actividad. Desde el inicio, el propósito fue crear un sitio confiable, intuitivo y responsivo, capaz de ofrecer una experiencia de compra atractiva y cercana para los aficionados al airsoft.
+El desarrollo de *La Web de Airsoft* nació con la intención de profesionalizar un modelo de venta previa realizado por Telegram, buscando brindar una experiencia más sólida, moderna y accesible.
 
-La arquitectura del sistema se basó en una separación clara entre frontend y backend. El frontend fue desarrollado en **React**, lo que permitió construir una interfaz dinámica, moderna y adaptativa para diversos dispositivos. Por su parte, el backend se construyó con **Laravel 10**, ofreciendo una API RESTful robusta y segura que maneja productos, usuarios, pedidos, comentarios y autenticación mediante tokens JWT.
+Desde un principio se planteó una arquitectura desacoplada, con **React** en el frontend y **Laravel 10** como backend, comunicándose mediante una **API RESTful**. Esta separación permitió un desarrollo modular, escalable y fácilmente mantenible.
 
-Durante la etapa de planificación, se diseñó la estructura del sitio en Figma, asegurando una navegación clara y una jerarquía visual amigable. Posteriormente, se implementaron funcionalidades clave como:
+### 🧪 Fases clave del desarrollo:
 
-* Catálogo de productos con fichas técnicas detalladas.
-* Gestión de usuarios y perfiles.
-* Sistema de comentarios y valoraciones.
-* Panel de administración para control de inventario y pedidos.
-* Integración de seguridad con login y protección de rutas mediante autenticación.
+1. **Diseño y prototipado:**
+   Se utilizó **Figma** para definir la estructura de navegación, la jerarquía visual y los estilos. Se priorizó una UX intuitiva para usuarios nuevos y recurrentes.
 
-El despliegue se realizó a través de **Netlify** para el cliente y un servidor local para el backend, con opciones de escalabilidad futura. Se priorizó la accesibilidad, la velocidad de carga y la compatibilidad con navegadores modernos. El código fue documentado y modularizado para facilitar su mantenimiento y posibles ampliaciones a futuro.
+2. **Implementación del cliente (React):**
 
-Este proyecto no busca competir con grandes comercios electrónicos, sino posicionarse como una alternativa personal, honesta y construida por un jugador de airsoft para la comunidad de jugadores, destacando por su cercanía y enfoque en la confianza del usuario.
+    * Página de inicio, catálogo, login/register y perfil.
+    * Gestión de productos, comentarios, formularios protegidos y rutas privadas.
+    * Integración con JWT y consumo de la API.
+
+3. **Construcción del backend (Laravel):**
+
+    * API RESTful completa para productos, usuarios, pedidos y comentarios.
+    * Middleware de autenticación JWT.
+    * Migraciones, seeders y controladores estructurados.
+
+4. **Panel de administración:**
+
+    * Herramientas CRUD para productos y pedidos.
+    * Validación robusta de formularios con feedback visual.
+
+5. **Documentación y despliegue:**
+
+    * Generación de documentación técnica.
+    * Despliegue del cliente en **Netlify**, con vistas a futuro para un backend autoescalable en servidor VPS o Docker.
 
 ---
+
+### 🎯 Objetivos del proyecto
+
+Este sitio no busca competir con marketplaces masivos, sino convertirse en una solución **auténtica, accesible y cercana** para la comunidad airsofter. Fue desarrollado por y para jugadores, poniendo énfasis en la confianza, la funcionalidad clara y la facilidad de uso.
+
+---
+
+¿Quieres ahora que te prepare una presentación en PowerPoint/Markdown para exponer este desarrollo? También puedo ayudarte a exportar esto como documento PDF o plantilla para Notion si lo necesitas.
