@@ -153,11 +153,3 @@ Desde un principio se planteó una arquitectura desacoplada, con **React** en el
     * Despliegue del cliente en **Netlify**, con vistas a futuro para un backend autoescalable en servidor VPS o Docker.
 
 ---
-
-### 🎯 Objetivos del proyecto
-
-Este sitio no busca competir con marketplaces masivos, sino convertirse en una solución **auténtica, accesible y cercana** para la comunidad airsofter. Fue desarrollado por y para jugadores, poniendo énfasis en la confianza, la funcionalidad clara y la facilidad de uso.
-
----
-
-¿Quieres ahora que te prepare una presentación en PowerPoint/Markdown para exponer este desarrollo? También puedo ayudarte a exportar esto como documento PDF o plantilla para Notion si lo necesitas.
