@@ -4,10 +4,19 @@ import {useEffect, useMemo, useState} from "react"
 import ComentariosService from "../../services/ComentariosService.jsx"
 import usuarioStore from "../../context/UsuarioStore.jsx"
 import validarComentario from "../../hooks/validarComentario.jsx"
-import Estrellas from "./Estrellas.jsx"
 import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx"
 import ComentarioItem from "./Comentarios/ComentarioItem.jsx"
 
+/**
+ * Componente para mostrar comentarios paginados de un producto.
+ * @param comentarios
+ * @param producto
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite visualizar los comentarios de un producto, paginarlos y agregar nuevos comentarios.
+ * @param {Array} comentarios - Lista de comentarios del producto.
+ * @param {Object} producto - Objeto que representa el producto al que pertenecen los comentarios.
+ */
 export default function ComentariosPaginados({comentarios, producto}) {
 
     const access_token = usuarioStore(state => state.access_token)
