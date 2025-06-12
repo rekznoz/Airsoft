@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/Perfil.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spinner.html">Spinner</a></li><li><a href="module.html#.exports">exports</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#ListaNavbar">ListaNavbar</a></li><li><a href="global.html#LoginRegistro">LoginRegistro</a></li><li><a href="global.html#ModalProducto">ModalProducto</a></li><li><a href="global.html#Paginacion">Paginacion</a></li><li><a href="global.html#PedidoLayout">PedidoLayout</a></li><li><a href="global.html#Privado">Privado</a></li><li><a href="global.html#Publico">Publico</a></li><li><a href="global.html#apiconfig">apiconfig</a></li><li><a href="global.html#corregirUrlImagen">corregirUrlImagen</a></li><li><a href="global.html#createPedido">createPedido</a></li><li><a href="global.html#deleteCategoria">deleteCategoria</a></li><li><a href="global.html#deleteComentario">deleteComentario</a></li><li><a href="global.html#deleteProducto">deleteProducto</a></li><li><a href="global.html#getCategorias">getCategorias</a></li><li><a href="global.html#getComentariosNoVerificados">getComentariosNoVerificados</a></li><li><a href="global.html#getComentariosUsuario">getComentariosUsuario</a></li><li><a href="global.html#getComentariosVerificados">getComentariosVerificados</a></li><li><a href="global.html#getPedido">getPedido</a></li><li><a href="global.html#getPedidos">getPedidos</a></li><li><a href="global.html#getPedidosUsuario">getPedidosUsuario</a></li><li><a href="global.html#getProducto">getProducto</a></li><li><a href="global.html#getProductos">getProductos</a></li><li><a href="global.html#postCategoria">postCategoria</a></li><li><a href="global.html#postComentario">postComentario</a></li><li><a href="global.html#postProducto">postProducto</a></li><li><a href="global.html#productosStore">productosStore</a></li><li><a href="global.html#putComentario">putComentario</a></li><li><a href="global.html#putProducto">putProducto</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#updatePedido">updatePedido</a></li><li><a href="global.html#usePaginacion">usePaginacion</a></li><li><a href="global.html#useWindowSize">useWindowSize</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/Perfil.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import usuarioStore from "../context/UsuarioStore.jsx"
+import {Link, useLoaderData} from "react-router-dom"
+import Spinner from "../components/Spinner.jsx"
+
+import "../css/perfil.css"
+import {useEffect, useState} from "react"
+
+/**
+ * Hook para manejar la paginación de una lista de items.
+ * @param items
+ * @param porPagina
+ * @returns {{pagina: number, totalPaginas: number, itemsPaginados: *, siguiente: (function(): *), anterior: (function(): *)}}
+ */
+function usePaginacion(items, porPagina) {
+    const [pagina, setPagina] = useState(1)
+
+    useEffect(() => {
+        setPagina(1)
+    }, [items])
+
+    const totalPaginas = Math.ceil(items.length / porPagina)
+    const indiceInicial = (pagina - 1) * porPagina
+    const itemsPaginados = items.slice(indiceInicial, indiceInicial + porPagina)
+
+    const siguiente = () => pagina &lt; totalPaginas &amp;&amp; setPagina(pagina + 1)
+    const anterior = () => pagina > 1 &amp;&amp; setPagina(pagina - 1)
+
+    return {
+        pagina,
+        totalPaginas,
+        itemsPaginados,
+        siguiente,
+        anterior,
+    }
+}
+
+/**
+ * Componente de paginación para el perfil del usuario.
+ * @param pagina
+ * @param totalPaginas
+ * @param anterior
+ * @param siguiente
+ * @returns {JSX.Element}
+ */
+function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
+    return (
+        &lt;div className="perfil-paginacion">
+            &lt;button onClick={anterior} disabled={pagina === 1}>⬅&lt;/button>
+            &lt;span>Página {pagina} de {totalPaginas}&lt;/span>
+            &lt;button onClick={siguiente} disabled={pagina === totalPaginas}>➡&lt;/button>
+        &lt;/div>
+    )
+}
+
+/**
+ * Componente de perfil de usuario.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra el perfil del usuario, incluyendo sus pedidos y comentarios realizados.
+ */
+export default function Perfil() {
+
+    const user = usuarioStore(state => state.user)
+    const {pedidos, comentarios, usuario} = useLoaderData()
+
+    const pagPedidos = usePaginacion(pedidos, 3)
+    const pagComentarios = usePaginacion(comentarios, 3)
+
+    if (!user || !pedidos || !Array.isArray(pedidos) || !comentarios || !Array.isArray(comentarios)) {
+        return &lt;Spinner/>
+    }
+
+    return (
+        &lt;div className="perfil-contenedor">
+
+            &lt;div className="perfil-header carta-perfil">
+                &lt;div className="perfil-info">
+                    &lt;h2>👤 Perfil de Usuario&lt;/h2>
+                    &lt;p>&lt;strong>Nombre:&lt;/strong> {usuario.name}&lt;/p>
+                    &lt;p>&lt;strong>Email:&lt;/strong> {usuario.email}&lt;/p>
+                &lt;/div>
+                {
+                    user === usuario.id ? (
+                        &lt;div className="perfil-acciones">
+                            &lt;button onClick={() => alert('Editar perfil no implementado')}>Editar Perfil&lt;/button>
+                        &lt;/div>
+                    ) : (
+                        &lt;>&lt;/>
+                    )
+                }
+
+            &lt;/div>
+
+            &lt;div className="perfil-seccion carta-perfil">
+                &lt;h3>📦 Pedidos Realizados&lt;/h3>
+                {pedidos.length > 0 ? (
+                    &lt;>
+                        &lt;ul className="perfil-lista-objetos">
+                            {pagPedidos.itemsPaginados.map((pedido) => (
+                                &lt;li key={pedido.id} className="perfil-objeto">
+                                    &lt;div className="perfil-objeto-informacion">
+                                        &lt;p>&lt;strong>ID:&lt;/strong> {pedido.id}&lt;/p>
+                                        &lt;p>
+                                            &lt;strong>Fecha:&lt;/strong> {new Date(pedido.created_at).toLocaleDateString("es-ES")}
+                                        &lt;/p>
+                                        &lt;p>&lt;strong>Producto:&lt;/strong> {pedido.producto.nombre}&lt;/p>
+                                        &lt;p>&lt;strong>Cantidad:&lt;/strong> {pedido.cantidad}&lt;/p>
+                                        &lt;p>&lt;strong>Estado:&lt;/strong> {pedido.estado}&lt;/p>
+                                    &lt;/div>
+                                    &lt;div className="perfil-botones">
+                                        &lt;Link to={`/pedido/${pedido.id}`}>
+                                            &lt;button className="btn-ver">Ver Pedido&lt;/button>
+                                        &lt;/Link>
+                                        &lt;Link to={`/tienda/${pedido.producto.id}`}>
+                                            &lt;button className="btn-ver">Ver Producto&lt;/button>
+                                        &lt;/Link>
+                                    &lt;/div>
+                                &lt;/li>
+                            ))}
+                        &lt;/ul>
+                        &lt;Paginacion
+                            pagina={pagPedidos.pagina}
+                            totalPaginas={pagPedidos.totalPaginas}
+                            anterior={pagPedidos.anterior}
+                            siguiente={pagPedidos.siguiente}
+                        />
+                    &lt;/>
+                ) : &lt;p>No tienes pedidos realizados.&lt;/p>}
+            &lt;/div>
+
+            &lt;div className="perfil-seccion carta-perfil">
+                &lt;h3>💬 Comentarios Realizados&lt;/h3>
+                {comentarios.length > 0 ? (
+                    &lt;>
+                        &lt;ul className="perfil-lista-objetos">
+                            {pagComentarios.itemsPaginados.map((comentario) => (
+                                &lt;li key={comentario.id} className="perfil-objeto">
+                                    &lt;div className="perfil-objeto-informacion">
+                                        &lt;p>&lt;strong>ID:&lt;/strong> {comentario.id}&lt;/p>
+                                        &lt;p>
+                                            &lt;strong>Fecha:&lt;/strong> {new Date(comentario.created_at).toLocaleDateString("es-ES")}
+                                        &lt;/p>
+                                        &lt;p>&lt;strong>Producto:&lt;/strong> {comentario.producto.nombre}
+                                        &lt;/p>
+                                        &lt;p>&lt;strong>Comentario:&lt;/strong> {comentario.comentario}&lt;/p>
+                                        &lt;p>&lt;strong>Calificación:&lt;/strong> {comentario.calificacion}/10&lt;/p>
+                                    &lt;/div>
+                                    &lt;div className="perfil-botones">
+                                        &lt;Link to={`/tienda/${comentario.producto.id}`}>
+                                            &lt;button className="btn-ver">Ver Producto&lt;/button>
+                                        &lt;/Link>
+                                    &lt;/div>
+                                &lt;/li>
+                            ))}
+                        &lt;/ul>
+                        &lt;Paginacion
+                            pagina={pagComentarios.pagina}
+                            totalPaginas={pagComentarios.totalPaginas}
+                            anterior={pagComentarios.anterior}
+                            siguiente={pagComentarios.siguiente}
+                        />
+                    &lt;/>
+                ) : &lt;p>No tienes comentarios realizados.&lt;/p>}
+            &lt;/div>
+
+        &lt;/div>
+
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jun 12 2025 14:07:03 GMT+0200 (hora de verano de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
