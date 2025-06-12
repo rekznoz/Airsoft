@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/Gestion/ModalProducto.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spinner.html">Spinner</a></li><li><a href="module.html#.exports">exports</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#ListaNavbar">ListaNavbar</a></li><li><a href="global.html#LoginRegistro">LoginRegistro</a></li><li><a href="global.html#ModalProducto">ModalProducto</a></li><li><a href="global.html#Paginacion">Paginacion</a></li><li><a href="global.html#PedidoLayout">PedidoLayout</a></li><li><a href="global.html#Privado">Privado</a></li><li><a href="global.html#Publico">Publico</a></li><li><a href="global.html#apiconfig">apiconfig</a></li><li><a href="global.html#corregirUrlImagen">corregirUrlImagen</a></li><li><a href="global.html#createPedido">createPedido</a></li><li><a href="global.html#deleteCategoria">deleteCategoria</a></li><li><a href="global.html#deleteComentario">deleteComentario</a></li><li><a href="global.html#deleteProducto">deleteProducto</a></li><li><a href="global.html#getCategorias">getCategorias</a></li><li><a href="global.html#getComentariosNoVerificados">getComentariosNoVerificados</a></li><li><a href="global.html#getComentariosUsuario">getComentariosUsuario</a></li><li><a href="global.html#getComentariosVerificados">getComentariosVerificados</a></li><li><a href="global.html#getPedido">getPedido</a></li><li><a href="global.html#getPedidos">getPedidos</a></li><li><a href="global.html#getPedidosUsuario">getPedidosUsuario</a></li><li><a href="global.html#getProducto">getProducto</a></li><li><a href="global.html#getProductos">getProductos</a></li><li><a href="global.html#postCategoria">postCategoria</a></li><li><a href="global.html#postComentario">postComentario</a></li><li><a href="global.html#postProducto">postProducto</a></li><li><a href="global.html#productosStore">productosStore</a></li><li><a href="global.html#putComentario">putComentario</a></li><li><a href="global.html#putProducto">putProducto</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#updatePedido">updatePedido</a></li><li><a href="global.html#usePaginacion">usePaginacion</a></li><li><a href="global.html#useWindowSize">useWindowSize</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/Gestion/ModalProducto.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {useEffect, useState} from "react";
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx";
+import {Field, Form, Formik} from "formik";
+import {boolean, mixed, object, string} from "yup";
+
+const validationSchema = object({
+    nombre: string().required('El nombre es obligatorio'),
+    descripcion: string().required('La descripción es obligatoria').max(255, 'La descripción no puede exceder los 500 caracteres'),
+    precio: string().required('El precio es obligatorio').matches(/^\d+(\.\d{1,2})?$/, 'El precio debe ser un número válido'),
+    descuento: string().matches(/^\d+(\.\d{1,2})?$/, 'El descuento debe ser un número válido'),
+    precio_final: string().matches(/^\d+(\.\d{1,2})?$/, 'El precio final debe ser un número válido'),
+    stock: string().matches(/^\d+$/, 'El stock debe ser un número entero'),
+    categoria_id: string().required('La categoría es obligatoria'),
+    marca: string().required('La marca es obligatoria'),
+    modelo: string().required('El modelo es obligatorio'),
+    fps: string().matches(/^\d+$/, 'Los FPS deben ser un número entero'),
+    calibre: string().required('El calibre es obligatorio'),
+    capacidad_cargador: string().matches(/^\d+$/, 'La capacidad del cargador debe ser un número entero'),
+    peso: string().matches(/^\d+(\.\d{1,2})?$/, 'El peso debe ser un número válido'),
+    imagenes: mixed(),
+    video_demo: string().matches(/^(https?:\/\/[^\s]+)?$/, 'El video de demostración debe ser una URL válida'),
+    tiempo_envio: string().required('El tiempo de envío es obligatorio'),
+    estado_activo: boolean().required('El estado activo es obligatorio').oneOf([true, false], 'El estado activo debe ser verdadero o falso'),
+})
+
+/**
+ * Componente para crear o editar un producto en la tienda.
+ * @description Este componente permite crear o editar un producto, incluyendo su información, imágenes y estado.
+ * @param {Object} producto - Objeto del producto a editar, si es null se crea uno nuevo.
+ * @param {function} onClose - Función para cerrar el modal.
+ * @param {function} onSave - Función para guardar el producto.
+ * @param {string} modo - Modo de operación, "crear" o "editar".
+ * @param {Array} categorias - Lista de categorías disponibles para el producto.
+ */
+export function ModalProducto({producto = null, onClose, onSave, modo = "editar", categorias}) {
+
+    const [imagenesExistentes, setImagenesExistentes] = useState([])
+    const [imagenesNuevas, setImagenesNuevas] = useState([])
+
+    useEffect(() => {
+        if (producto?.imagenes &amp;&amp; producto.imagenes.length > 0) {
+            const existentes = producto.imagenes.map((url, index) => ({
+                id: `existente-${index}`,
+                src: corregirUrlImagen(url),
+            }))
+            setImagenesExistentes(existentes)
+        } else {
+            setImagenesExistentes([])
+        }
+        setImagenesNuevas([])
+    }, [producto])
+
+    const valoresIniciales = {
+        nombre: producto?.nombre || "",
+        descripcion: producto?.descripcion || "",
+        precio: parseFloat(producto?.precio || 0).toFixed(2),
+        descuento: parseFloat(producto?.descuento || 0).toFixed(2),
+        precio_final: parseFloat(producto?.precio_final || 0).toFixed(2),
+        stock: producto?.stock || 0,
+        categoria_id: producto?.categoria?.id || 0,
+        marca: producto?.marca || "",
+        modelo: producto?.modelo || "",
+        fps: producto?.fps || 0,
+        calibre: producto?.calibre || "",
+        capacidad_cargador: producto?.capacidad_cargador || 0,
+        peso: producto?.peso || 0,
+        imagenes: [],
+        video_demo: producto?.video_demo || "",
+        tiempo_envio: producto?.tiempo_envio || "",
+        estado_activo: producto?.estado_activo || false,
+    }
+
+    const handleSubmit = async (valores) => {
+        const formData = new FormData()
+
+        for (const clave in valores) {
+            if (clave !== "imagenes" &amp;&amp; clave !== "estado_activo") {
+                formData.append(clave, valores[clave])
+            }
+        }
+
+        formData.append('estado_activo', valores.estado_activo === "true" ? 1 : 0)
+
+        previewImages.forEach(img => {
+            if (img.file) {
+                formData.append('imagenes[]', img.file)
+            }
+        })
+
+        onSave(formData)
+        onClose()
+    }
+
+    const previewImages = [...imagenesExistentes, ...imagenesNuevas]
+
+    return (
+        &lt;div className="modal-fondo">
+            &lt;div className="modal">
+                &lt;h2>{modo === "crear" ? "Publicar Nuevo Producto" : "Editar Producto"}&lt;/h2>
+
+                &lt;Formik
+                    initialValues={valoresIniciales}
+                    enableReinitialize
+                    onSubmit={handleSubmit}
+                    validationSchema={validationSchema}
+                >
+                    {({handleChange, handleBlur, values, errors, touched, isSubmitting, setFieldValue}) => (
+                        &lt;Form>
+                            &lt;div className="form-group-producto">
+                                &lt;label>Nombre:&lt;/label>
+                                &lt;Field type="text" name="nombre" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.nombre}/>
+                                {errors.nombre &amp;&amp; touched.nombre &amp;&amp; &lt;div className="error">{errors.nombre}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Descripción:&lt;/label>
+                                &lt;Field as="textarea" name="descripcion" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.descripcion}/>
+                                {errors.descripcion &amp;&amp; touched.descripcion &amp;&amp;
+                                    &lt;div className="error">{errors.descripcion}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Precio:&lt;/label>
+                                &lt;Field type="text" name="precio" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.precio}/>
+                                {errors.precio &amp;&amp; touched.precio &amp;&amp; &lt;div className="error">{errors.precio}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Descuento:&lt;/label>
+                                &lt;Field type="text" name="descuento" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.descuento}/>
+                                {errors.descuento &amp;&amp; touched.descuento &amp;&amp;
+                                    &lt;div className="error">{errors.descuento}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Precio Final:&lt;/label>
+                                &lt;Field type="text" name="precio_final" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.precio_final}/>
+                                {errors.precio_final &amp;&amp; touched.precio_final &amp;&amp;
+                                    &lt;div className="error">{errors.precio_final}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Stock:&lt;/label>
+                                &lt;Field type="text" name="stock" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.stock}/>
+                                {errors.stock &amp;&amp; touched.stock &amp;&amp; &lt;div className="error">{errors.stock}&lt;/div>}
+                            &lt;/div>
+
+                            {
+                                categorias &amp;&amp; categorias.length > 0 ? (
+                                    &lt;div className="form-group-producto">
+                                        &lt;label>Categoría:&lt;/label>
+                                        &lt;Field as="select" name="categoria_id" className="form-field"
+                                               onChange={handleChange}
+                                               onBlur={handleBlur} value={values.categoria_id}>
+                                            &lt;option value="">Selecciona una categoría&lt;/option>
+                                            {categorias.map(categoria => (
+                                                &lt;option key={categoria.id} value={categoria.id}>
+                                                    {categoria.nombre}
+                                                &lt;/option>
+                                            ))}
+                                        &lt;/Field>
+                                        {errors.categoria_id &amp;&amp; touched.categoria_id &amp;&amp;
+                                            &lt;div className="error">{errors.categoria_id}&lt;/div>}
+                                    &lt;/div>
+                                ) : (
+                                    &lt;p>No hay categorías disponibles&lt;/p>
+                                )
+                            }
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Marca:&lt;/label>
+                                &lt;Field type="text" name="marca" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.marca}/>
+                                {errors.marca &amp;&amp; touched.marca &amp;&amp; &lt;div className="error">{errors.marca}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Modelo:&lt;/label>
+                                &lt;Field type="text" name="modelo" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.modelo}/>
+                                {errors.modelo &amp;&amp; touched.modelo &amp;&amp; &lt;div className="error">{errors.modelo}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>FPS:&lt;/label>
+                                &lt;Field type="text" name="fps" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.fps}/>
+                                {errors.fps &amp;&amp; touched.fps &amp;&amp; &lt;div className="error">{errors.fps}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Calibre:&lt;/label>
+                                &lt;Field type="text" name="calibre" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.calibre}/>
+                                {errors.calibre &amp;&amp; touched.calibre &amp;&amp; &lt;div className="error">{errors.calibre}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Capacidad del Cargador:&lt;/label>
+                                &lt;Field type="text" name="capacidad_cargador" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.capacidad_cargador}/>
+                                {errors.capacidad_cargador &amp;&amp; touched.capacidad_cargador &amp;&amp;
+                                    &lt;div className="error">{errors.capacidad_cargador}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Peso:&lt;/label>
+                                &lt;Field type="text" name="peso" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.peso}/>
+                                {errors.peso &amp;&amp; touched.peso &amp;&amp; &lt;div className="error">{errors.peso}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Imágenes (sube una o más):&lt;/label>
+                                &lt;input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const files = Array.from(e.target.files)
+                                        const nuevasPreviews = files.map(file => ({
+                                            id: `nuevo-${file.name}-${file.lastModified}`,
+                                            src: URL.createObjectURL(file),
+                                            file,
+                                        }))
+                                        setImagenesNuevas(prev => [...prev, ...nuevasPreviews])
+                                        setFieldValue("imagenes", [...imagenesNuevas.map(img => img.file), ...files])
+                                    }}
+                                />
+                                {errors.imagenes &amp;&amp; touched.imagenes &amp;&amp; &lt;div className="error">{errors.imagenes}&lt;/div>}
+                            &lt;/div>
+
+                            {previewImages.length > 0 &amp;&amp; (
+                                &lt;div className="preview-imagenes">
+                                    {previewImages.map(({id, src}) => (
+                                        &lt;img key={id} src={src} alt="Vista previa" className="preview-img"/>
+                                    ))}
+                                &lt;/div>
+                            )}
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Video de Demostración (URL):&lt;/label>
+                                &lt;Field type="text" name="video_demo" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.video_demo}/>
+                                {errors.video_demo &amp;&amp; touched.video_demo &amp;&amp;
+                                    &lt;div className="error">{errors.video_demo}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Tiempo de Envío:&lt;/label>
+                                &lt;Field type="text" name="tiempo_envio" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.tiempo_envio}/>
+                                {errors.tiempo_envio &amp;&amp; touched.tiempo_envio &amp;&amp;
+                                    &lt;div className="error">{errors.tiempo_envio}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="form-group-producto">
+                                &lt;label>Estado Activo:&lt;/label>
+                                &lt;Field as="select" name="estado_activo" className="form-field"
+                                       onChange={handleChange}
+                                       onBlur={handleBlur} value={values.estado_activo}>
+                                    &lt;option value="true">Activo&lt;/option>
+                                    &lt;option value="false">Inactivo&lt;/option>
+                                &lt;/Field>
+                                {errors.estado_activo &amp;&amp; touched.estado_activo &amp;&amp;
+                                    &lt;div className="error">{errors.estado_activo}&lt;/div>}
+                            &lt;/div>
+
+                            &lt;div className="modal-acciones">
+                                &lt;button type="submit" disabled={isSubmitting}>
+                                    {modo === "crear" ? "Publicar" : "Guardar"}
+                                &lt;/button>
+                                &lt;button type="button" className="cancelar" onClick={onClose} disabled={isSubmitting}>
+                                    Cancelar
+                                &lt;/button>
+                            &lt;/div>
+
+                        &lt;/Form>
+                    )}
+                &lt;/Formik>
+            &lt;/div>
+        &lt;/div>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jun 12 2025 14:07:03 GMT+0200 (hora de verano de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
