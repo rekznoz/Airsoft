@@ -9,9 +9,9 @@
 
 ### 🧭 Índice
 
-* 🏁 [Origen del proyecto](#origen-del-proyecto)
-* 🎯 [Expectativas](#expectativas)
-* ⚖️ [Comparativa](#comparativa)
+* 🏁 [Origen del proyecto](#-origen-del-proyecto)
+* 🎯 [Expectativas](#-expectativas)
+* ⚖️ [Comparativa](#%EF%B8%8F-comparativa)
 
 ---
 
