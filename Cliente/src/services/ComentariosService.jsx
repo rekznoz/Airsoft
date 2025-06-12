@@ -1,25 +1,17 @@
-/*
-    {
-      "id": 1,
-      "user": {
-        "id": 1,
-        "nombre": "Admin"
-      },
-      "producto": {
-        "id": 15,
-        "nombre": "laboriosam suscipit fugiat"
-      },
-      "comentario": "Ad laborum eum reprehenderit deleniti voluptate.",
-      "calificacion": 10,
-      "created_at": "2025-05-19T16:57:56.000000Z",
-      "updated_at": "2025-05-19T16:57:56.000000Z"
-    },
-*/
-
 import apiconfig from "../config/APIConfig.jsx"
 
+/**
+ * Servicio para interactuar con la API de comentarios.
+ * Proporciona métodos estáticos para obtener, crear, actualizar y eliminar comentarios.
+ */
 export default class ComentariosService {
 
+    /**
+     * Obtiene todos los comentarios que están verificados.
+     *
+     * @returns {Promise<Array>} Array con los comentarios verificados.
+     * @throws {Error} Lanza error si la respuesta es incorrecta o los datos están mal formateados.
+     */
     static async getComentariosVerificados() {
         try {
             const response = await fetch(apiconfig.comentarios + "?verificado=true")
@@ -41,6 +33,12 @@ export default class ComentariosService {
         }
     }
 
+    /**
+     * Obtiene todos los comentarios que no están verificados.
+     *
+     * @returns {Promise<Array>} Array con los comentarios no verificados.
+     * @throws {Error} Lanza error si la respuesta es incorrecta o los datos están mal formateados.
+     */
     static async getComentariosNoVerificados() {
         try {
             const response = await fetch(apiconfig.comentarios + "?verificado=false")
@@ -62,6 +60,15 @@ export default class ComentariosService {
         }
     }
 
+    /**
+     * Obtiene los comentarios de un usuario específico.
+     *
+     * @param {Object} params - Parámetros para la consulta.
+     * @param {number|string} params.id - ID del usuario cuyos comentarios se desean obtener.
+     *
+     * @returns {Promise<Array>} Array con los comentarios del usuario.
+     * @throws {Error} Lanza error si la respuesta es incorrecta o los datos están mal formateados.
+     */
     static async getComentariosUsuario({params}) {
         try {
             const response = await fetch(apiconfig.comentarios + "?user_id=" + params.id)
@@ -83,6 +90,19 @@ export default class ComentariosService {
         }
     }
 
+    /**
+     * Crea un nuevo comentario en la API.
+     *
+     * @param {Object} params - Parámetros para crear el comentario.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {number|string} params.user_id - ID del usuario que hace el comentario.
+     * @param {number|string} params.producto_id - ID del producto comentado.
+     * @param {string} params.comentario - Texto del comentario.
+     * @param {number} params.calificacion - Calificación del producto.
+     *
+     * @returns {Promise<Object>} Comentario creado.
+     * @throws {Error} Lanza error si la respuesta es incorrecta o los datos están mal formateados.
+     */
     static async postComentario({params}) {
         try {
 
@@ -116,6 +136,21 @@ export default class ComentariosService {
         }
     }
 
+    /**
+     * Actualiza un comentario existente.
+     *
+     * @param {Object} params - Parámetros para la actualización.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {number|string} params.id - ID del comentario a actualizar.
+     * @param {Object} params.user - Objeto usuario con propiedad `id`.
+     * @param {Object} params.producto - Objeto producto con propiedad `id`.
+     * @param {string} params.comentario - Texto actualizado del comentario.
+     * @param {number} params.calificacion - Calificación actualizada.
+     * @param {boolean} params.verificado - Estado de verificación del comentario.
+     *
+     * @returns {Promise<Object>} Comentario actualizado.
+     * @throws {Error} Lanza error si la respuesta es incorrecta o la validación falla.
+     */
     static async putComentario({params}) {
         try {
             const response = await fetch(apiconfig.comentarios + "/" + params.id, {
@@ -151,6 +186,16 @@ export default class ComentariosService {
         }
     }
 
+    /**
+     * Elimina un comentario específico.
+     *
+     * @param {Object} params - Parámetros para la eliminación.
+     * @param {string} params.access_token - Token de autorización.
+     * @param {number|string} params.id - ID del comentario a eliminar.
+     *
+     * @returns {Promise<boolean>} `true` si la eliminación fue exitosa.
+     * @throws {Error} Lanza error si la respuesta es incorrecta.
+     */
     static async deleteComentario({params}) {
         try {
             const response = await fetch(apiconfig.comentarios + "/" + params.id, {
