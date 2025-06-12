@@ -5,6 +5,12 @@ import Spinner from "../components/Spinner.jsx"
 import "../css/perfil.css"
 import {useEffect, useState} from "react"
 
+/**
+ * Hook para manejar la paginación de una lista de items.
+ * @param items
+ * @param porPagina
+ * @returns {{pagina: number, totalPaginas: number, itemsPaginados: *, siguiente: (function(): *), anterior: (function(): *)}}
+ */
 function usePaginacion(items, porPagina) {
     const [pagina, setPagina] = useState(1)
 
@@ -28,6 +34,15 @@ function usePaginacion(items, porPagina) {
     }
 }
 
+/**
+ * Componente de paginación para el perfil del usuario.
+ * @param pagina
+ * @param totalPaginas
+ * @param anterior
+ * @param siguiente
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
     return (
         <div className="perfil-paginacion">
@@ -38,6 +53,12 @@ function Paginacion({pagina, totalPaginas, anterior, siguiente}) {
     )
 }
 
+/**
+ * Componente de perfil de usuario.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra el perfil del usuario, incluyendo sus pedidos y comentarios realizados.
+ */
 export default function Perfil() {
 
     const user = usuarioStore(state => state.user)
