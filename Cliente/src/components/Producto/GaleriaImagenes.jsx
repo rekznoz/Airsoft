@@ -1,4 +1,4 @@
-import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx";
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx"
 
 export default function GaleriaImagenes({imagenes, setImagenGrande}) {
     return (
