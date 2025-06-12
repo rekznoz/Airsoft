@@ -1,11 +1,3 @@
-/*
-{
-    "nombre": "Airsoft",
-    "descripcion": "Productos de categoría: Airsoft",
-    "created_at": "2025-05-23 14:25:55",
-    "updated_at": "2025-05-23 14:25:55"
-  }
-*/
 
 import {useEffect, useState} from "react"
 import Paginacion from "./Paginacion"
@@ -16,7 +8,6 @@ import usuarioStore from "../../context/UsuarioStore.jsx"
 
 /**
  * Componente para gestionar categorías de productos.
- * @param categorias
  * @returns {JSX.Element}
  * @constructor
  * @description Este componente permite visualizar, crear y eliminar categorías de productos.
