@@ -1,4 +1,5 @@
-# 🧱 **Despliegue del proyecto**
+
+# 🧱 **Despliegue del Proyecto**
 
 [🔙 Volver al índice principal](../README.md)
 
@@ -8,50 +9,99 @@
 
 ### 🧭 Índice
 
-* 🏠 [Hosting](hosting)
-* 🌍 [Dominio](dominio)
+* 🏠 [Cliente Web: Hosting y dominio](#cliente-web)
+* 🖥️ [Servidor API: Hosting y acceso](#servidor-api)
 
 ---
 
-## 🏗️ **Cliente Web**
+## 🧑‍💻 **Cliente Web**
 
-### 🏠 **Hosting**
+### 🏠 **Hosting en Netlify**
 
-El proyecto está desplegado en **Netlify**, una plataforma que permite alojar aplicaciones web estáticas de forma sencilla y eficiente. Netlify ofrece integración continua, despliegue automático desde repositorios Git y un CDN global para una carga rápida de los recursos.
+El frontend del proyecto está desplegado en **[Netlify](https://www.netlify.com/)**, una plataforma que facilita el despliegue continuo de aplicaciones web estáticas con integración a Git y entrega a través de CDN.
 
-#### 🌐 **Configuración en Netlify**
+#### ⚙️ **Pasos de configuración**
 
-1. **Crear cuenta en Netlify**: Regístrate en [Netlify](https://www.netlify.com/) si aún no tienes una cuenta.
-2. **Conectar repositorio**: Vincula tu cuenta de GitHub, GitLab o Bitbucket para que Netlify pueda acceder a tu proyecto.
-3. **Configurar el despliegue**: Selecciona el repositorio del proyecto y configura los comandos de construcción y la carpeta de publicación. Para este proyecto, los ajustes son:
-   - **Comando de construcción**: `npm run build`
-   - **Directorio de publicación**: `Cliente/dist`
-   - **Variables de entorno**: Configura las variables necesarias, como las claves de API o configuraciones específicas del entorno.
-   - **Rutas de redirección**: Si es necesario, configura las rutas de redirección en el archivo `netlify.toml` para manejar las rutas del frontend.
-   - **Despliegue automático**: Cada vez que se realice un push al repositorio, Netlify desplegará automáticamente la última versión del proyecto.
-   - **Verificación del despliegue**: Una vez configurado, Netlify proporcionará una URL temporal para acceder a tu sitio. Puedes verificar que todo funcione correctamente antes de configurar un dominio personalizado.
-   - **Monitoreo y logs**: Utiliza las herramientas de Netlify para monitorear el estado del despliegue, revisar logs y solucionar posibles problemas.
-   - **CDN y optimización**: Netlify utiliza un CDN para distribuir el contenido de tu sitio, lo que mejora la velocidad de carga y la experiencia del usuario. Asegúrate de aprovechar las optimizaciones automáticas que ofrece la plataforma, como la compresión de imágenes y la minificación de archivos CSS y JavaScript.
-   - **Seguridad y SSL**: Netlify proporciona certificados SSL gratuitos para tus dominios, asegurando que tu sitio sea accesible de forma segura a través de HTTPS. Configura el SSL en la sección de dominios de Netlify.
-   - **Redirecciones y reescrituras**: Si tu aplicación utiliza rutas específicas, asegúrate de configurar las redirecciones y reescrituras necesarias en el archivo `netlify.toml` para que funcionen correctamente en el entorno de producción.
+1. **Crear una cuenta en Netlify** y vincular tu repositorio de GitHub/GitLab/Bitbucket.
+2. **Seleccionar el proyecto** y configurar los siguientes parámetros:
 
-#### 🌍 **Dominio**
+    * 📦 **Comando de construcción**: `npm run build`
+    * 📂 **Directorio de publicación**: `Cliente/dist`
+    * 🔐 **Variables de entorno**: API\_URL, claves privadas u otros valores sensibles.
+3. **Archivo `netlify.toml`** (opcional) para configurar rutas, redirecciones y comportamiento personalizado:
 
-Para el dominio del proyecto, se ha utilizado **rekzsoft.netlify.app**, que es proporcionado por Netlify de forma gratuita.
+   ```toml
+   [[redirects]]
+   from = "/*"
+   to = "/index.html"
+   status = 200
+   ```
+4. **Despliegue automático** con cada `push` a la rama principal.
+5. **Verificación del despliegue** mediante una URL temporal proporcionada por Netlify.
+6. **Optimización de rendimiento**:
 
-### 🌐 **Servidor API**
+    * CDN global
+    * Minificación automática
+    * Compresión de imágenes
+7. **Certificados SSL gratuitos** mediante Let's Encrypt, activados por defecto.
+8. **Logs de despliegue** accesibles desde el panel de Netlify para depuración.
 
-### 🏠 **Hosting**
+### 🌍 **Dominio**
 
-La API del Proyecto esta desplegada en un Servidor dedicado con Windows Server 2022, utilizando **XAMPP** como servidor web. Esta configuración permite manejar las peticiones del frontend y gestionar la base de datos de manera eficiente.
+El sitio está disponible mediante la URL proporcionada por Netlify:
 
-#### 🌐 **Configuración del Servidor**
+🔗 [rekzsoft.netlify.app](https://rekzsoft.netlify.app)
 
-1. **Instalar NGINX**: Asegúrate de que NGINX esté instalado y configurado correctamente en tu servidor. Puedes seguir la [documentación oficial de NGINX](https://nginx.org/en/docs/) para la instalación y configuración básica.
-2. **Instalar PHP**: Asegúrate de que PHP esté instalado y configurado en tu servidor. Puedes verificar la versión de PHP ejecutando `php -v` en la terminal.
-3. **Instalar MySQL**: Asegúrate de que MySQL esté instalado y configurado correctamente. Puedes verificar la conexión a la base de datos utilizando el cliente de MySQL.
-4. **Instalar Composer**: Asegúrate de que Composer esté instalado en tu servidor para gestionar las dependencias de Laravel. Puedes verificar la instalación ejecutando `composer -V`.
+---
 
-#### 🌍 **Dominio**
+## 🖥️ **Servidor API**
 
-Para el dominio del servidor, no utilizo ningun dominio si no la direccion IP del servidor con su puerto correspondiente.
+### 🏠 **Hosting en servidor dedicado (Windows Server 2022)**
+
+El backend de Laravel está alojado en un **servidor dedicado con Windows Server 2022**, utilizando **XAMPP** como entorno local de desarrollo (Apache + MySQL + PHP).
+
+#### ⚙️ **Configuración del entorno**
+
+1. **Instalación de XAMPP**:
+
+    * Incluye Apache, PHP 8.x y MySQL.
+    * Se inicia como servicio en el sistema operativo.
+
+2. **Instalación de Composer**:
+
+    * Requisito esencial para instalar dependencias de Laravel.
+    * Comando de prueba: `composer -V`.
+
+3. **Configuración del proyecto Laravel**:
+
+    * `php artisan migrate --seed` para inicializar la base de datos.
+    * Archivo `.env` configurado con IP local y datos de conexión.
+
+4. **Base de datos MySQL**:
+
+    * Corriendo en el mismo servidor XAMPP.
+    * Gestión posible vía phpMyAdmin o cliente MySQL CLI.
+
+5. **Opcional - Configurar NGINX**:
+
+    * Para sustituir Apache o servir como proxy inverso si se quiere mejorar el rendimiento.
+
+### 🌐 **Acceso al backend**
+
+Actualmente, la API se expone mediante la **IP del servidor y su puerto**, sin un dominio personalizado. Por ejemplo:
+
+```plaintext
+http://192.168.1.100:8000/api
+```
+
+> 🔐 Se recomienda proteger el servidor con reglas de firewall, SSL, autenticación JWT y restricciones de CORS apropiadas.
+
+---
+
+### ✅ **Resumen del despliegue**
+
+| Componente | Plataforma             | Dirección                                            |
+| ---------- | ---------------------- | ---------------------------------------------------- |
+| Frontend   | Netlify                | [rekzsoft.netlify.app](https://rekzsoft.netlify.app) |
+| Backend    | Windows Server + XAMPP | `http://[IP-del-servidor]:[puerto]/api`              |
+
