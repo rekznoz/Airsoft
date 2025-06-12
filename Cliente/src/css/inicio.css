@@ -12,7 +12,7 @@
     background-repeat: no-repeat;
     color: white;
     padding: 10rem 2rem;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
@@ -23,6 +23,7 @@
     position: absolute;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
 }
 
 .hero-content {
@@ -64,6 +65,7 @@
     margin-bottom: 2rem;
     font-weight: bold;
     font-size: 2rem;
+    color: var(--texto-principal);
 }
 
 .gallery-grid {
@@ -115,6 +117,7 @@
     margin-bottom: 2rem;
     font-weight: bold;
     font-size: 2rem;
+    color: var(--texto-principal);
 }
 
 .features-list {
@@ -126,11 +129,12 @@
 
 .feature {
     flex: 1 1 250px;
-    background: #e5e5e5;
+    background: var(--fondo-principal);
     padding: 1.5rem;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    color: var(--texto-alternativo);
 }
 
 .feature .icon {
@@ -141,6 +145,7 @@
 
 .feature h3 {
     margin-bottom: 0.5rem;
+    color: var(--texto-principal);
 }
 
 .testimonials {
@@ -152,6 +157,7 @@
     margin-bottom: 2rem;
     font-weight: bold;
     font-size: 2rem;
+    color: var(--texto-principal);
 }
 
 .testimonial-list {
@@ -178,7 +184,8 @@
 
 .testimonial-empty {
     text-align: center;
-    color: #777;
+    color: var(--texto-principal);
+    font-style: normal;
 }
 
 .cta {
@@ -208,7 +215,7 @@
     background: #e63946;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
