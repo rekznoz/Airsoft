@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/Inicio.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spinner.html">Spinner</a></li><li><a href="module.html#.exports">exports</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#ListaNavbar">ListaNavbar</a></li><li><a href="global.html#LoginRegistro">LoginRegistro</a></li><li><a href="global.html#ModalProducto">ModalProducto</a></li><li><a href="global.html#Paginacion">Paginacion</a></li><li><a href="global.html#PedidoLayout">PedidoLayout</a></li><li><a href="global.html#Privado">Privado</a></li><li><a href="global.html#Publico">Publico</a></li><li><a href="global.html#apiconfig">apiconfig</a></li><li><a href="global.html#corregirUrlImagen">corregirUrlImagen</a></li><li><a href="global.html#createPedido">createPedido</a></li><li><a href="global.html#deleteCategoria">deleteCategoria</a></li><li><a href="global.html#deleteComentario">deleteComentario</a></li><li><a href="global.html#deleteProducto">deleteProducto</a></li><li><a href="global.html#getCategorias">getCategorias</a></li><li><a href="global.html#getComentariosNoVerificados">getComentariosNoVerificados</a></li><li><a href="global.html#getComentariosUsuario">getComentariosUsuario</a></li><li><a href="global.html#getComentariosVerificados">getComentariosVerificados</a></li><li><a href="global.html#getPedido">getPedido</a></li><li><a href="global.html#getPedidos">getPedidos</a></li><li><a href="global.html#getPedidosUsuario">getPedidosUsuario</a></li><li><a href="global.html#getProducto">getProducto</a></li><li><a href="global.html#getProductos">getProductos</a></li><li><a href="global.html#postCategoria">postCategoria</a></li><li><a href="global.html#postComentario">postComentario</a></li><li><a href="global.html#postProducto">postProducto</a></li><li><a href="global.html#productosStore">productosStore</a></li><li><a href="global.html#putComentario">putComentario</a></li><li><a href="global.html#putProducto">putProducto</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#updatePedido">updatePedido</a></li><li><a href="global.html#usePaginacion">usePaginacion</a></li><li><a href="global.html#useWindowSize">useWindowSize</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/Inicio.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "../css/inicio.css"
+import ProductoService from "../services/ProductoService.jsx"
+import ComentariosService from "../services/ComentariosService.jsx"
+import {Link} from "react-router-dom"
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
+import {useEffect, useState} from "react"
+
+const features = [
+    { icon: "🎯", title: "Alta precisión", desc: "Réplicas de calidad para una experiencia realista." },
+    { icon: "🛡️", title: "Equipamiento táctico", desc: "Protección y estilo en todos tus combates." },
+    { icon: "🚚", title: "Envío rápido", desc: "Enviamos a toda España en 24/48h." }
+]
+
+/**
+ * Componente de inicio para la aplicación.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra la página de inicio con una sección de bienvenida, productos destacados, características y testimonios de clientes.
+ */
+export default function Inicio() {
+
+    const [productos, setProductos] = useState([])
+    const [comentarios, setComentarios] = useState([])
+
+    // Cargar productos y comentarios al montar el componente
+    useEffect(() => {
+        const cargarDatos = async () => {
+            try {
+                const productosData = await ProductoService.getProductos()
+                const comentariosData = await ComentariosService.getComentariosVerificados()
+
+                const productosAleatorios = productosData.sort(() => Math.random() - 0.5)
+                const comentariosAleatorios = comentariosData.sort(() => Math.random() - 0.5)
+
+                setProductos(productosAleatorios)
+                setComentarios(comentariosAleatorios)
+            } catch (error) {
+                console.error("Error al cargar los datos:", error)
+            }
+        }
+        cargarDatos()
+    },[])
+
+
+    return (
+        &lt;div className="contenedor">
+
+            &lt;section className="hero">
+                &lt;div className="hero-content">
+                    &lt;h1>Bienvenido a Airsoft Zone&lt;/h1>
+                    &lt;p>Equipamiento táctico, réplicas realistas y adrenalina en estado puro.&lt;/p>
+                    &lt;Link to="/tienda" className="btn-hero">Explorar productos&lt;/Link>
+                &lt;/div>
+            &lt;/section>
+
+            &lt;section className="gallery">
+                &lt;h2>Algunos Productos&lt;/h2>
+                &lt;ul className="gallery-grid">
+                    {
+                        productos.length > 0 ? (
+                            productos.slice(0,4).map((producto) => (
+                                &lt;li key={producto.id} className="gallery-item">
+                                    &lt;Link to={`/tienda/${producto.id}`}>
+                                        &lt;img
+                                            src={producto.imagenes?.[0] ? corregirUrlImagen(producto.imagenes[0]) : '/img/default.jpg'}
+                                            alt={`Imagen del producto ${producto.nombre}`}
+                                        />
+                                        &lt;h3>{producto.nombre}&lt;/h3>
+                                        &lt;p>{producto.descripcion}&lt;/p>
+                                    &lt;/Link>
+                                &lt;/li>
+                            ))
+                        ) : (
+                            &lt;p className="gallery-empty">No hay productos disponibles.&lt;/p>
+                        )
+                    }
+                &lt;/ul>
+            &lt;/section>
+
+            &lt;section className="features">
+                &lt;h2>¿Por qué elegirnos?&lt;/h2>
+                &lt;div className="features-list">
+                    {features.map((f, i) => (
+                        &lt;div key={i} className="feature">
+                            &lt;span className="icon">{f.icon}&lt;/span>
+                            &lt;h3>{f.title}&lt;/h3>
+                            &lt;p>{f.desc}&lt;/p>
+                        &lt;/div>
+                    ))}
+                &lt;/div>
+            &lt;/section>
+
+            &lt;section className="testimonials">
+                &lt;h2>Lo que opinan nuestros clientes&lt;/h2>
+                &lt;div className="testimonial-list">
+                    {
+                        comentarios.length > 0 ? (
+                            comentarios.slice(0,6).map((comentario) => (
+                                &lt;div key={comentario.id} className="testimonial">
+                                    &lt;p>"{comentario.comentario}"&lt;/p>
+                                    &lt;span>- {comentario.nombre}&lt;/span>
+                                &lt;/div>
+                            ))
+                        ) : (
+                            &lt;p className="testimonial-empty">No hay comentarios disponibles.&lt;/p>
+                        )
+                    }
+                &lt;/div>
+            &lt;/section>
+
+            &lt;section className="cta">
+                &lt;h2>¿Listo para entrar en combate?&lt;/h2>
+                &lt;p>Explora nuestras réplicas y equípate como un profesional del airsoft.&lt;/p>
+                &lt;Link to="/tienda" className="btn-cta">Ver catálogo&lt;/Link>
+            &lt;/section>
+
+        &lt;/div>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jun 12 2025 14:07:03 GMT+0200 (hora de verano de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
