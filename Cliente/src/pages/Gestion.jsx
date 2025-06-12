@@ -16,6 +16,12 @@ const SECCIONES = {
     categorias: "Categorías",
 }
 
+/** * Componente principal para la gestión de la tienda.
+ * Permite navegar entre diferentes secciones: productos, pedidos, comentarios y categorías.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente utiliza useLoaderData para obtener los datos necesarios y renderiza las secciones correspondientes.
+ */
 export default function Gestion() {
     const {productos, pedidos, comentarios, categorias} = useLoaderData()
     const [seccionActiva, setSeccionActiva] = useState("productos")
