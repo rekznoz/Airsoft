@@ -2,6 +2,12 @@
 import {Link, useLoaderData} from "react-router-dom"
 import '../css/pedidos.css'
 
+/**
+ * Componente para mostrar los detalles de un pedido específico.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra los detalles de un pedido, incluyendo el ID del usuario, el producto, la dirección de envío, la cantidad, el estado del pedido y las fechas de creación y actualización.
+ */
 export default function Pedido() {
     const pedido = useLoaderData()
 
