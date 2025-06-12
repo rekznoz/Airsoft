@@ -11,15 +11,6 @@ import "../css/registro.css"
 import {registerUsuarioAuth} from "../services/UsuarioService.jsx"
 import usuarioStore from "../context/UsuarioStore.jsx"
 
-/*
-{
-	"name": "Rafa",
-	"email":"admin21@admin.com",
-	"password": "12345678",
-	"password_confirmation": "12345678"
-}
-*/
-
 const validationSchema = object({
     name: string()
         .required('El campo nombre es obligatorio')
@@ -43,6 +34,12 @@ const usuarioVacio = {
     terminos: false
 }
 
+/**
+ * Componente de registro de usuario.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite a los usuarios registrarse en la aplicación. Utiliza Formik para manejar el formulario y Yup para validar los datos ingresados.
+ */
 export default function Registro() {
 
     const handleSubmit = async (values) => {
