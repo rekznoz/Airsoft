@@ -8,6 +8,12 @@ import ModalImagen from '../components/Producto/ModalImagen'
 import ComentariosPaginados from '../components/Producto/ComentariosPaginados'
 import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
 
+/**
+ * Componente para mostrar los detalles de un producto específico.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente carga los datos de un producto y muestra su información, imágenes, detalles, comentarios y un vídeo demostración si está disponible.
+ */
 export default function Producto() {
 
     const producto = useLoaderData()
