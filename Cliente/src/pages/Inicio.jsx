@@ -11,6 +11,12 @@ const features = [
     { icon: "🚚", title: "Envío rápido", desc: "Enviamos a toda España en 24/48h." }
 ]
 
+/**
+ * Componente de inicio para la aplicación.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra la página de inicio con una sección de bienvenida, productos destacados, características y testimonios de clientes.
+ */
 export default function Inicio() {
 
     const [productos, setProductos] = useState([])
