@@ -14,6 +14,12 @@ import usuarioStore from "../context/UsuarioStore.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
 import {ListaNavbar} from "./ListaNavbar.jsx"
 
+/**
+ * Componente de cabecera para la aplicación.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra la cabecera de la aplicación, incluyendo el logo, navegación, carrito y modo de visualización.
+ */
 export default function Header() {
 
     const location = useLocation()
