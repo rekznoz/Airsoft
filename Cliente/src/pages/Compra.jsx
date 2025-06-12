@@ -1,9 +1,9 @@
 import "../css/compra.css"
 import carritoStore from "../context/CarritoStore.jsx"
-import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx";
-import {useState} from "react";
-import PedidosService from "../services/PedidosService.jsx";
-import UsuarioStore from "../context/UsuarioStore.jsx";
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
+import {useState} from "react"
+import PedidosService from "../services/PedidosService.jsx"
+import UsuarioStore from "../context/UsuarioStore.jsx"
 
 // Recoge los datos del formulario
 import {Formik} from 'formik'
@@ -33,9 +33,9 @@ const validationSchema = object({
 
 export default function Compra() {
 
-    const [mostrarModal, setMostrarModal] = useState(false);
-    const [direccion, setDireccion] = useState("");
-    const [enviando, setEnviando] = useState(false);
+    const [mostrarModal, setMostrarModal] = useState(false)
+    const [direccion, setDireccion] = useState("")
+    const [enviando, setEnviando] = useState(false)
 
     const carrito = carritoStore(state => state.informacionCarrito)
     const totalItems = carritoStore(state => state.totalItems)
@@ -55,17 +55,17 @@ export default function Compra() {
 
     const handleConfirmarCompra = async (direccionFinal) => {
         if (direccionFinal.trim() === "") {
-            alert("Por favor, introduce una dirección de envío válida.");
-            return;
+            alert("Por favor, introduce una dirección de envío válida.")
+            return
         }
 
         if (carrito.length === 0) {
-            alert("El carrito está vacío.");
-            setMostrarModal(false);
-            return;
+            alert("El carrito está vacío.")
+            setMostrarModal(false)
+            return
         }
 
-        setEnviando(true);
+        setEnviando(true)
 
         try {
             for (const producto of carrito) {
@@ -78,23 +78,23 @@ export default function Compra() {
                         estado: "pendiente",
                         access_token
                     }
-                });
+                })
             }
 
-            Swal.fire("¡Pedido realizado!", "Tu compra se ha procesado correctamente", "success");
-            clearCart();
-            setMostrarModal(false);
+            Swal.fire("¡Pedido realizado!", "Tu compra se ha procesado correctamente", "success")
+            clearCart()
+            setMostrarModal(false)
         } catch (error) {
-            console.error("Error al crear pedido:", error);
-            Swal.fire("Error", "Hubo un problema al procesar el pedido. Intenta de nuevo.", "error");
+            console.error("Error al crear pedido:", error)
+            Swal.fire("Error", "Hubo un problema al procesar el pedido. Intenta de nuevo.", "error")
         } finally {
-            setEnviando(false);
+            setEnviando(false)
         }
     }
 
     const handleCheckout = () => {
-        setMostrarModal(true);
-    };
+        setMostrarModal(true)
+    }
 
     return (
         <>
@@ -165,9 +165,9 @@ export default function Compra() {
                             }}
                             validationSchema={validationSchema}
                             onSubmit={(values, {setSubmitting}) => {
-                                const direccionFormateada = `${values.calle} ${values.numero}, ${values.ciudad}, ${values.provincia}, ${values.codigo_postal}`;
-                                handleConfirmarCompra(direccionFormateada);
-                                setSubmitting(false);
+                                const direccionFormateada = `${values.calle} ${values.numero}, ${values.ciudad}, ${values.provincia}, ${values.codigo_postal}`
+                                handleConfirmarCompra(direccionFormateada)
+                                setSubmitting(false)
                             }}
                         >
                             {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
