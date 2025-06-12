@@ -25,8 +25,9 @@ const Perfil = lazy(() => import("../pages/Perfil.jsx"))
 const Error = lazy(() => import("../pages/Error.jsx"))
 
 /**
- * Router de la aplicación
+ * Router de la aplicación, define las rutas y los componentes asociados a cada una.
  * @type {Router}
+ * @description Este router utiliza React Router para definir las rutas de la aplicación, incluyendo rutas públicas y privadas.
  */
 export const router = createBrowserRouter([
     {
