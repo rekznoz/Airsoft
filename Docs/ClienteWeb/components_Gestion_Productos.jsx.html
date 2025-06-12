@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/Gestion/Productos.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spinner.html">Spinner</a></li><li><a href="module.html#.exports">exports</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#ListaNavbar">ListaNavbar</a></li><li><a href="global.html#LoginRegistro">LoginRegistro</a></li><li><a href="global.html#ModalProducto">ModalProducto</a></li><li><a href="global.html#Paginacion">Paginacion</a></li><li><a href="global.html#PedidoLayout">PedidoLayout</a></li><li><a href="global.html#Privado">Privado</a></li><li><a href="global.html#Publico">Publico</a></li><li><a href="global.html#apiconfig">apiconfig</a></li><li><a href="global.html#corregirUrlImagen">corregirUrlImagen</a></li><li><a href="global.html#createPedido">createPedido</a></li><li><a href="global.html#deleteCategoria">deleteCategoria</a></li><li><a href="global.html#deleteComentario">deleteComentario</a></li><li><a href="global.html#deleteProducto">deleteProducto</a></li><li><a href="global.html#getCategorias">getCategorias</a></li><li><a href="global.html#getComentariosNoVerificados">getComentariosNoVerificados</a></li><li><a href="global.html#getComentariosUsuario">getComentariosUsuario</a></li><li><a href="global.html#getComentariosVerificados">getComentariosVerificados</a></li><li><a href="global.html#getPedido">getPedido</a></li><li><a href="global.html#getPedidos">getPedidos</a></li><li><a href="global.html#getPedidosUsuario">getPedidosUsuario</a></li><li><a href="global.html#getProducto">getProducto</a></li><li><a href="global.html#getProductos">getProductos</a></li><li><a href="global.html#postCategoria">postCategoria</a></li><li><a href="global.html#postComentario">postComentario</a></li><li><a href="global.html#postProducto">postProducto</a></li><li><a href="global.html#productosStore">productosStore</a></li><li><a href="global.html#putComentario">putComentario</a></li><li><a href="global.html#putProducto">putProducto</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#updatePedido">updatePedido</a></li><li><a href="global.html#usePaginacion">usePaginacion</a></li><li><a href="global.html#useWindowSize">useWindowSize</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/Gestion/Productos.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {useEffect, useState} from "react"
+import {Link} from "react-router-dom"
+import Paginacion from "./Paginacion"
+import Swal from "sweetalert2"
+import ProductosService from "../../services/ProductoService.jsx"
+import ProductoService from "../../services/ProductoService.jsx"
+import usuarioStore from "../../context/UsuarioStore.jsx"
+import "../../css/gestion/producto.css"
+import {corregirUrlImagen} from "../../hooks/corregirUrlImagen.jsx"
+import {ModalProducto} from "./ModalProducto.jsx";
+
+/**
+ * Componente para gestionar productos en la tienda.
+ * @param productos
+ * @param categorias
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite visualizar, crear, editar y eliminar productos de la tienda.
+ * @param {Array} productos - Lista de productos a gestionar.
+ * @param {Array} categorias - Lista de categorías disponibles para los productos.
+ */
+export default function Productos({productos, categorias}) {
+
+    const access_token = usuarioStore(state => state.access_token)
+
+    const [todosProductos, setTodosProductos] = useState(productos)
+    const [mostrarModalNuevo, setMostrarModalNuevo] = useState(false)
+    const [productosAMostrar, setProductosAMostrar] = useState([])
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null)
+
+    useEffect(() => {
+        if (todosProductos.length) {
+            setProductosAMostrar(todosProductos.slice(0, 6))
+        }
+    }, [todosProductos])
+
+    const editarProducto = (producto) => {
+        setProductoSeleccionado(producto)
+    }
+
+    const eliminarProducto = (id) => {
+        Swal.fire(
+            {
+                title: '¿Estás seguro?',
+                text: "¡No podrás deshacer esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+            }
+        ).then((result) => {
+                if (result.isConfirmed) {
+                    // Aquí podrías hacer una petición al backend para eliminar el producto
+                    ProductoService.deleteProducto({params: {id, access_token}}).then(
+                        () => {
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El producto ha sido eliminado.',
+                                'success'
+                            )
+                            setProductosAMostrar(prev => prev.filter(p => p.id !== id))
+                        }
+                    ).catch(error => {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar el producto: ' + error.message,
+                            'error'
+                        )
+                    })
+                }
+            }
+        )
+    }
+
+    return (
+        &lt;div className="producto-card-contenedor">
+
+            &lt;button onClick={() => setMostrarModalNuevo(true)} className="boton-nuevo-producto">
+                + Nuevo Producto
+            &lt;/button>
+
+            &lt;div className="grid-container">
+                {productosAMostrar.map(producto => (
+                    &lt;div key={producto.id} className="producto-card">
+                        &lt;Link to={`/tienda/${producto.id}`}>
+                            {producto.imagenes.length > 0 ?
+                                &lt;img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
+                                :
+                                &lt;img src="https://placehold.co/600x400/EEE/31343C" alt={producto.nombre}/>
+                            }
+                        &lt;/Link>
+                        &lt;h3>{producto.nombre}&lt;/h3>
+                        &lt;p>&lt;strong>Stock:&lt;/strong> {producto.stock}&lt;/p>
+                        &lt;p className={producto.estado_activo ? "activo" : "inactivo"}>
+                            {producto.estado_activo ? "Activo" : "Inactivo"}
+                        &lt;/p>
+                        &lt;div className="acciones">
+                            &lt;button onClick={() => editarProducto(producto)}>Editar&lt;/button>
+                            &lt;button onClick={() => eliminarProducto(producto.id)} className="eliminar">Eliminar&lt;/button>
+                        &lt;/div>
+                    &lt;/div>
+                ))}
+            &lt;/div>
+
+            &lt;Paginacion
+                totalItems={todosProductos.length}
+                itemsPerPage={6}
+                onPageChange={({start, end}) => {
+                    setProductosAMostrar(todosProductos.slice(start, end))
+                }}
+            />
+
+            {mostrarModalNuevo &amp;&amp; (
+                &lt;ModalProducto
+                    modo="crear"
+                    onClose={() => setMostrarModalNuevo(false)}
+                    onSave={(productoNuevo) => {
+                        ProductosService.postProducto({
+                            token: access_token,
+                            formData: productoNuevo // este ya contiene los campos convertidos
+                        })
+                    }}
+                    categorias={categorias}
+                />
+            )}
+
+            {productoSeleccionado &amp;&amp; (
+                &lt;ModalProducto
+                    modo="editar"
+                    producto={productoSeleccionado}
+                    onClose={() => setProductoSeleccionado(null)}
+                    onSave={(formData) => {
+                        ProductosService.putProducto({
+                            token: access_token,
+                            id: productoSeleccionado.id,
+                            formData: formData
+                        }).then((productoActualizado) => {
+                            Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success")
+                            console.log(productoActualizado)
+                            const productoViejo = productosAMostrar.find(p => p.id === productoSeleccionado.id)
+                            setProductosAMostrar(prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
+                            setTodosProductos (prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
+                        }).catch((error) => {
+                            Swal.fire("Error", "No se pudo actualizar el producto: " + error.message, "error")
+                        })
+                    }}
+                    categorias={categorias}
+                />
+            )}
+
+        &lt;/div>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jun 12 2025 14:07:03 GMT+0200 (hora de verano de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
