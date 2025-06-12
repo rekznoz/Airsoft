@@ -14,6 +14,14 @@ import CategoriasService from "../../services/CategoriasService.jsx"
 import Swal from "sweetalert2"
 import usuarioStore from "../../context/UsuarioStore.jsx"
 
+/**
+ * Componente para gestionar categorías de productos.
+ * @param categorias
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente permite visualizar, crear y eliminar categorías de productos.
+ * @param {Array} categorias - Lista de categorías a gestionar.
+ */
 export default function Categorias({categorias}) {
 
     const cantidadPorPagina = 3
