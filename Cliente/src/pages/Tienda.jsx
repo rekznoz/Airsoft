@@ -8,6 +8,12 @@ import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
 
 const PRODUCTOS_POR_PAGINA = 6
 
+/**
+ * Componente Tienda
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra una tienda con productos filtrables y paginables.
+ */
 export default function Tienda() {
 
     const addToCart = carritoStore(state => state.addToCart)
