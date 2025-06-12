@@ -108,8 +108,8 @@ export default class PedidosService {
             const data = await response.json()
 
             if (!response.ok) {
-                console.error("Errores de validación del backend:", data.errors || data);
-                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`);
+                console.error("Errores de validación del backend:", data.errors || data)
+                throw new Error(`Error al actualizar el pedidos: ${data.message || 'Validación fallida'}`)
             }
 
             return data
@@ -141,8 +141,8 @@ export default class PedidosService {
             const data = await response.json()
 
             if (!response.ok) {
-                console.error("Errores de validación del backend:", data.errors || data);
-                throw new Error(`Error al crear el pedido: ${data.message || 'Validación fallida'}`);
+                console.error("Errores de validación del backend:", data.errors || data)
+                throw new Error(`Error al crear el pedido: ${data.message || 'Validación fallida'}`)
             }
 
             return data
