@@ -1,6 +1,16 @@
 import "../css/error.css"
 import {Link} from "react-router-dom"
 
+/**
+ * Componente de página de error.
+ * @param code
+ * @param message
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra un mensaje de error personalizado basado en el código de error proporcionado.
+ * @param {number} code - Código de error HTTP (por ejemplo, 404, 403, 500).
+ * @param {string} [message] - Mensaje de error adicional para mostrar al usuario.
+ */
 export default function Error({ code, message }) {
 
     const errorMessages = {
