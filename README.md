@@ -29,10 +29,6 @@
 
 4. 🛠️ [Desarrollo](./Documentacion/desarrollo.md)
 
-    * 🏗️ [Estructura del proyecto](estructura-del-proyecto)
-    * 💻 [Tecnologías utilizadas](tecnologías-utilizadas)
-    * 🧩 [Desarrollo del proyecto](desarrollo-del-proyecto)
-
 5. 🌐 [Despliegue](./Documentacion/despliegue.md)
 
     * 🏠 [Hosting](hosting)
