@@ -102,8 +102,6 @@ rekznoz-airsoft/
 
 ## 💻 **Tecnologías utilizadas**
 
-Aquí tienes una lista de las tecnologías utilizadas en el proyecto **La Web de Airsoft**, según el archivo que compartiste:
-
 ---
 
 ### 🧩 **Tecnologías utilizadas**
@@ -138,10 +136,6 @@ Aquí tienes una lista de las tecnologías utilizadas en el proyecto **La Web de
 
 * **Netlify** – Hosting del frontend
 * **Figma** – Diseño de interfaz de usuario (enlace incluido en el README)
-
----
-
-Claro, aquí tienes un texto que explica cómo se desarrolló el proyecto **“La Web de Airsoft”** para que puedas incluirlo en tu trabajo o presentación:
 
 ---
 
