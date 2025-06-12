@@ -1,6 +1,250 @@
+/* Contenedor principal */
 .contenedor {
-    color: var(--texto-principal);
     max-width: 1200px;
-    margin: 25px auto;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: #2c2c2c;
+}
+
+/* HERO */
+.hero {
+    background-image: url('../assets/fondoinicio.jpg'); /* Usa la ruta que necesites */
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    padding: 10rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Sombra oscura encima para contraste */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.hero-content button {
+    padding: 0.75rem 2rem;
+    background: #e63946;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.hero-content button:hover {
+    background: #d62839;
+}
+
+/* GALLERY */
+.gallery {
+    margin-bottom: 4rem;
+}
+
+.gallery h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+}
+
+.gallery-item {
+    background: #f8f8f8;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.gallery-item h3 {
+    margin: 0.75rem 1rem 0.25rem;
+}
+
+.gallery-item p {
+    margin: 0 1rem 1rem;
+    color: #555;
+}
+
+.gallery-empty {
+    text-align: center;
+    color: #999;
+}
+
+/* FEATURES */
+.features {
+    margin-bottom: 4rem;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.features-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.feature {
+    flex: 1 1 250px;
+    background: #e5e5e5;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.feature .icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.feature h3 {
+    margin-bottom: 0.5rem;
+}
+
+/* TESTIMONIALS */
+.testimonials {
+    margin-bottom: 4rem;
+}
+
+.testimonials h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.testimonial-list {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.testimonial {
+    background: #ffffff;
+    border-left: 5px solid #e63946;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-style: italic;
+}
+
+.testimonial span {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.testimonial-empty {
+    text-align: center;
+    color: #777;
+}
+
+/* CTA (Call to Action) */
+.cta {
+    text-align: center;
+    background: #1e2a38;
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 10px;
+}
+
+.cta h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.cta p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.cta button {
+    padding: 0.75rem 2rem;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta button:hover {
+    background: #d62839;
+}
+
+.btn-hero, .btn-cta {
+    padding: 0.75rem 2rem;
+    background: #e63946;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-hero:hover,
+.btn-cta:hover {
+    background: #d62839;
+}
+
+/* Responsive extras */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .features-list {
+        flex-direction: column;
+        align-items: center;
+    }
 }
