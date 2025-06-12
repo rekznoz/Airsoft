@@ -6,43 +6,35 @@ use App\Models\Pedido;
 
 class PedidoObserver
 {
-    /**
-     * Handle the Pedido "created" event.
-     */
-    public function created(Pedido $pedido): void
+    public function updating(Pedido $pedido)
     {
-        //
-    }
+        $estadoAnterior = $pedido->getOriginal('estado');
+        $estadoNuevo = $pedido->estado;
 
-    /**
-     * Handle the Pedido "updated" event.
-     */
-    public function updated(Pedido $pedido): void
-    {
-        //
-    }
+        if ($estadoAnterior !== $estadoNuevo && $pedido->producto) {
+            $producto = $pedido->producto;
 
-    /**
-     * Handle the Pedido "deleted" event.
-     */
-    public function deleted(Pedido $pedido): void
-    {
-        //
-    }
+            // Enviado → restar stock
+            if (
+                in_array($estadoAnterior, ['pendiente', 'procesando']) &&
+                $estadoNuevo === 'enviado'
+            ) {
+                if ($producto->stock < $pedido->cantidad) {
+                    throw new \Exception('Stock insuficiente para el producto.');
+                }
 
-    /**
-     * Handle the Pedido "restored" event.
-     */
-    public function restored(Pedido $pedido): void
-    {
-        //
-    }
+                $producto->stock -= $pedido->cantidad;
+                $producto->save();
+            }
 
-    /**
-     * Handle the Pedido "force deleted" event.
-     */
-    public function forceDeleted(Pedido $pedido): void
-    {
-        //
+            // Retroceso desde enviado → sumar stock
+            if (
+                $estadoAnterior === 'enviado' &&
+                in_array($estadoNuevo, ['pendiente', 'procesando'])
+            ) {
+                $producto->stock += $pedido->cantidad;
+                $producto->save();
+            }
+        }
     }
 }
