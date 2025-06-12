@@ -25,13 +25,6 @@ const validationSchema = object({
 
 /**
  * Componente para crear o editar un producto en la tienda.
- * @param producto
- * @param onClose
- * @param onSave
- * @param modo
- * @param categorias
- * @returns {JSX.Element}
- * @constructor
  * @description Este componente permite crear o editar un producto, incluyendo su información, imágenes y estado.
  * @param {Object} producto - Objeto del producto a editar, si es null se crea uno nuevo.
  * @param {function} onClose - Función para cerrar el modal.
