@@ -39,7 +39,7 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
     useEffect(() => {
         if (pedidoSeleccionado) {
             setTimeout(() => {
-                document.querySelector(".modal input")?.focus();
+                document.querySelector(".modal input");
             }, 100);
         }
     }, [pedidoSeleccionado]);
@@ -94,7 +94,7 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
 
                 } catch (error) {
                     console.error(error);
-                    Swal.fire('Error', 'Ocurrió un error al actualizar el pedido.', 'error');
+                    Swal.fire('Error', 'Ocurrió un error al actualizar el pedido, stock insuficiente', 'error');
                 }
             }
         })
