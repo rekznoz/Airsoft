@@ -26,6 +26,12 @@ const usuarioVacio = {
     password: '',
 }
 
+/** * Componente de inicio de sesión.
+ * Permite a los usuarios iniciar sesión con su email y contraseña.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente utiliza Formik para manejar el formulario de inicio de sesión y Yup para la validación.
+ */
 export default function Login() {
 
     const handleSubmit = async (values) => {
