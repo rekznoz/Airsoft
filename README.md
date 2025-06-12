@@ -25,9 +25,6 @@
 
 2. 📦 [Descripción del proyecto](./Documentacion/descripción-del-proyecto.md)
 
-    * 🔧 [Funcionalidades](funcionalidades)
-    * 🖥️ [Interfaz de usuario](interfaz-de-usuario)
-
 3. ⚙️ [Instalación y uso](./Documentacion/instalación-y-uso.md)
 
     * 📋 [Requisitos](requisitos)
