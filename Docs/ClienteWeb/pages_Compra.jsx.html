@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/Compra.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Spinner.html">Spinner</a></li><li><a href="module.html#.exports">exports</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#ListaNavbar">ListaNavbar</a></li><li><a href="global.html#LoginRegistro">LoginRegistro</a></li><li><a href="global.html#ModalProducto">ModalProducto</a></li><li><a href="global.html#Paginacion">Paginacion</a></li><li><a href="global.html#PedidoLayout">PedidoLayout</a></li><li><a href="global.html#Privado">Privado</a></li><li><a href="global.html#Publico">Publico</a></li><li><a href="global.html#apiconfig">apiconfig</a></li><li><a href="global.html#corregirUrlImagen">corregirUrlImagen</a></li><li><a href="global.html#createPedido">createPedido</a></li><li><a href="global.html#deleteCategoria">deleteCategoria</a></li><li><a href="global.html#deleteComentario">deleteComentario</a></li><li><a href="global.html#deleteProducto">deleteProducto</a></li><li><a href="global.html#getCategorias">getCategorias</a></li><li><a href="global.html#getComentariosNoVerificados">getComentariosNoVerificados</a></li><li><a href="global.html#getComentariosUsuario">getComentariosUsuario</a></li><li><a href="global.html#getComentariosVerificados">getComentariosVerificados</a></li><li><a href="global.html#getPedido">getPedido</a></li><li><a href="global.html#getPedidos">getPedidos</a></li><li><a href="global.html#getPedidosUsuario">getPedidosUsuario</a></li><li><a href="global.html#getProducto">getProducto</a></li><li><a href="global.html#getProductos">getProductos</a></li><li><a href="global.html#postCategoria">postCategoria</a></li><li><a href="global.html#postComentario">postComentario</a></li><li><a href="global.html#postProducto">postProducto</a></li><li><a href="global.html#productosStore">productosStore</a></li><li><a href="global.html#putComentario">putComentario</a></li><li><a href="global.html#putProducto">putProducto</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#updatePedido">updatePedido</a></li><li><a href="global.html#usePaginacion">usePaginacion</a></li><li><a href="global.html#useWindowSize">useWindowSize</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/Compra.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "../css/compra.css"
+import carritoStore from "../context/CarritoStore.jsx"
+import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
+import {useState} from "react"
+import PedidosService from "../services/PedidosService.jsx"
+import UsuarioStore from "../context/UsuarioStore.jsx"
+
+// Recoge los datos del formulario
+import {Formik} from 'formik'
+// https://formik.org/docs/overview
+
+// Validar los datos del formulario con Yup
+import {object, string} from 'yup'
+import Swal from "sweetalert2"
+
+const validationSchema = object({
+    calle: string()
+        .required('El campo calle es obligatorio')
+        .min(3, 'La calle debe tener al menos 3 caracteres'),
+    numero: string()
+        .required('El campo número es obligatorio')
+        .matches(/^\d+$/, 'El número debe ser un valor numérico'),
+    ciudad: string()
+        .required('El campo ciudad es obligatorio')
+        .min(2, 'La ciudad debe tener al menos 2 caracteres'),
+    provincia: string()
+        .required('El campo provincia es obligatorio')
+        .min(2, 'La provincia debe tener al menos 2 caracteres'),
+    codigo_postal: string()
+        .required('El campo código postal es obligatorio')
+        .matches(/^\d{5}$/, 'El código postal debe tener 5 dígitos'),
+})
+
+/**
+ * Componente para gestionar la compra de productos en el carrito.
+ * @returns {JSX.Element}
+ * @constructor
+ * @description Este componente muestra un resumen de los productos en el carrito, permite eliminar productos, vaciar el carrito y finalizar la compra.
+ * Muestra un modal para ingresar la dirección de envío y procesa el pedido al confirmar la compra.
+ */
+export default function Compra() {
+
+    const [mostrarModal, setMostrarModal] = useState(false)
+    const [enviando, setEnviando] = useState(false)
+
+    const carrito = carritoStore(state => state.informacionCarrito)
+    const removeFromCart = carritoStore(state => state.removeFromCart)
+    const clearCart = carritoStore(state => state.clearCart)
+    const access_token = UsuarioStore(state => state.access_token)
+    const user = UsuarioStore(state => state.user)
+    const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0)
+
+    const handleRemoveFromCart = (productId) => {
+        removeFromCart(productId)
+    }
+
+    const handleClearCart = () => {
+        clearCart()
+    }
+
+    const handleConfirmarCompra = async (direccionFinal) => {
+        if (direccionFinal.trim() === "") {
+            alert("Por favor, introduce una dirección de envío válida.")
+            return
+        }
+
+        if (carrito.length === 0) {
+            alert("El carrito está vacío.")
+            setMostrarModal(false)
+            return
+        }
+
+        setEnviando(true)
+
+        try {
+            for (const producto of carrito) {
+                await PedidosService.createPedido({
+                    params: {
+                        user,
+                        producto,
+                        direccion_envio: direccionFinal,
+                        cantidad: producto.cantidad || 1,
+                        estado: "pendiente",
+                        access_token
+                    }
+                })
+            }
+
+            Swal.fire("¡Pedido realizado!", "Tu compra se ha procesado correctamente", "success")
+            clearCart()
+            setMostrarModal(false)
+        } catch (error) {
+            console.error("Error al crear pedido:", error)
+            Swal.fire("Error", "Hubo un problema al procesar el pedido. Intenta de nuevo.", "error")
+        } finally {
+            setEnviando(false)
+        }
+    }
+
+    const handleCheckout = () => {
+        setMostrarModal(true)
+    }
+
+    return (
+        &lt;>
+            &lt;div className="resumen-compra">
+                {carrito.length === 0 ? (
+                    &lt;p className="resumen-vacio">No hay productos en el carrito.&lt;/p>
+                ) : (
+                    &lt;>
+                        &lt;h2>Resumen de tu pedido&lt;/h2>
+                        &lt;ul className="lista-productos">
+                            &lt;li className="producto-item header">
+                                &lt;span className="celda nombre">&lt;/span>
+                                &lt;span className="celda precio">Producto&lt;/span>
+                                &lt;span className="celda cantidad">Costo&lt;/span>
+                                &lt;span className="celda subtotal">Cantidad&lt;/span>
+                                &lt;span className="celda accion">Subtotal&lt;/span>
+                            &lt;/li>
+                            {carrito.map(producto => (
+                                &lt;li key={producto.id} className="producto-item">
+                                &lt;span className="celda imagen">
+                                    {producto.imagenes?.length > 0 ?
+                                        &lt;img src={corregirUrlImagen(producto.imagenes[0])} alt={producto.nombre}/>
+                                        :
+                                        &lt;img src="https://placehold.co/600x400/EEE/31343C" alt={producto.nombre}/>
+                                    }
+                                &lt;/span>
+                                    &lt;div className="detalle">
+                                        &lt;span className="celda nombre">{producto.nombre}&lt;/span>
+                                        &lt;span className="celda precio">Precio: ${producto.precio.toFixed(2)}&lt;/span>
+                                        &lt;span className="celda cantidad">Cantidad: {producto.cantidad || 1}&lt;/span>
+                                        &lt;span
+                                            className="celda subtotal">Subtotal: ${(producto.precio * (producto.cantidad || 1)).toFixed(2)}&lt;/span>
+                                        &lt;button
+                                            className="eliminar"
+                                            onClick={() => handleRemoveFromCart(producto.id)}
+                                            aria-label={`Eliminar ${producto.nombre} del carrito`}
+                                        >
+                                            Eliminar
+                                        &lt;/button>
+                                    &lt;/div>
+                                &lt;/li>
+                            ))}
+                        &lt;/ul>
+                        &lt;div className="total-compra">
+                            Total: ${total.toFixed(2)}
+                        &lt;/div>
+                        &lt;button className="btn-comprar btn-vaciar" onClick={handleClearCart}>
+                            Vaciar carrito
+                        &lt;/button>
+                        &lt;button className="btn-comprar" onClick={handleCheckout}>
+                            Finalizar compra
+                        &lt;/button>
+                    &lt;/>
+                )}
+            &lt;/div>
+
+            {mostrarModal &amp;&amp; (
+                &lt;div className="modal-overlay">
+                    &lt;div className="modal-contenido">
+                        &lt;h3>Introduce tu informacion de envío&lt;/h3>
+                        &lt;Formik
+                            initialValues={{
+                                calle: '',
+                                numero: '',
+                                ciudad: '',
+                                provincia: '',
+                                codigo_postal: ''
+                            }}
+                            validationSchema={validationSchema}
+                            onSubmit={(values, {setSubmitting}) => {
+                                const direccionFormateada = `${values.calle} ${values.numero}, ${values.ciudad}, ${values.provincia}, ${values.codigo_postal}`
+                                handleConfirmarCompra(direccionFormateada)
+                                setSubmitting(false)
+                            }}
+                        >
+                            {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+                                &lt;form onSubmit={handleSubmit}>
+                                    &lt;div>
+                                        &lt;label htmlFor="calle">Calle&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="calle"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.calle}
+                                        />
+                                        {errors.calle &amp;&amp; touched.calle &amp;&amp; &lt;div className="error">{errors.calle}&lt;/div>}
+                                    &lt;/div>
+                                    &lt;div>
+                                        &lt;label htmlFor="numero">Número&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="numero"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.numero}
+                                        />
+                                        {errors.numero &amp;&amp; touched.numero &amp;&amp;
+                                            &lt;div className="error">{errors.numero}&lt;/div>}
+                                    &lt;/div>
+                                    &lt;div>
+                                        &lt;label htmlFor="ciudad">Ciudad&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="ciudad"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.ciudad}
+                                        />
+                                        {errors.ciudad &amp;&amp; touched.ciudad &amp;&amp;
+                                            &lt;div className="error">{errors.ciudad}&lt;/div>}
+                                    &lt;/div>
+                                    &lt;div>
+                                        &lt;label htmlFor="provincia">Provincia&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="provincia"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.provincia}
+                                        />
+                                        {errors.provincia &amp;&amp; touched.provincia &amp;&amp;
+                                            &lt;div className="error">{errors.provincia}&lt;/div>}
+                                    &lt;/div>
+                                    &lt;div>
+                                        &lt;label htmlFor="codigo_postal">Código Postal&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="codigo_postal"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.codigo_postal}
+                                        />
+                                        {errors.codigo_postal &amp;&amp; touched.codigo_postal &amp;&amp;
+                                            &lt;div className="error">{errors.codigo_postal}&lt;/div>}
+                                    &lt;/div>
+                                    &lt;div className="modal-botones">
+                                        &lt;button type="submit" className="btn-comprar" disabled={enviando}>
+                                            {enviando ? "Enviando..." : "Confirmar"}
+                                        &lt;/button>
+                                        &lt;button type="button" onClick={() => setMostrarModal(false)}
+                                                className="btn-comprar btn-vaciar">
+                                            Cancelar
+                                        &lt;/button>
+                                    &lt;/div>
+                                &lt;/form>
+                            )}
+                        &lt;/Formik>
+                    &lt;/div>
+                &lt;/div>
+            )}
+        &lt;/>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Jun 12 2025 14:07:03 GMT+0200 (hora de verano de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
