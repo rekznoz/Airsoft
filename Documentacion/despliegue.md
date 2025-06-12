@@ -24,7 +24,7 @@ El frontend del proyecto está desplegado en **[Netlify](https://www.netlify.com
 
 1. **Crear una cuenta en Netlify** y vincular tu repositorio de GitHub/GitLab/Bitbucket.
 2. **Seleccionar el proyecto** y configurar los siguientes parámetros:
-
+º
     * 📦 **Comando de construcción**: `npm run build`
     * 📂 **Directorio de publicación**: `Cliente/dist`
     * 🔐 **Variables de entorno**: API\_URL, claves privadas u otros valores sensibles.
