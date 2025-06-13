@@ -1,20 +1,3 @@
-/*
-{
-    "id": 1,
-    "user": {
-      "id": 5,
-      "nombre": "Ignacio Abrego"
-    },
-    "producto": {
-      "id": 1,
-      "nombre": "enim placeat quia"
-    },
-    "comentario": "Necessitatibus dolores accusamus dolorum sunt quo consequuntur est.",
-    "calificacion": 4,
-    "created_at": "2025-05-23T14:25:58.000000Z",
-    "updated_at": "2025-05-23T14:25:58.000000Z"
-}
-*/
 
 import {useEffect, useMemo, useState} from "react"
 import Paginacion from "./Paginacion.jsx"
@@ -107,7 +90,7 @@ export default function Comentarios({comentarios}) {
 
     return (
         <div className="comentarios-contenedor">
-            {comentarios.length > 0 ? (
+            {listaComentarios.length > 0 ? (
                 <>
                     {comentariosVisibles.map((comentario) => (
                         <div key={comentario.id} className="comentario-tarjeta">
