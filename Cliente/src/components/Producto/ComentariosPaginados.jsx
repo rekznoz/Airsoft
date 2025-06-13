@@ -6,6 +6,7 @@ import usuarioStore from "../../context/UsuarioStore.jsx"
 import validarComentario from "../../hooks/validarComentario.jsx"
 import FormularioNuevoComentario from "./Comentarios/FormularioNuevoComentario.jsx"
 import ComentarioItem from "./Comentarios/ComentarioItem.jsx"
+import Swal from "sweetalert2";
 
 /**
  * Componente para mostrar comentarios paginados de un producto.
@@ -107,6 +108,11 @@ export default function ComentariosPaginados({comentarios, producto}) {
             setEnviando(false)
             setCalificacionSeleccionada(0)
             setNuevoComentario("")
+            Swal.fire(
+                'Comentario enviado',
+                'Tu comentario ha sido enviado y será revisado por nuestro equipo.',
+                'success'
+            )
         })
     }
 
