@@ -137,7 +137,6 @@ export default function Productos({productos, categorias}) {
                             formData: formData
                         }).then((productoActualizado) => {
                             Swal.fire("¡Actualizado!", "El producto ha sido actualizado correctamente.", "success")
-                            console.log(productoActualizado)
                             const productoViejo = productosAMostrar.find(p => p.id === productoSeleccionado.id)
                             setProductosAMostrar(prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
                             setTodosProductos (prev => prev.map(p => p.id === productoViejo.id ? productoActualizado : p))
