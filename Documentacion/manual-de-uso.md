@@ -30,11 +30,15 @@ Esta guía te ayudará a utilizar eficientemente **Rekznoz Airsoft**, una tienda
 4. Rellena el formulario con tu nombre, correo electrónico y contraseña.
 5. Haz clic en **"Registrarse"**.
 
+https://github.com/user-attachments/assets/c1c3ac0c-742e-47bc-9043-317186a94590
+
 #### 🔑 Iniciar sesión
 
 1. Entra en **Login** desde el menú.
 2. Ingresa tus credenciales y pulsa **"Entrar"**.
 3. Serás redirigido a tu perfil o a la página principal.
+
+https://github.com/user-attachments/assets/2c46813d-fc3e-45f7-9b75-bb00b403e6ce
 
 ---
 
@@ -45,6 +49,8 @@ Esta guía te ayudará a utilizar eficientemente **Rekznoz Airsoft**, una tienda
 * Haz clic en el menú **"Tienda"**.
 * Explora los productos con imágenes, descripción y precio.
 * Filtra por categorías o usa la búsqueda para encontrar lo que necesitas.
+
+https://github.com/user-attachments/assets/4ef1d74f-8b94-41ed-bb72-d1e56ff4c37f
 
 ---
 
@@ -64,6 +70,8 @@ Esta guía te ayudará a utilizar eficientemente **Rekznoz Airsoft**, una tienda
     * Eliminar productos.
     * Vaciar el carrito.
     * Ver el total y acceder al carrito completo para finalizar la compra.
+ 
+https://github.com/user-attachments/assets/7c0ca15a-8f67-4f4c-8868-dd22f3686a25
 
 ---
 
@@ -75,6 +83,8 @@ Esta guía te ayudará a utilizar eficientemente **Rekznoz Airsoft**, una tienda
 2. Completa tu información de envío.
 3. Confirma el pedido.
 4. Recibirás una notificación y podrás seguir el estado desde tu perfil.
+
+https://github.com/user-attachments/assets/c7c66f4e-6ecb-4490-a710-20b753b12252
 
 ---
 
@@ -99,6 +109,8 @@ Esta guía te ayudará a utilizar eficientemente **Rekznoz Airsoft**, una tienda
     * Puedes leer comentarios y puntuaciones de otros usuarios.
     * Si estás logueado, puedes dejar tu comentario y valorar con estrellas.
     * Puedes editar o eliminar tus propios comentarios.
+ 
+https://github.com/user-attachments/assets/27966435-c19f-4b5a-9fb1-5b9355feaa44
 
 ---
 
@@ -184,6 +196,8 @@ Accede a `/gestor` para gestionar el contenido. Las secciones disponibles son:
 ```plaintext
 "pendiente" → "procesando" → "enviado" → "completado"/"cancelado"
 ```
+
+https://github.com/user-attachments/assets/c6fe52a6-56e4-4191-81b0-83b5b19cb07f
 
 ---
 
