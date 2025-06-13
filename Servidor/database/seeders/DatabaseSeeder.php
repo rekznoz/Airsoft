@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        /*
         $this->call([
             RoleSeeder::class,
             CategoriaSeeder::class,
@@ -28,20 +28,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('asdasdasd'),
         ])->assignRole('admin');
+        */
 
         // Crear usuarios
-        //User::factory()->count(10)->create()->each(function ($user) {
-        //    $user->assignRole('user');
-        //});
+        User::factory()->count(10)->create()->each(function ($user) {
+            $user->assignRole('user');
+        });
 
         // Crear productos
-        Producto::factory()->count(20)->create();
+        //Producto::factory()->count(20)->create();
 
         // Crear pedidos
-        //Pedido::factory()->count(50)->create();
+        Pedido::factory()->count(50)->create();
 
         // Crear comentarios
-        //Comentario::factory()->count(50)->create();
+        Comentario::factory()->count(50)->create();
 
     }
 }
