@@ -98,7 +98,7 @@ export default function Inicio() {
                             comentarios.slice(0,6).map((comentario) => (
                                 <div key={comentario.id} className="testimonial">
                                     <p>"{comentario.comentario}"</p>
-                                    <span>- {comentario.nombre}</span>
+                                    <span>- {comentario.user.nombre}</span>
                                 </div>
                             ))
                         ) : (
