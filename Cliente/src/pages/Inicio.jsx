@@ -27,41 +27,40 @@ export default function Inicio() {
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                const productosData = await ProductoService.getProductos();
-                const comentariosData = await ComentariosService.getComentariosVerificados();
+                const productosData = await ProductoService.getProductos()
+                const comentariosData = await ComentariosService.getComentariosVerificados()
 
-                const productosAleatorios = [...productosData].sort(() => Math.random() - 0.5);
-                const comentariosAleatorios = [...comentariosData].sort(() => Math.random() - 0.5);
+                const productosAleatorios = [...productosData].sort(() => Math.random() - 0.5)
+                const comentariosAleatorios = [...comentariosData].sort(() => Math.random() - 0.5)
 
                 const productosPopularesOrdenados = [...productosData].sort((a, b) => {
-                    const comentariosA = Array.isArray(a.array_comentarios) ? a.array_comentarios.length : 0;
-                    const comentariosB = Array.isArray(b.array_comentarios) ? b.array_comentarios.length : 0;
-                    return comentariosB - comentariosA;
-                });
+                    const comentariosA = Array.isArray(a.array_comentarios) ? a.array_comentarios.length : 0
+                    const comentariosB = Array.isArray(b.array_comentarios) ? b.array_comentarios.length : 0
+                    return comentariosB - comentariosA
+                })
 
                 const productosDestacadosData = [...productosData].map(producto => {
-                    const comentariosProducto = producto.array_comentarios || [];
-                    const totalCalificaciones = comentariosProducto.reduce((sum, c) => sum + c.calificacion, 0);
-                    const promedio = comentariosProducto.length > 0 ? totalCalificaciones / comentariosProducto.length : 0;
+                    const comentariosProducto = producto.array_comentarios || []
+                    const totalCalificaciones = comentariosProducto.reduce((sum, c) => sum + c.calificacion, 0)
+                    const promedio = comentariosProducto.length > 0 ? totalCalificaciones / comentariosProducto.length : 0
 
                     return {
                         ...producto,
                         promedioCalificacion: promedio
-                    };
-                }).sort((a, b) => b.promedioCalificacion - a.promedioCalificacion);
+                    }
+                }).sort((a, b) => b.promedioCalificacion - a.promedioCalificacion)
 
-                setProductos(productosAleatorios);
-                setComentarios(comentariosAleatorios);
-                setProductosPopulares(productosPopularesOrdenados);
-                setProductosDestacados(productosDestacadosData);
+                setProductos(productosAleatorios)
+                setComentarios(comentariosAleatorios)
+                setProductosPopulares(productosPopularesOrdenados)
+                setProductosDestacados(productosDestacadosData)
             } catch (error) {
-                console.error("Error al cargar los datos:", error);
+                console.error("Error al cargar los datos:", error)
             }
-        };
-        cargarDatos();
-    }, []);
-
-
+        }
+        cargarDatos()
+    }, [])
+    
     return (
         <div className="contenedor">
 
