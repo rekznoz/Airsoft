@@ -14,7 +14,7 @@ export default class ComentariosService {
      */
     static async getComentariosVerificados() {
         try {
-            const response = await fetch(apiconfig.comentarios + "?verificado=true")
+            const response = await fetch(apiconfig.comentarios + "?verificado=1")
 
             if (!response.ok) {
                 throw new Error('Error al obtener los comentarios: ' + response.statusText)
