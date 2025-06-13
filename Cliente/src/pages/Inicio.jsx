@@ -20,6 +20,8 @@ const features = [
 export default function Inicio() {
 
     const [productos, setProductos] = useState([])
+    const [productosPopulares, setProductosPopulares] = useState([])
+    const [productosDestacados, setProductosDestacados] = useState([])
     const [comentarios, setComentarios] = useState([])
 
     // Cargar productos y comentarios al montar el componente
@@ -31,9 +33,29 @@ export default function Inicio() {
 
                 const productosAleatorios = productosData.sort(() => Math.random() - 0.5)
                 const comentariosAleatorios = comentariosData.sort(() => Math.random() - 0.5)
+                const productosPopularesOrdenados = productosAleatorios
+                    .sort((a, b) => {
+                        const comentariosA = Array.isArray(a.array_comentarios) ? a.array_comentarios.length : 0;
+                        const comentariosB = Array.isArray(b.array_comentarios) ? b.array_comentarios.length : 0;
+                        return comentariosB - comentariosA;
+                    });
+                const productosDestacadosData = productosData
+                    .map(producto => {
+                        const comentarios = producto.array_comentarios || [];
+                        const totalCalificaciones = comentarios.reduce((sum, c) => sum + c.calificacion, 0);
+                        const promedio = comentarios.length > 0 ? totalCalificaciones / comentarios.length : 0;
+
+                        return {
+                            ...producto,
+                            promedioCalificacion: promedio
+                        };
+                    })
+                    .sort((a, b) => b.promedioCalificacion - a.promedioCalificacion);
 
                 setProductos(productosAleatorios)
                 setComentarios(comentariosAleatorios)
+                setProductosPopulares(productosPopularesOrdenados)
+                setProductosDestacados(productosDestacadosData)
             } catch (error) {
                 console.error("Error al cargar los datos:", error)
             }
@@ -54,11 +76,11 @@ export default function Inicio() {
             </section>
 
             <section className="gallery">
-                <h2>Algunos Productos</h2>
+                <h2>Mejores Productos</h2>
                 <ul className="gallery-grid">
                     {
-                        productos.length > 0 ? (
-                            productos.slice(0,4).map((producto) => (
+                        productosDestacados.length > 0 ? (
+                            productosDestacados.slice(0,4).map((producto) => (
                                 <li key={producto.id} className="gallery-item">
                                     <Link to={`/tienda/${producto.id}`}>
                                         <img
@@ -90,6 +112,30 @@ export default function Inicio() {
                 </div>
             </section>
 
+            <section className="gallery">
+                <h2>Productos mas Populares</h2>
+                <ul className="gallery-grid">
+                    {
+                        productosPopulares.length > 0 ? (
+                            productosPopulares.slice(0,4).map((producto) => (
+                                <li key={producto.id} className="gallery-item">
+                                    <Link to={`/tienda/${producto.id}`}>
+                                        <img
+                                            src={producto.imagenes?.[0] ? corregirUrlImagen(producto.imagenes[0]) : '/img/default.jpg'}
+                                            alt={`Imagen del producto ${producto.nombre}`}
+                                        />
+                                        <h3>{producto.nombre}</h3>
+                                        <p>{producto.descripcion}</p>
+                                    </Link>
+                                </li>
+                            ))
+                        ) : (
+                            <p className="gallery-empty">No hay productos disponibles.</p>
+                        )
+                    }
+                </ul>
+            </section>
+
             <section className="testimonials">
                 <h2>Lo que opinan nuestros clientes</h2>
                 <div className="testimonial-list">
@@ -106,6 +152,30 @@ export default function Inicio() {
                         )
                     }
                 </div>
+            </section>
+
+            <section className="gallery">
+                <h2>Algunos Productos</h2>
+                <ul className="gallery-grid">
+                    {
+                        productos.length > 0 ? (
+                            productos.slice(0,4).map((producto) => (
+                                <li key={producto.id} className="gallery-item">
+                                    <Link to={`/tienda/${producto.id}`}>
+                                        <img
+                                            src={producto.imagenes?.[0] ? corregirUrlImagen(producto.imagenes[0]) : '/img/default.jpg'}
+                                            alt={`Imagen del producto ${producto.nombre}`}
+                                        />
+                                        <h3>{producto.nombre}</h3>
+                                        <p>{producto.descripcion}</p>
+                                    </Link>
+                                </li>
+                            ))
+                        ) : (
+                            <p className="gallery-empty">No hay productos disponibles.</p>
+                        )
+                    }
+                </ul>
             </section>
 
             <section className="cta">
