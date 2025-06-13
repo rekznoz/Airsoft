@@ -84,7 +84,14 @@ export const router = createBrowserRouter([
                         <Tienda/>
                     </Suspense>
                 ),
-                loader: CategoriasService.getCategorias
+                loader: async () => {
+                    const [productos, categorias] = await Promise.all([
+                        ProductosService.getProductos(),
+                        CategoriasService.getCategorias()
+                    ])
+
+                    return {productos, categorias}
+                }
             },
             {
                 path: "/tienda/:id",
