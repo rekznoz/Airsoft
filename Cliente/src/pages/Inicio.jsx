@@ -33,7 +33,7 @@ export default function Inicio() {
 
                 const productosAleatorios = productosData.sort(() => Math.random() - 0.5)
                 const comentariosAleatorios = comentariosData.sort(() => Math.random() - 0.5)
-                const productosPopularesOrdenados = productosAleatorios
+                const productosPopularesOrdenados = productosData
                     .sort((a, b) => {
                         const comentariosA = Array.isArray(a.array_comentarios) ? a.array_comentarios.length : 0;
                         const comentariosB = Array.isArray(b.array_comentarios) ? b.array_comentarios.length : 0;
