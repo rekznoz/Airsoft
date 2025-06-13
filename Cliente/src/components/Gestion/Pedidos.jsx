@@ -35,7 +35,7 @@ import Swal from "sweetalert2"
  */
 export default function Pedidos({pedidos: pedidosIniciales}) {
 
-    const [pedidos, setPedidos] = useState(pedidosIniciales || [])
+    const [pedidos, setPedidos] = useState(pedidosIniciales)
     const [paginatedPedidos, setPaginatedPedidos] = useState([])
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null)
     const access_token = usuarioStore(state => state.access_token)
@@ -95,6 +95,7 @@ export default function Pedidos({pedidos: pedidosIniciales}) {
                     if (response && response.data) {
                         Swal.fire('¡Éxito!', 'Pedido actualizado correctamente.', 'success')
                         setPaginatedPedidos((prev) => prev.map(p => p.id === pedidoSeleccionado.id ? response.data : p))
+                        setPedidos((prev) => prev.map(p => p.id === pedidoSeleccionado.id ? response.data : p))
                         cerrarModal()
                     } else {
                         Swal.fire('Error', 'No se pudo actualizar el pedido.', 'error')
