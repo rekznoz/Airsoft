@@ -1,6 +1,8 @@
 import {Link, useLoaderData} from "react-router-dom"
 import {useEffect, useState} from "react"
 import "../css/tienda.css"
+import productosStore from "../context/ProductosStore.jsx"
+import Spinner from "../components/Spinner.jsx"
 import carritoStore from "../context/CarritoStore.jsx"
 import {corregirUrlImagen} from "../hooks/corregirUrlImagen.jsx"
 
@@ -16,13 +18,14 @@ export default function Tienda() {
 
     const addToCart = carritoStore(state => state.addToCart)
 
-    const {productos, categorias} = useLoaderData()
-
     const [filtroTexto, setFiltroTexto] = useState("")
     const [filtroPrecioMax, setFiltroPrecioMax] = useState("")
     const [filtroCategoria, setFiltroCategoria] = useState("")
     const [filtroStock, setFiltroStock] = useState(false)
+
+    const {productos, cargarProductos, cargando} = productosStore()
     const [paginaActual, setPaginaActual] = useState(1)
+    const categorias = useLoaderData()
 
     const filtrarProductos = () => {
         return productos.filter(producto => {
@@ -49,6 +52,19 @@ export default function Tienda() {
     useEffect(() => {
         setPaginaActual(1)
     }, [filtroTexto, filtroPrecioMax, filtroCategoria, filtroStock])
+
+    useEffect(() => {
+        cargarProductos().catch(
+            (error) => {
+                console.error("Error al cargar los productos:", error)
+            }
+        )
+    }, [])
+
+    if (cargando) return (
+        <Spinner/>
+    )
+    if (productos.length === 0) return <p>No hay productos disponibles.</p>
 
     const productosFiltrados = filtrarProductos()
     const totalPaginas = Math.ceil(productosFiltrados.length / PRODUCTOS_POR_PAGINA)
