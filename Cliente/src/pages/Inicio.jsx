@@ -60,7 +60,7 @@ export default function Inicio() {
         }
         cargarDatos()
     }, [])
-    
+
     return (
         <div className="contenedor">
 
